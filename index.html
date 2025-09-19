@@ -3,29 +3,53 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Esperemos que les guste!</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-      crossorigin="anonymous"
-    />
+    <title>Quantum Arcade</title>
+    <link rel="stylesheet" href="../styles.css" />
+    <script src="../script.js" defer></script>
+    <!-- Poner icono -->
   </head>
+  
   <body>
-    <div class="d-grid gap-2 col-2 mx-auto">
-      <a
-        class="btn btn-primary"
-        target="_blank"
-        href="https://www.figma.com/design/UyHoF239DY4KRRjLuP8wCk/Entrega-1---Interfaces?node-id=3-2&t=jQDxWKVguTvknRLw-1"
-        >Prototipo Figma</a
-      >
-      <br />
-      <a
-        class="btn btn-primary"
-        target="_blank"
-        href="https://www.figma.com/proto/UyHoF239DY4KRRjLuP8wCk/Entrega-1---Interfaces?page-id=3%3A2&node-id=516-4003&p=f&viewport=546%2C241%2C0.17&t=twfwVVAoHZTAgix0-1&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=516%3A4003&show-proto-sidebar=1"
-        >Modo Presentacion</a
-      >
-    </div>
+    <main>
+      <section>
+        <figure></figure>
+      </section>
+
+      <section>
+        <h2>Sign up</h2>
+        <form action="">
+          <label for="name">
+            Nombre/s y apellido/s
+          </label>
+          <input id="name" type="text" placeholder="Tito Calderon" required />
+          
+          <label for="nickname">Nickname</label>
+
+          <input id="nickname" type="text" placeholder="titocalderon23" />
+
+          <label for="age">Edad</label>
+          <input id="age" type="number" placeholder="18" required />
+
+          <label for="email">Mail</label>
+          <input id="email" type="email" placeholder="titocalderon@gmail.com" required />
+
+          <label for="password">Password</label>
+          <input type="password" placeholder="********" required />
+
+          <label for="confirm-password">Confirm Password</label>
+          <input id="confirm-password" type="password" placeholder="********" required />
+
+          <!-- Imagen de captcha? -->
+          <button type="button">Registrarse</button>
+        </form>
+
+        <p>Ya estás registrado? 
+          <a href="./html/login.html">Iniciar sesión aquí</a>
+        </p>
+        <p>O</p>
+        <p>Iniciar sesión con:</p>
+        <!-- Icono de Google y Facebook -->
+      </section>
+    </main>
   </body>
 </html>
