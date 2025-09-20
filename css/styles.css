@@ -1,0 +1,236 @@
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap');
+
+:root {
+  --Background10: #1005271a;
+  --Background20: #10052733;
+  --Background30: #1005274d;
+  --Background40: #10052766;
+  --Background50: #10052799;
+  --Background60: #10052780;
+  --Background70: #100527b3;
+  --Background80: #100529cc;
+  --Background90: #100527e6;
+  --Background: #100527;
+  --Black10: rgba(16,16,23,0.1);
+  --Black20: rgba(16,16,23,0.2);
+  --Black30: rgba(16,16,23,0.3);
+  --Black40: rgba(16,16,23,0.4);
+  --Black50: rgba(16,16,23,0.5);
+  --Black60: rgba(16,16,23,0.6);
+  --Black70: rgba(16,16,23,0.7);
+  --Black80: rgba(16,16,23,0.8);
+  --Black90: rgba(16,16,23,0.9);
+  --Black: #101017;
+  --DarkPurple: #320066;
+  --Disabled-Grey: rgba(16,16,23,0.5);
+  --Error10: rgba(212,0,0,0.1);
+  --Error20: rgba(212,0,0,0.2);
+  --Error30: rgba(212,0,0,0.3);
+  --Error40: rgba(212,0,0,0.4);
+  --Error50: rgba(212,0,0,0.5);
+  --Error60: rgba(212,0,0,0.6);
+  --Error70: rgba(212,0,0,0.7);
+  --Error80: rgba(212,0,0,0.8);
+  --Error90: rgba(212,0,0,0.9);
+  --Error: #D40000;
+  --Green10: rgba(3,173,86,0.1);
+  --Green20: rgba(3,173,86,0.2);
+  --Green30: rgba(3,173,86,0.3);
+  --Green40: rgba(3,173,86,0.4);
+  --Green50: rgba(3,173,86,0.5);
+  --Green60: rgba(3,173,86,0.6);
+  --Green70: rgba(3,173,86,0.7);
+  --Green80: rgba(3,173,86,0.8);
+  --Green90: rgba(3,173,86,0.9);
+  --Green: #03AD56;
+  --Gris: #A6A6A6;
+  --Orange10: rgba(242,80,34,0.1);
+  --Orange20: rgba(242,80,34,0.2);
+  --Orange30: rgba(242,80,34,0.3);
+  --Orange40: rgba(242,80,34,0.4);
+  --Orange50: rgba(242,80,34,0.5);
+  --Orange60: rgba(242,80,34,0.6);
+  --Orange70: rgba(242,80,34,0.7);
+  --Orange80: rgba(242,80,34,0.8);
+  --Orange90: rgba(242,80,34,0.9);
+  --Orange: #F25022;
+  --PrimaryLight1: #8A38F5;
+  --PrimaryLight2: #A34CFF;
+  --PrimaryLight3: #A855FF;
+  --PrimaryLight4: #7D13EB;
+  --PrimaryShadow1: #3A0477;
+  --PureWhite: #FFFFFF;
+  --Purple10: rgba(86,3,173,0.1);
+  --Purple20: rgba(86,3,173,0.2);
+  --Purple30: rgba(86,3,173,0.3);
+  --Purple40: rgba(86,3,173,0.4);
+  --Purple50: rgba(86,3,173,0.5);
+  --Purple60: rgba(86,3,173,0.6);
+  --Purple70: rgba(86,3,173,0.7);
+  --Purple80: rgba(86,3,173,0.8);
+  --Purple90: rgba(86,3,173,0.9);
+  --Purple: #5603AD;
+  --SecondaryLight: #74E0A9;
+  --Star: #FBBC05;
+  --Stroke-Star: #CD9600;
+  --Success10: rgba(34,148,34,0.1);
+  --Success20: rgba(34,148,34,0.2);
+  --Success30: rgba(34,148,34,0.3);
+  --Success40: rgba(34,148,34,0.4);
+  --Success50: rgba(34,148,34,0.5);
+  --Success60: rgba(34,148,34,0.6);
+  --Success70: rgba(34,148,34,0.7);
+  --Success80: rgba(34,148,34,0.8);
+  --Success90: rgba(34,148,34,0.9);
+  --Success: #229422;
+  --Warning10: rgba(205,150,0,0.1);
+  --Warning20: rgba(205,150,0,0.2);
+  --Warning30: rgba(205,150,0,0.3);
+  --Warning40: rgba(205,150,0,0.4);
+  --Warning50: rgba(205,150,0,0.5);
+  --Warning60: rgba(205,150,0,0.6);
+  --Warning70: rgba(205,150,0,0.7);
+  --Warning80: rgba(205,150,0,0.8);
+  --Warning90: rgba(205,150,0,0.9);
+  --Warning: #CD9600;
+  --White10: rgba(226,224,224,0.1);
+  --White20: rgba(226,224,224,0.2);
+  --White30: rgba(226,224,224,0.3);
+  --White40: rgba(226,224,224,0.4);
+  --White50: rgba(226,224,224,0.5);
+  --White60: rgba(226,224,224,0.6);
+  --White70: rgba(226,224,224,0.7);
+  --White80: rgba(226,224,224,0.8);
+  --White90: rgba(226,224,224,0.9);
+  --White: #E2E0E0
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Titillium Web', sans-serif;
+  overflow: hidden;
+}
+
+body {
+  background-image: url('../assets/images/Background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: var(--PureWhite);
+  height: 100vh;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+
+main {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Ver como no hardcodear los anchos y altos */
+.container-form {
+  width: 420px; 
+  background-color: var(--Black30);
+  border: var(--Green) 2px solid;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+}
+
+h2, a {
+  color: var(--Green);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  max-width: 400px;
+}
+
+.btn-signup {
+  width: 50%;
+  background-color: var(--Purple);
+  color: var(--PureWhite);
+  border: var(--Green) 0.5px solid;
+  border-radius: 12px;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btn-signup:hover {
+  background-color: var(--Purple80);
+}
+
+.container-input {
+  min-width: 330px;
+}
+
+.container-input div input {
+  width: 100%;
+  border: var(--Black20) 2px solid;
+  border-radius: 8px;
+  padding: 5px;
+}
+
+.container-input div input:hover {
+  border: var(--Purple80) 2.5px solid;
+}
+
+.helper-text {
+  font-size: 12px;
+}
+
+.input-with-icon {
+  position: relative;
+  margin-top: 2px;
+}
+
+form .input-with-icon input {
+  padding: 5px 5px 5px 40px;
+  margin-bottom: 5px;
+  outline: none;
+  font-size: 15px;
+}
+
+form .input-with-icon .icon {
+  position: absolute;
+  margin-top: 7px;
+  margin-left: 7px;
+  color: var(--Black80);
+}
+
+.social-icons {
+  display: flex;
+  gap: 20px;
+  font-size: 30px;
+  color: var(--PureWhite);
+  cursor: pointer;
+}
+
+figure {
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+figure img {
+  width: 100%;
+}

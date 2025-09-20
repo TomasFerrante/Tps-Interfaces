@@ -1,36 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quantum Arcade</title>
-</head>
-<body>
-  <main>
-    <section>
-      <h2>Log in</h2>
-      <form action="">
-        <label for="email">Mail</label>
-        <input id="email" type="email" placeholder="titocalderon@gmail.com" required />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quantum Arcade</title>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&icon_names=lock,person,visibility,visibility_off&display=block" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/dc94cdf766.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <main>
+      <section>
+        <h2>Log in</h2>
+        <form action="">
+          <label for="email">Mail</label>
+          <input
+            id="email"
+            type="email"
+            placeholder="titocalderon@gmail.com"
+            required
+          />
+          <span class="material-symbols-outlined">person</span>
 
-        <label for="password">Password</label>
-        <input type="password" placeholder="********" required />
+          <label for="password">Password</label>
+          <input type="password" placeholder="********" required />
+          <span class="material-symbols-outlined">lock</span>
+          <span class="material-symbols-outlined">visibility</span>
+          <span class="material-symbols-outlined">visibility_off</span>
 
-        <button type="button">Iniciar sesión</button>
-      
-        <label>
-          <input type="checkbox" />
-          Mantener sesión iniciada
-        </label>
-      </form>
+          <button type="button">Iniciar sesión</button>
 
-      <p>¿No estás registrado? 
-        <a href="../index.html">Regístrate aquí</a>
-      </p>
-      <p>O</p>
-      <p>Iniciar sesión con:</p>
-      <!-- Icono de Google y Facebook -->
-    </section>
-  </main>
-</body>
+          <label>
+            <input type="checkbox" />
+            Mantener sesión iniciada
+          </label>
+        </form>
+
+        <p>
+          ¿No estás registrado?
+          <a href="../index.html">Regístrate aquí</a>
+        </p>
+        <p>O</p>
+        <p>Iniciar sesión con:</p>
+        <!-- Icono de Google y Facebook -->
+        <i class="fa-brands fa-google"></i>
+        <i class="fa-brands fa-facebook"></i>
+      </section>
+    </main>
+  </body>
 </html>
