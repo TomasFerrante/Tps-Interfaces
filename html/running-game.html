@@ -4,15 +4,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quantum Arcade</title>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&icon_names=alternate_email,fullscreen,fullscreen_exit,share,shopping_cart,star&display=block" rel="stylesheet" />
-    <script src="https://kit.fontawesome.com/dc94cdf766.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&icon_names=alternate_email,favorite,fullscreen,fullscreen_exit,share,shopping_cart,star&display=block" rel="stylesheet"/>
+    <script
+      src="https://kit.fontawesome.com/dc94cdf766.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="icon" type="image/png" href="/assets/images/icono.png" />
   </head>
-  <body>
-    <main>
+  <body class="body-running-game">
+    <main class="main-running-game">
       <header></header>
 
-      <div>
-        <a href="#">Home</a>
+      <div class="breadcrumb">
+        <a href="../html/home.html">Home</a>
         <a href="#">Estrategia</a>
         <a href="#">Peg Solitaire de League of Legends</a>
       </div>
@@ -21,101 +27,180 @@
         <section>
           <img src="" alt="" />
           <div></div>
-          <!-- Menu del juego -->
-          <span class="material-symbols-outlined">star</span>
-          <span class="material-symbols-outlined">shopping_cart</span>
-          <span class="material-symbols-outlined">share</span>
-          <span class="material-symbols-outlined">fullscreen</span>
-          <span class="material-symbols-outlined">fullscreen_exit</span>
-          <i class="fa-brands fa-whatsapp"></i>
-          <i class="fa-brands fa-facebook"></i>
-          <i class="fa-brands fa-instagram"></i>
-          <i class="fa-brands fa-x-twitter"></i>
-          <span class="material-symbols-outlined">alternate_email</span>
+          <div class="menu-game">
+            <div class="menu-game-container">
+              <div>
+                <span class="material-symbols-outlined">star</span>
+                <span class="material-symbols-outlined">shopping_cart</span>
+              </div>
+              <div>
+                <span class="material-symbols-outlined">share</span>
+                <span class="material-symbols-outlined">fullscreen</span>
+                <!-- <span class="material-symbols-outlined">fullscreen_exit</span> -->
+              </div>
+            </div>
+          </div>
+          <div class="menu-share">
+            <i class="fa-brands fa-whatsapp"></i>
+            <i class="fa-brands fa-facebook"></i>
+            <i class="fa-brands fa-instagram"></i>
+            <i class="fa-brands fa-x-twitter"></i>
+            <span class="material-symbols-outlined">alternate_email</span>
+          </div>
         </section>
-
-        <section>
-          <h3>Peg Solitaire de League of Legends</h3>
-          <p>
-            Peg Solitaire de League of Legends: Un Desafío Estratégico en
-            Runaterra ¡Pon a prueba tu intelecto y estrategia con el Peg
-            Solitaire de League of Legends! En este clásico juego de mesa, los
-            campeones de Runaterra se convierten en tus piezas, y cada
-            movimiento cuenta. Salta sobre tus rivales para eliminarlos del
-            tablero y sé el último campeón en pie.
-          </p>
-          <p>
-            Diseñado con una estética única, el tablero representa un mapa
-            detallado de Runaterra, mientras que las piezas son figuras en
-            miniatura de tus campeones favoritos, como Garen, Ashe y Jinx.
-          </p>
-          <p>
-            Con cada partida, sentirás la emoción de un duelo en la Grieta del
-            Invocador, donde solo los movimientos más astutos te llevarán a la
-            victoria. ¿Tienes lo que se necesita para dominar el tablero?
-            ¡Descubre si tu estrategia es digna de un maestro en este desafío
-            para un solo jugador!
-          </p>
-          <ul>
-            <li>Página oficial: 
-              <a href="https://www.leagueoflegends.com/es-mx/">https://www.leagueoflegends.com/es-mx/</a></li>
-            <li>
-              Soporte: <a href="https://support-leagueoflegends.riotgames.com/hc/es-419">https://support-leagueoflegends.riotgames.com/hc/es-419</a>
-            </li>
-          </ul>
-
-          <img src="" alt="">
-          <video></video>
-        </section>
-        <section>
-          <h5>Manuel de juego</h5>
-          <p>Objetivo: El objetivo final es terminar la partida con un solo campeón en el tablero.</p>
-          <p>Preparación: Coloca a todos los campeones en el tablero, dejando un solo espacio vacío en el centro.</p>
-          <p>Cómo Jugar:  
-            <ul>
-              <li>Mueve un campeón saltando sobre otro (de forma horizontal o vertical) hacia un espacio vacío inmediatamente después.</li>
-              <li>El campeón que ha sido saltado se retira del tablero. </li>
+        <section class="container-info-games">
+          <section class="description-game">
+            <h3>Peg Solitaire de League of Legends</h3>
+            <p>
+              Peg Solitaire de League of Legends: Un Desafío Estratégico en
+              Runaterra ¡Pon a prueba tu intelecto y estrategia con el Peg
+              Solitaire de League of Legends! En este clásico juego de mesa, los
+              campeones de Runaterra se convierten en tus piezas, y cada
+              movimiento cuenta. Salta sobre tus rivales para eliminarlos del
+              tablero y sé el último campeón en pie.
+            </p>
+            <p>
+              Diseñado con una estética única, el tablero representa un mapa
+              detallado de Runaterra, mientras que las piezas son figuras en
+              miniatura de tus campeones favoritos, como Garen, Ashe y Jinx.
+            </p>
+            <p>
+              Con cada partida, sentirás la emoción de un duelo en la Grieta del
+              Invocador, donde solo los movimientos más astutos te llevarán a la
+              victoria. ¿Tienes lo que se necesita para dominar el tablero?
+              ¡Descubre si tu estrategia es digna de un maestro en este desafío
+              para un solo jugador!
+            </p>
+            <ul class="info-game">
+              <li>
+                Página oficial:
+                <a href="https://www.leagueoflegends.com/es-mx/"
+                  >https://www.leagueoflegends.com/es-mx/</a
+                >
+              </li>
+              <li>
+                Soporte:
+                <a
+                  href="https://support-leagueoflegends.riotgames.com/hc/es-419"
+                  >https://support-leagueoflegends.riotgames.com/hc/es-419</a
+                >
+              </li>
             </ul>
-          </p>
-          <p>Victoria: Continúa moviendo y retirando campeones hasta que solo te quede uno.</p>
-          <p>¡Tu estrategia es digna de la Grieta del Invocador!</p>
-        </section>
-        <section>
-          <h5>Tutorial</h5>
-          <video></video>
-        </section>
+            <img src="" alt="" />
+            <video></video>
+          </section>
+          <section class="manual-game">
+            <h5>Manual de juego</h5>
+            <h6>Objetivo:</h6>
+            <p>
+              El objetivo final es terminar la partida con un solo campeón en el
+              tablero.
+            </p>
+            <h6>Preparación:</h6>
+            <p>
+              Coloca a todos los campeones en el tablero, dejando un solo
+              espacio vacío en el centro.
+            </p>
+            <h6>Como jugar:</h6>
+            <ul class="how-to-play">
+              <li>
+                Mueve un campeón saltando sobre otro (de forma horizontal o
+                vertical) hacia un espacio vacío inmediatamente después.
+              </li>
+              <li>El campeón que ha sido saltado se retira del tablero.</li>
+            </ul>
+            <h6>Victoria:</h6>
+            <p>
+              Continúa moviendo y retirando campeones hasta que solo te quede
+              uno.
+            </p>
+            <br />
+            <p>¡Tu estrategia es digna de la Grieta del Invocador!</p>
 
-        <section>
-          <div>
-            <h5>Deja tu comentario!!</h5>
-            <form action="">
-
-            </form>
-          </div>
-          <div>
-            <span class="material-symbols-outlined">favorite</span>
-            <h5>Comentarios</h5>
             <div>
-              <p>Usuario1</p>
-              <p>¡Me encanta este juego! Es un gran desafío estratégico.</p>
+              <h5>Tutorial</h5>
+              <video></video>
             </div>
-            <div>
-              <p>Usuario2</p>
-              <p>Los gráficos son impresionantes y los campeones están muy bien representados.</p>
-            </div>
-            <div>
-              <p>Usuario3</p>
-              <p>Sería genial tener más campeones para elegir como piezas.</p>
-            </div>
-          </div>
+          </section>
         </section>
-
-        <section>
-          <h5>Juegos similares</h5>
-          <!-- Tarjetas de juegos similares -->
+        <section class="container-comments-games">
+          <section class="comments-game">
+            <div class="add-comment">
+              <h5>Deja tu comentario!!</h5>
+              <h4>Comentario</h4>
+              <form class="comment-form" action="">
+                <input
+                  type="text"
+                  name="comentario"
+                  id="comment"
+                  placeholder="Añade un comentario aquí..."
+                />
+                <div class="btns-form">
+                  <button class="btn-cancel">Cancelar</button>
+                  <button class="btn-comment">Comentar</button>
+                </div>
+              </form>
+            </div>
+            <div class="comments">
+              <h5>Comentarios</h5>
+              <div class="container-comment">
+                <div class="header-comment">
+                  <p class="username">@Graffigna</p>
+                  <p class="date">14 de Julio 2024</p>
+                </div>
+                <p class="text-comment">
+                  Esta re roto el yasuo, metanle un nerfeo a la E que te pega con la silla de ruedas, y el hermano esta igual de roto, media pila con el balance de esos champs loco!!!!!.
+                  <span class="favorite-comment material-symbols-outlined">favorite</span>
+                </p>
+              </div>
+              <div class="container-comment">
+                <div class="header-comment">
+                  <p class="username">@Barbakhan</p>
+                  <p class="date">12 de Septiembre 2024</p>
+                </div>
+                <p class="text-comment">
+                  Me gano un pendejo de 12 años con garen, no puede ser que el champ sea tan facil como para que me gane un nene dale!!
+                  <span class="favorite-comment material-symbols-outlined">favorite</span>
+                </p>
+              </div>
+              <div class="container-comment">
+                <div class="header-comment">
+                  <p class="username">@Luchito777rex</p>
+                  <p class="date">12 de Septiembre 2024</p>
+                </div>
+                <p class="text-comment">
+                  Buenisimo el juego, la verdad mucha variedad de personajes y cada uno con sus mecanicas, muy entretenido, la comunidad esta un poco descontrolada pero bueno.
+                  <span class="favorite-comment  material-symbols-outlined">favorite</span>
+                </p>
+              </div>
+              <div class="container-comment">
+                <div class="header-comment">
+                  <p class="username">@Alvaro845</p>
+                  <p class="date">6 de Agosto 2025</p>
+                </div>
+                <p class="text-comment">
+                  Sería genial tener más campeones para elegir como piezas.
+                  <span class="favorite-comment  material-symbols-outlined">favorite</span>
+                </p>
+              </div>
+              <div class="container-comment">
+                <div class="header-comment">
+                  <p class="username">@Coscu</p>
+                  <p class="date">7 de Octubre 2024</p>
+                </div>
+                <p class="text-comment">
+                  Casi me da un ACV de la bronca que me dio jugar a este juego y los inutiles que me tocan de equipo. (me va a dar un ACV si no apruebo la materia tmb)
+                  <span class="favorite-comment  material-symbols-outlined">favorite</span>
+                </p>
+              </div>
+            </div>
+          </section>
+          <section class="similar-games">
+            <h5>Juegos similares</h5>
+            <!-- Tarjetas de juegos similares -->
+          </section>
         </section>
       </article>
-
       <footer></footer>
     </main>
   </body>

@@ -344,3 +344,179 @@ header {
 }
 
 }
+
+
+/*////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////RUNNING GAME////////////////////////////////////////// 
+/////////////////////////////////////////////////////////////////////////////////////////*/
+
+.main-running-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  margin: 0 30px 0 30px;
+}
+
+.body-running-game {
+  min-height: 100vh;
+  height: 100vh;
+  background-color: var(--Background);
+  color: var(--PureWhite);  
+}
+
+.menu-game {
+  height: 50px;
+}
+
+.menu-game-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--Purple);
+  padding: 5px;
+}
+
+.menu-game-container div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.description-game {
+  width: 50%;
+}
+
+.description-game h3 {
+  font-size: 30px;
+}
+
+.description-game p {
+  margin: 20px 0 15px 0;
+}
+
+.info-game {
+  margin-left: 40px;
+}
+
+.manual-game {
+  width: 50%;
+}
+
+.manual-game h5 {
+  font-size: 22px;
+}
+
+.manual-game h6 {
+  font-size: 17px;
+  color: var(--Green);
+}
+
+.how-to-play {
+  margin-left: 40px;
+}
+
+.container-info-games, .container-comments-games {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 80px;
+}
+
+#comment {
+  width: 100%;
+  height: 80px;
+  color: var(--PureWhite);
+  background-color: var(--Black30);
+  border: var(--PrimaryLight1) 2px solid;
+  border-radius: 5px;
+  text-align: start;
+  padding: 10px;
+}
+
+.add-comment {
+  margin-bottom: 30px;
+}
+
+.container-comments-games .comments-game .add-comment h5 {
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.add-comment h4 {
+  margin-bottom: 10px;
+}
+
+.container-comments-games .comments-game .comments h5 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.comments-game {
+  width: 50%;
+}
+
+.similar-games {
+  width: 50%;
+}
+
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.btns-form {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-cancel, .btn-comment {
+  width: 120px;
+  height: 40px;
+  border-radius: 12px;
+  color: var(--PureWhite);
+  cursor: pointer;
+  border: none;
+}
+
+.btn-cancel {
+  background-color: var(--White60);
+}
+
+.btn-comment {
+  background-color: var(--Green);
+}
+
+.container-comment .username {
+  color: var(--PrimaryLight2);
+}
+
+.text-comment {
+  background-color: var(--Purple50);
+  border: var(--PrimaryLight1) 1px solid;
+  color: var(--PureWhite);
+  border-radius: 15px;
+  padding: 15px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.text-comment .favorite-comment{
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.header-comment {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.header-comment .date {
+  color: var(--White90);
+}
