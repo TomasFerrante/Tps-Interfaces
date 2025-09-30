@@ -5,32 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quantum Arcade</title>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&icon_names=lock,person,visibility,visibility_off&display=block" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="icon" type="image/png" href="/assets/images/icono.png">
+    <script src="../script.js" defer></script>
     <script src="https://kit.fontawesome.com/dc94cdf766.js" crossorigin="anonymous"></script>
   </head>
-  <body>
-    <main>
-      <section>
+  <body class="login-body">
+    <main class="login-main">
+      <figure>
+        <img src="../assets/images/Logo.png" alt="Logo de Quantum Arcade" />
+      </figure>
+
+      <section class="container-form">
         <h2>Log in</h2>
         <form action="">
+          <div class="container-input">
           <label for="email">Mail</label>
-          <input
-            id="email"
-            type="email"
-            placeholder="titocalderon@gmail.com"
-            required
-          />
-          <span class="material-symbols-outlined">person</span>
-
+            <div class="input-with-icon">
+            <span class="material-symbols-outlined icon">person</span>
+            <input
+              id="email"
+              type="email"
+              placeholder="titocalderon@gmail.com"
+              required
+            />
+            </div>
+          </div>
+          <div class="container-input">
           <label for="password">Password</label>
-          <input type="password" placeholder="********" required />
-          <span class="material-symbols-outlined">lock</span>
-          <span class="material-symbols-outlined">visibility</span>
-          <span class="material-symbols-outlined">visibility_off</span>
+            <div class="input-with-icon">
+            <span class="material-symbols-outlined icon">lock</span>
+            <input
+              id="password"
+              type="password"
+              placeholder="********"
+              required
+            />
+            <span class="material-symbols-outlined icon toggle-password"
+              >visibility</span
+            >
+            <span class="material-symbols-outlined icon toggle-password"
+              >visibility_off</span
+            >
+            </div>
+          </div>
 
-          <button type="button">Iniciar sesión</button>
+          <button class="btn-signup" type="button">Iniciar sesión</button>
 
-          <label>
-            <input type="checkbox" />
+          <label class="check">
+            <input type="checkbox">
+            <span></span>
             Mantener sesión iniciada
           </label>
         </form>
@@ -42,8 +66,10 @@
         <p>O</p>
         <p>Iniciar sesión con:</p>
         <!-- Icono de Google y Facebook -->
-        <i class="fa-brands fa-google"></i>
-        <i class="fa-brands fa-facebook"></i>
+        <div class="social-icons">
+          <i class="fa-brands fa-google"></i>
+          <i class="fa-brands fa-facebook"></i>
+        </div>
       </section>
     </main>
   </body>

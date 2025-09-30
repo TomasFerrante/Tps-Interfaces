@@ -112,7 +112,15 @@
   font-family: 'Titillium Web', sans-serif;
 }
 
-body {
+
+/*////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////SIGN UP////////////////////////////////////////// 
+/////////////////////////////////////////////////////////////////////////////////////////*/
+
+.body-bg {
+    margin: 0;
+  padding: 0;
+  min-height: 100vh;
   background-image: url('../assets/images/Background.jpg');
   background-size: cover;
   background-position: center;
@@ -205,6 +213,7 @@ form .input-with-icon input {
   margin-bottom: 5px;
   outline: none;
   font-size: 15px;
+  padding-right: 40px; /* espacio para el icono */
 }
 
 form .input-with-icon .icon {
@@ -212,6 +221,16 @@ form .input-with-icon .icon {
   margin-top: 7px;
   margin-left: 7px;
   color: var(--Black80);
+}
+
+form .input-with-icon .toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 30%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: var(--Black80);
+  font-size: 22px;
 }
 
 .social-icons {
@@ -232,4 +251,96 @@ figure {
 
 figure img {
   width: 100%;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* separa checkbox del texto */
+  cursor: pointer;
+}
+
+.check input[type="checkbox"] {
+  display: none; /* ocultamos el checkbox nativo */
+}
+
+.check span {
+  width: 22px;
+  height: 22px;
+  border: 2px solid #555;
+  border-radius: 20%; /* 👈 redondeado */
+  background-color: var(--PureWhite);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+/* Estado checked */
+.check input[type="checkbox"]:checked + span {
+  background-color: #4CAF50; /* verde */
+  border-color: #4CAF50;
+  color: white;
+}
+
+.check input[type="checkbox"]:checked + span::after {
+  content: "✔";   /* el check */
+  font-size: 14px;
+  color: white;   /* check blanco */
+}
+
+/*////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////LOGIN////////////////////////////////////////// 
+/////////////////////////////////////////////////////////////////////////////////////////*/
+
+/* Centrado exclusivo para login */
+.login-body {
+  min-height: 100vh;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('../assets/images/Background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: var(--PureWhite);
+}
+
+.login-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  gap: 40px;
+}
+
+/*////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////HOME MOBILE////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////*/
+
+@media (max-width: 768px) {
+.home-body {
+  min-height: 100vh;
+  height: 100vh;
+  background-color: var(--Background);
+  color: var(--PureWhite);
+}
+
+.main-home{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+}
+
+header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--PrimaryShadow1);
+}
+
 }
