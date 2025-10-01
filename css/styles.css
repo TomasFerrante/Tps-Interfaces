@@ -151,7 +151,7 @@ html, body {
 
 .carousel {
     position: relative;
-    width: 400px;
+    width: 100%;
     height: 300px;
     transform-style: preserve-3d;
     transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
@@ -159,7 +159,7 @@ html, body {
 
 .carousel-item {
     position: absolute;
-    width: 280px;
+    width: 320px;
     height: 280px;
     left: 50%;
     top: 50%;
@@ -439,7 +439,8 @@ figure img {
 /* Desktop - Mayor a 768px */
 @media (min-width: 769px) {
     .carousel-container {
-        padding: 40px 20px;
+        padding: 40px 0;
+        width: 100%;
     }
     
     .title {
@@ -448,47 +449,46 @@ figure img {
     }
     
     .carousel-wrapper {
-        perspective: 1200px;
+        perspective: 1400px;
         height: 400px;
         overflow: visible;
+        width: 100%;
     }
     
     .carousel {
-        width: 600px;
+        width: 100%;
         height: 300px;
     }
     
     .carousel-item {
-        width: 280px;
+        width: 320px;
         height: 280px;
         transform: 
             translate(-50%, -50%)
             rotateY(calc(var(--i) * 60deg))
-            translateZ(450px);
+            translateZ(500px);
     }
 }
 
 /*////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////HOME MOBILE////////////////////////////////////////
+///////////////////////////////////////HOME - BASE (MOBILE)//////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////*/
 
-
-@media (max-width: 768px) {
 .home-body {
   min-height: 100vh;
-  height: 100vh;
   background-color: var(--Background);
   color: var(--PureWhite);
 }
 
-.main-home{
+.main-home {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 0;
+  min-height: 100vh;
 }
 
-/*//////////////////////////////// header ////////////////////////// */
+/*//////////////////////////////// HEADER ////////////////////////// */
 
 header {
   width: 100%;
@@ -496,43 +496,68 @@ header {
   justify-content: space-between;
   align-items: center;
   background-color: var(--PrimaryShadow1);
+  padding: 15px 20px;
+  gap: 15px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-/* Barra de búsqueda redondeada en home */
+.logo {
+  display: none;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--Green);
+  white-space: nowrap;
+}
+
+/* Barra de búsqueda */
 header input[type="search"] {
   border-radius: 20px;
   border: 1.5px solid var(--PrimaryLight1);
   padding: 8px 16px;
-  font-size: 16px;
+  font-size: 14px;
   outline: none;
   background: var(--White10);
   color: var(--PureWhite);
+  transition: all 0.3s ease;
 }
 
-/* Ocultar icono close por defecto */
+header input[type="search"]:focus {
+  border-color: var(--Green);
+  background: var(--Black30);
+}
+
+header input[type="search"]::placeholder {
+  color: var(--White10);
+}
+
+/* Iconos del header */
 header .material-symbols-outlined {
   vertical-align: middle;
-}
-header .material-symbols-outlined:contains('close') {
-  display: none;
+  color: var(--Green);
+  font-size: 28px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-/* Iconos del header en verde */
-header .material-symbols-outlined.menu,
-header .material-symbols-outlined.account,
-header .material-symbols-outlined.cart {
-  color: var(--Green);
+header .material-symbols-outlined:hover {
+  color: var(--PureWhite);
+  transform: scale(1.1);
 }
 
 /* Contenedor para la barra de búsqueda y el icono */
-
 .search-container {
   position: relative;
   display: inline-block;
+  flex: 1;
+  max-width: 400px;
 }
 
 .search-container input[type="search"] {
-  padding-right: 40px; /* espacio para el icono */
+  width: 100%;
+  padding-right: 40px;
 }
 
 .search-container .search {
@@ -545,52 +570,289 @@ header .material-symbols-outlined.cart {
   cursor: pointer;
 }
 
-/* //////////////////////////// Carrousel ///////////////////////// */
-
-.carousel-container {
-        padding: 20px 10px;
-    }
-    
-    .title {
-        font-size: 1.8rem;
-        margin-bottom: 30px;
-        padding: 0 10px;
-    }
-    
-    .carousel-wrapper {
-        perspective: 800px;
-        height: 250px;
-        overflow: visible;
-    }
-    
-    .carousel {
-        width: 350px;
-        height: 200px;
-    }
-    
-    .carousel-item {
-        width: 160px;
-        height: 160px;
-        transform: 
-            translate(-50%, -50%)
-            rotateY(calc(var(--i) * 60deg))
-            translateZ(280px);
-    }
-
-/* //////////////////////////// Footer ///////////////////////// */
-
-footer{
-  background-color: var(--PrimaryShadow1);
-  text-align: center;
+.search-container .search:hover {
+  color: var(--Green);
 }
 
-/* Quitar subrayado de los links del footer */
+.header-icons {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+/* //////////////////////////// CAROUSEL MOBILE ///////////////////////// */
+.carousel-container {
+  padding: 20px 10px;
+  width: 100%;
+}
+
+.title {
+  font-size: 1.8rem;
+  margin-bottom: 30px;
+  padding: 0 10px;
+}
+
+.carousel-wrapper {
+  perspective: 800px;
+  height: 250px;
+  overflow: visible;
+  width: 100vh;
+}
+
+.carousel {
+  width: 100%;
+  height: 200px;
+}
+
+.carousel-item {
+  width: 200px;
+  height: 160px;
+  transform: 
+    translate(-50%, -50%)
+    rotateY(calc(var(--i) * 60deg))
+    translateZ(280px);
+}
+
+/* //////////////////////////// FOOTER ///////////////////////// */
+footer {
+  background-color: var(--PrimaryShadow1);
+  text-align: center;
+  padding: 30px 20px;
+  margin-top: auto;
+  width: 100%;
+}
+
+footer p{
+  color: var(--PureWhite);
+}
+
 footer a {
   text-decoration: none;
   color: var(--Green);
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: var(--PureWhite);
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  margin-bottom: 30px;
 }
 
 .footer-section {
   margin: 20px 0;
 }
+
+.footer-section h4 {
+  color: var(--PureWhite);
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.footer-section ul {
+  list-style: none;
+}
+
+.footer-section ul li {
+  margin: 8px 0;
+}
+
+footer .social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin: 20px 0;
+  font-size: 28px;
+}
+
+footer .social-icons i {
+  color: var(--Green);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+footer .social-icons i:hover {
+  color: var(--PureWhite);
+  transform: translateY(-3px);
+}
+
+footer p {
+  font-size: 14px;
+  margin-top: 20px;
+}
+
+/*////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////HOME - TABLET (768px+)/////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////*/
+
+@media (min-width: 768px) {
+  header {
+    padding: 15px 40px;
+    gap: 30px;
+  }
+
+  .logo {
+    display: block;
+  }
+
+  .search-container {
+    max-width: 500px;
+  }
+
+  .search-container input[type="search"] {
+    font-size: 16px;
+  }
+
+  .carousel-container {
+    padding: 30px 20px;
+  }
+
+  .title {
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+  }
+
+  .carousel-wrapper {
+    perspective: 1100px;
+    height: 300px;
+    width: 100vh;
+  }
+
+  .carousel {
+    width: 90%;
+    height: 250px;
+  }
+
+  .carousel-item {
+    width: 260px;
+    height: 220px;
+    transform: 
+      translate(-50%, -50%)
+      rotateY(calc(var(--i) * 60deg))
+      translateZ(400px);
+  }
+
+  .footer-content {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer-section h4 {
+    color: var(--PureWhite);
+  }
+}
+
+/*////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////HOME - DESKTOP (1024px+)///////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////*/
+
+@media (min-width: 1024px) {
+  header {
+    padding: 12px 60px;
+  }
+
+  .logo {
+    font-size: 22px;
+  }
+
+  .search-container {
+    max-width: 500px;
+  }
+
+  .search-container input[type="search"] {
+    padding: 6px 40px 6px 14px;
+  }
+
+  .header-icons {
+    gap: 15px;
+  }
+
+  header .material-symbols-outlined {
+    font-size: 26px;
+  }
+
+  .carousel-container {
+    padding: 40px 0;
+    width: 100%;
+  }
+
+  .title {
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+  }
+
+  .carousel-wrapper {
+    perspective: 1400px;
+    height: 340px;
+    width: 150vh;
+  }
+
+  .carousel {
+    width: 100%;
+    height: 300px;
+  }
+
+  .carousel-item {
+    width: 280px;
+    height: 240px;
+    transform: 
+      translate(-50%, -50%)
+      rotateY(calc(var(--i) * 60deg))
+      translateZ(500px);
+  }
+
+  .footer-content {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 30px;
+    text-align: left;
+    max-width: 1400px;
+    margin: 0 auto 30px;
+  }
+
+  .footer-section {
+    margin: 0;
+  }
+
+  .footer-section h4 {
+    font-size: 18px;
+    color: var(--PureWhite);
+  }
+}
+
+/*////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////HOME - LARGE DESKTOP (1440px+)/////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////*/
+
+@media (min-width: 1440px) {
+  header {
+    padding: 12px 80px;
+  }
+
+  .carousel-container {
+    padding: 50px 0;
+    width: 100%;
+  }
+
+  .carousel-wrapper {
+    height: 380px;
+    width: 180vh;
+    perspective: 1600px;
+  }
+
+  .carousel {
+    width: 100%;
+    height: 320px;
+  }
+
+  .carousel-item {
+    width: 320px;
+    height: 280px;
+    transform: 
+      translate(-50%, -50%)
+      rotateY(calc(var(--i) * 60deg))
+      translateZ(600px);
+  }
 }

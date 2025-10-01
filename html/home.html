@@ -3,44 +3,57 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quantum Arcade</title>
-  <link rel="stylesheet" href="../css/styles.css" />
-    <script src="../script.js" defer></script>
-    <!-- Poner icono -->
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-    <script src="https://kit.fontawesome.com/dc94cdf766.js" crossorigin="anonymous"></script>
-    <link rel="icon" type="image/png" href="/assets/images/icono.png">
+  <title>Quantum Arcade - Home</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/styles.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/images/icono.png">
+  
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/dc94cdf766.js" crossorigin="anonymous"></script>
 </head>
 <body class="home-body">
   <main class="main-home">
+    <!-- HEADER -->
     <header>
-    <!-- Menu hamburguesa -->
-    <span class="material-symbols-outlined menu">menu</span>
-    <div class="search-container">
-      <input type="search" placeholder="Buscar">
-      <span class="material-symbols-outlined search">search</span>
-    </div>
-    <div>
-    <!-- Carrito de compras -->
-    <span class="material-symbols-outlined cart">shopping_cart</span>
-    <!-- Perfil de usuario -->
-    <span class="material-symbols-outlined account">account_circle</span>
-    </div>
+      <!-- Menú hamburguesa -->
+      <span class="material-symbols-outlined menu">menu</span>
+      
+      <!-- Barra de búsqueda -->
+      <div class="search-container">
+        <input type="search" placeholder="Buscar juegos...">
+        <span class="material-symbols-outlined search">search</span>
+      </div>
+      
+      <!-- Iconos de header -->
+      <div class="header-icons">
+        <span class="material-symbols-outlined cart">shopping_cart</span>
+        <span class="material-symbols-outlined account">account_circle</span>
+      </div>
     </header>
+
+    <!-- CAROUSEL SECTION -->
     <section>
       <div class="carousel-container">
         <h1 class="title">POPULARES</h1>
         <div class="carousel-wrapper">
-            <div class="carousel" id="carousel">
-                <!-- Las imágenes se cargarán dinámicamente desde la API -->
-            </div>
+          <div class="carousel" id="carousel">
+            <!-- Las imágenes se cargarán dinámicamente desde la API -->
+          </div>
         </div>
-    </div>
+      </div>
     </section>
-  </main>
-   <footer>
-      <!-- Logo -->
-      <div>
+
+    <!-- FOOTER -->
+    <footer>
+      <!-- Footer Content -->
+      <div class="footer-content">
+        <!-- Sobre nosotros -->
         <section class="footer-section">
           <h4>Sobre nosotros</h4>
           <ul>
@@ -50,6 +63,8 @@
             <li><a href="#">Prensa y medios</a></li>
           </ul>
         </section>
+
+        <!-- Comunidad -->
         <section class="footer-section">
           <h4>Comunidad</h4>
           <ul>
@@ -60,6 +75,8 @@
             <li><a href="#">Streamers asociados</a></li>
           </ul>
         </section>
+
+        <!-- Soporte y Ayuda -->
         <section class="footer-section">
           <h4>Soporte y Ayuda</h4>
           <ul>
@@ -70,6 +87,8 @@
             <li><a href="#">Contacto</a></li>
           </ul>
         </section>
+
+        <!-- Legal -->
         <section class="footer-section">
           <h4>Legal</h4>
           <ul>
@@ -80,6 +99,8 @@
             <li><a href="#">Límites de edad</a></li>
           </ul>
         </section>
+
+        <!-- Noticias -->
         <section class="footer-section">
           <h4>Noticias</h4>
           <ul>
@@ -91,12 +112,20 @@
           </ul>
         </section>
       </div>
+
       <!-- Redes sociales -->
-      <i class="fa-brands fa-facebook"></i>
-      <i class="fa-brands fa-instagram"></i>
-      <i class="fa-brands fa-x-twitter"></i>
+      <div class="social-icons">
+        <i class="fa-brands fa-facebook"></i>
+        <i class="fa-brands fa-instagram"></i>
+        <i class="fa-brands fa-x-twitter"></i>
+      </div>
+
+      <!-- Copyright -->
       <p>© 2025 Quantum Arcade. Todos los derechos reservados.</p>
     </footer>
-  <script src="/js/script.js"></script>
+  </main>
+
+  <!-- JavaScript -->
+  <script src="/js/script.js" defer></script>
 </body>
 </html>

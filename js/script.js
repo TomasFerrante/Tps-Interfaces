@@ -65,7 +65,7 @@ function loadPlaceholderImages() {
         carouselItem.appendChild(img);
         carousel.appendChild(carouselItem);
     }
-    
+    // Iniciar la rotación automática después de cargar las imágenes de placeholder
     startAutoRotate();
 }
 
