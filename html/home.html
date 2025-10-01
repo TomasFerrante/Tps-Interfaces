@@ -15,23 +15,33 @@
   <main class="main-home">
     <header>
     <!-- Menu hamburguesa -->
-    <span class="material-symbols-outlined">menu</span>
-    <span class="material-symbols-outlined">close</span>
-    <!-- Logo -->
-    <input type="search" placeholder="Search...">
-    <span class="material-symbols-outlined">search</span>
+    <span class="material-symbols-outlined menu">menu</span>
+    <div class="search-container">
+      <input type="search" placeholder="Buscar">
+      <span class="material-symbols-outlined search">search</span>
+    </div>
+    <div>
     <!-- Carrito de compras -->
-    <span class="material-symbols-outlined">shopping_cart</span>
+    <span class="material-symbols-outlined cart">shopping_cart</span>
     <!-- Perfil de usuario -->
-    <span class="material-symbols-outlined">account_circle</span>
+    <span class="material-symbols-outlined account">account_circle</span>
+    </div>
     </header>
-    <article>
-      <h1>Welcome to Quantum Arcade</h1>
-    </article>
-    <footer>
+    <section>
+      <div class="carousel-container">
+        <h1 class="title">POPULARES</h1>
+        <div class="carousel-wrapper">
+            <div class="carousel" id="carousel">
+                <!-- Las imágenes se cargarán dinámicamente desde la API -->
+            </div>
+        </div>
+    </div>
+    </section>
+  </main>
+   <footer>
       <!-- Logo -->
       <div>
-        <section>
+        <section class="footer-section">
           <h4>Sobre nosotros</h4>
           <ul>
             <li><a href="#">Equipo de desarrollo</a></li>
@@ -40,7 +50,7 @@
             <li><a href="#">Prensa y medios</a></li>
           </ul>
         </section>
-        <section>
+        <section class="footer-section">
           <h4>Comunidad</h4>
           <ul>
             <li><a href="#">Foros de jugadores</a></li>
@@ -50,7 +60,7 @@
             <li><a href="#">Streamers asociados</a></li>
           </ul>
         </section>
-        <section>
+        <section class="footer-section">
           <h4>Soporte y Ayuda</h4>
           <ul>
             <li><a href="#">Centro de ayuda / FAQ</a></li>
@@ -60,7 +70,7 @@
             <li><a href="#">Contacto</a></li>
           </ul>
         </section>
-        <section>
+        <section class="footer-section">
           <h4>Legal</h4>
           <ul>
             <li><a href="#">Términos de servicio</a></li>
@@ -70,7 +80,7 @@
             <li><a href="#">Límites de edad</a></li>
           </ul>
         </section>
-        <section>
+        <section class="footer-section">
           <h4>Noticias</h4>
           <ul>
             <li><a href="#">Lanzamientos recientes</a></li>
@@ -87,6 +97,6 @@
       <i class="fa-brands fa-x-twitter"></i>
       <p>© 2025 Quantum Arcade. Todos los derechos reservados.</p>
     </footer>
-  </main>
+  <script src="/js/script.js"></script>
 </body>
 </html>
