@@ -120,7 +120,10 @@ html, body {
     position: relative;
 }
 
-/*///////////////////////////carrousel/////////////////////////////////////*/
+/*////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////CARRUSEL 3D PRINCIPAL////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////*/
+
 .carousel-container {
     width: 100%;
     max-width: 100%;
@@ -164,14 +167,14 @@ html, body {
     left: 50%;
     top: 50%;
     transform-style: preserve-3d;
-    transform: 
+    transform:
         translate(-50%, -50%)
         rotateY(calc(var(--i) * 60deg))
         translateZ(450px);
     transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 
+    box-shadow:
         0 15px 40px rgba(0, 0, 0, 0.5),
         inset 0 0 15px rgba(255, 255, 255, 0.1);
 }
@@ -200,7 +203,6 @@ html, body {
 .carousel-item:nth-child(1) {
     z-index: 10;
 }
-
 
 .carousel-item:nth-child(1) img {
     filter: brightness(1.1) contrast(1.2);
@@ -476,7 +478,7 @@ figure img {
 
 .home-body {
   min-height: 100vh;
-  background-color: var(--Background);
+  background: linear-gradient(180deg, var(--Background) 0%, var(--PrimaryShadow1) 50%, var(--Background) 100%);
   color: var(--PureWhite);
 }
 
@@ -686,12 +688,436 @@ footer p {
 }
 
 /*////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////CARRUSEL HORIZONTAL DE JUEGOS (ACCIÓN)//////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////*/
+
+/* Contenedor general de la sección */
+.games-section {
+  width: 100%;
+  padding: 40px 20px;
+}
+
+.section-title {
+  font-size: 2rem;
+  color: var(--PureWhite);
+  padding-left: 10px;
+  font-weight: 700;
+}
+
+/* Contenedor del carrusel con botones */
+.games-carousel-container {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+}
+
+/* Carrusel scrolleable */
+.games-carousel {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-behavior: auto;
+  padding: 20px 10px;
+  scrollbar-width: none;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.games-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+/* Animación de desplazamiento con skew */
+.games-carousel.scrolling-left .game-card {
+  animation: skewLeft 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.games-carousel.scrolling-right .game-card {
+  animation: skewRight 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes skewLeft {
+  0% {
+    transform: skewX(0deg);
+  }
+  30% {
+    transform: skewX(-8deg);
+  }
+  70% {
+    transform: skewX(-4deg);
+  }
+  100% {
+    transform: skewX(0deg);
+  }
+}
+
+@keyframes skewRight {
+  0% {
+    transform: skewX(0deg);
+  }
+  30% {
+    transform: skewX(8deg);
+  }
+  70% {
+    transform: skewX(4deg);
+  }
+  100% {
+    transform: skewX(0deg);
+  }
+}
+
+/* Tarjeta de juego */
+.game-card {
+  position: relative;
+  min-width: calc((100% - 100px) / 4.3);
+  height: 200px;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  flex-shrink: 0;
+  background-color: var(--Background);
+}
+
+.game-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(86, 3, 173, 0.5);
+}
+
+/* Contenedor de imagen */
+.game-card-image {
+  width: 100%;
+  height: 130px;
+  overflow: hidden;
+}
+
+.game-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: brightness(0.9);
+  transition: filter 0.3s ease;
+}
+
+.game-card:hover img {
+  filter: brightness(1.1);
+}
+
+/* Contenido de la tarjeta (parte blanca inferior) */
+.game-card-content {
+  position: relative;
+  background-color: var(--PureWhite);
+  padding: 10px 12px;
+  height: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.game-card-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--Black);
+  margin-bottom: 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.game-card-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Sección de precios */
+.game-price {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.price-original {
+  color: var(--Black70);
+  text-decoration: line-through;
+  font-size: 0.9rem;
+}
+
+.price-current {
+  color: var(--Orange);
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.price-discount {
+  background-color: var(--Orange);
+  color: var(--PureWhite);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.game-tag {
+  background-color: var(--Green);
+  color: var(--PureWhite);
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Icono de favorito (estrella) */
+.favorite-icon {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  color: var(--Black);
+  font-size: 28px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 2;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+  -webkit-text-fill-color: var(--Black);
+}
+
+.favorite-icon:hover {
+  color: var(--Star);
+  -webkit-text-fill-color: var(--Star);
+  transform: scale(1.2);
+}
+
+.favorite-icon.active {
+  color: var(--Star);
+  -webkit-text-fill-color: var(--Star);
+}
+
+/* Botones de navegación del carrusel (ocultos en mobile) */
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: var(--White20);
+  color: var(--Purple);
+  border: 3px solid var(--Purple);
+  width: 35px;
+  height: 200px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+  opacity: 1;
+}
+
+.carousel-btn:hover {
+  background-color: var(--Purple30);
+}
+
+.carousel-btn.prev-btn {
+  left: 20px;
+  border-radius: 15px 0 0 15px;
+}
+
+.carousel-btn.next-btn {
+  right: 20px;
+  border-radius: 0 15px 15px 0;
+}
+
+.carousel-btn.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.carousel-btn .material-symbols-outlined {
+  font-size: 40px;
+  font-weight: 700;
+}
+
+/*////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////CARRUSEL TOP JUEGOS (MÁS JUGADOS)///////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////*/
+
+/* Contenedor general de la sección */
+.top-games-section {
+  width: 100%;
+  padding: 40px 20px;
+}
+
+/* Contenedor del carrusel con botones */
+.top-carousel-container {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+}
+
+/* Carrusel scrolleable */
+.top-carousel {
+  display: flex;
+  gap: 30px;
+  overflow-x: auto;
+  scroll-behavior: auto;
+  padding: 20px 10px;
+  scrollbar-width: none;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.top-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+/* Animación de desplazamiento con skew */
+.top-carousel.scrolling-left .top-game-card {
+  animation: skewLeft 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.top-carousel.scrolling-right .top-game-card {
+  animation: skewRight 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Tarjeta de top juego */
+.top-game-card {
+  position: relative;
+  min-width: calc((100% - 120px) / 3.2);
+  height: 280px;
+  border-radius: 16px;
+  overflow: visible;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  flex-shrink: 0;
+  margin-left: 80px;
+}
+
+.top-game-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(86, 3, 173, 0.5);
+}
+
+/* Contenedor de imagen */
+.top-game-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Imagen de fondo con overlay oscuro */
+.top-game-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: brightness(0.7);
+  transition: filter 0.3s ease;
+}
+
+.top-game-card:hover img {
+  filter: brightness(0.9);
+}
+
+/* Número del ranking */
+.top-game-number {
+  position: absolute;
+  left: -80px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12rem;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.2);
+  z-index: 3;
+  line-height: 1;
+  font-family: 'Titillium Web', sans-serif;
+}
+
+.top-game-card:hover .top-game-number {
+  color: var(--White);
+  text-shadow: 0 0px 60px rgba(86, 3, 173, 1);
+}
+
+/* Contenido de la tarjeta */
+.top-game-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  background: linear-gradient(to top, rgba(16, 5, 39, 0.95) 0%, transparent 100%);
+  z-index: 2;
+}
+
+.top-game-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--PureWhite);
+  margin-bottom: 8px;
+}
+
+.top-game-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--Star);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* Botones específicos para este carrusel */
+.prev-btn-top,
+.next-btn-top {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: var(--White20);
+  color: var(--Purple);
+  border: 3px solid var(--Purple);
+  width: 35px;
+  height: 280px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+  opacity: 1;
+}
+
+.prev-btn-top:hover,
+.next-btn-top:hover {
+  background-color: var(--Purple30);
+}
+
+.prev-btn-top {
+  left: 20px;
+  border-radius: 15px 0 0 15px;
+}
+
+.next-btn-top {
+  right: 20px;
+  border-radius: 0 15px 15px 0;
+}
+
+.prev-btn-top.hidden,
+.next-btn-top.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.prev-btn-top .material-symbols-outlined,
+.next-btn-top .material-symbols-outlined {
+  font-size: 40px;
+  font-weight: 700;
+}
+
+/*////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////HOME - TABLET (768px+)/////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////*/
 
 @media (min-width: 768px) {
   header {
-    padding: 15px 40px;
     gap: 30px;
   }
 
@@ -743,6 +1169,17 @@ footer p {
   .footer-section h4 {
     color: var(--PureWhite);
   }
+
+  /* Mostrar botones del carrusel en tablet */
+  .carousel-btn {
+    display: flex;
+  }
+
+  /* Mostrar botones del carrusel de top juegos en tablet */
+  .prev-btn-top,
+  .next-btn-top {
+    display: flex;
+  }
 }
 
 /*////////////////////////////////////////////////////////////////////////////////////////
@@ -750,9 +1187,6 @@ footer p {
 /////////////////////////////////////////////////////////////////////////////////////////*/
 
 @media (min-width: 1024px) {
-  header {
-    padding: 12px 60px;
-  }
 
   .logo {
     font-size: 22px;
@@ -777,6 +1211,7 @@ footer p {
   .carousel-container {
     padding: 40px 0;
     width: 100%;
+    overflow: hidden;
   }
 
   .title {
@@ -827,13 +1262,10 @@ footer p {
 /////////////////////////////////////////////////////////////////////////////////////////*/
 
 @media (min-width: 1440px) {
-  header {
-    padding: 12px 80px;
-  }
-
   .carousel-container {
-    padding: 50px 0;
+    padding: 20px 0;
     width: 100%;
+    overflow: hidden;
   }
 
   .carousel-wrapper {
@@ -849,7 +1281,7 @@ footer p {
 
   .carousel-item {
     width: 320px;
-    height: 280px;
+    height: 240px;
     transform: 
       translate(-50%, -50%)
       rotateY(calc(var(--i) * 60deg))
