@@ -128,7 +128,7 @@ html, body {
     width: 100%;
     max-width: 100%;
     padding: 40px 20px;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 .title {
@@ -149,7 +149,8 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: visible;
+    overflow: hidden;
+    
 }
 
 .carousel {
@@ -1209,7 +1210,7 @@ footer p {
   }
 
   .carousel-container {
-    padding: 40px 0;
+    padding-top: 10px;
     width: 100%;
     overflow: hidden;
   }
