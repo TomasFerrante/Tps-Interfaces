@@ -6,46 +6,65 @@
     <title>Quantum Arcade</title>
     <link rel="stylesheet" href="../css/styles.css" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&icon_names=alternate_email,favorite,fullscreen,fullscreen_exit,share,shopping_cart,star&display=block" rel="stylesheet"/>
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&icon_names=account_circle,favorite,fullscreen,fullscreen_exit,keyboard_arrow_right,menu,search,share,shopping_cart,star&display=block" rel="stylesheet"/>
     <script
       src="https://kit.fontawesome.com/dc94cdf766.js"
       crossorigin="anonymous"
     ></script>
-    <link rel="icon" type="image/png" href="/assets/images/icono.png" />
+    <link rel="icon" type="image/png" href="../assets/images/icono.png" />
   </head>
   <body class="body-running-game">
     <main class="main-running-game">
-      <header></header>
-
-      <div class="breadcrumb">
-        <a href="../html/home.html">Home</a>
-        <a href="#">Estrategia</a>
-        <a href="#">Peg Solitaire de League of Legends</a>
-      </div>
-
-      <article>
+      <header>
+        <!-- Menú hamburguesa -->
+        <span class="material-symbols-outlined menu">menu</span>
+        
+        <!-- Barra de búsqueda -->
+        <div class="search-container">
+          <input type="search" placeholder="Buscar juegos...">
+          <span class="material-symbols-outlined search">search</span>
+        </div>
+        
+        <!-- Iconos de header -->
+        <div class="header-icons">
+          <span class="material-symbols-outlined cart">shopping_cart</span>
+          <span class="material-symbols-outlined account">account_circle</span>
+        </div>
+      </header>
+      
+      <article class="running-game">
+        <div class="breadcrumb">
+          <a href="../html/home.html">Home 
+            <span class="material-symbols-outlined">keyboard_arrow_right</span>
+          </a>
+          <a href="#">Estrategia
+            <span class="material-symbols-outlined">keyboard_arrow_right</span>
+          </a>
+          <a href="#">Peg Solitaire de League of Legends</a>
+        </div>
         <section>
-          <img src="" alt="" />
-          <div></div>
-          <div class="menu-game">
-            <div class="menu-game-container">
-              <div>
-                <span class="material-symbols-outlined">star</span>
-                <span class="material-symbols-outlined">shopping_cart</span>
-              </div>
-              <div>
-                <span class="material-symbols-outlined">share</span>
-                <span class="material-symbols-outlined">fullscreen</span>
-                <!-- <span class="material-symbols-outlined">fullscreen_exit</span> -->
+          <div class="container-game">
+            <img class="image-game" src="../assets/images/RunningGame.png" alt="Peg Solitaire de League of Legends" />
+            <div class="menu-game">
+              <div class="menu-game-container">
+                <div>
+                  <span class="material-symbols-outlined">star</span>
+                  <span class="material-symbols-outlined">shopping_cart</span>
+                </div>
+                <div>
+                  <span class="material-symbols-outlined">share</span>
+                  <span class="material-symbols-outlined">fullscreen</span>
+                  <!-- <span class="material-symbols-outlined">fullscreen_exit</span> -->
+                </div>
               </div>
             </div>
-          </div>
-          <div class="menu-share">
-            <i class="fa-brands fa-whatsapp fa-xl"></i>
-            <i class="fa-brands fa-facebook fa-xl"></i>
-            <i class="fa-brands fa-instagram fa-xl"></i>
-            <i class="fa-brands fa-x-twitter fa-xl"></i>
-            <span class="material-symbols-outlined">alternate_email</span>
+            <div class="menu-share">
+              <i class="fa-brands fa-whatsapp fa-xl"></i>
+              <i class="fa-brands fa-facebook fa-xl"></i>
+              <i class="fa-brands fa-instagram fa-xl"></i>
+              <i class="fa-brands fa-x-twitter fa-xl"></i>
+              <span class="material-symbols-outlined">alternate_email</span>
+            </div>
           </div>
         </section>
         <section class="container-info-games">
@@ -86,8 +105,16 @@
                 >
               </li>
             </ul>
-            <img src="" alt="" />
-            <video></video>
+            <img class="media-game-info" src="../assets/images/Game.png" alt="Peg Solitaire de League of Legends" />
+            <iframe 
+              class="media-game-info"
+              height="350" 
+              src="https://www.youtube.com/embed/NyZALxDFbPo?start=80" 
+              title="😇 COMO EMPEZAR a JUGAR LOL 2025 | Como jugar LOL por PRIMERA VEZ | LEAGUE of LEGENDS PRINCIPIANTES" 
+              frameborder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+              allowfullscreen>
+            </iframe>
           </section>
           <section class="manual-game">
             <div class="manual-game-container">
@@ -120,7 +147,15 @@
             </div>
             <div class="tutorial-game">
               <h5>Tutorial</h5>
-              <video></video>
+              <iframe
+                class="media-game-info"
+                height="450"
+                src="https://www.youtube.com/embed/LjLKNGQK0Tg?start=80" 
+                title="Como jugar al League of Legends 2025 - Guía para empezar de cero." 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+              </iframe>
             </div>
           </section>
         </section>
@@ -224,7 +259,7 @@
             <h5>Juegos similares</h5>
             <div class="container-similar-games">
               <div class="card">
-                <img src="../assets/images/peg-solitaire.jpg" 
+                <img src="../assets/images/RunningGame.png" 
                     alt="Peg Solitaire" 
                     class="card-image">
                 <div class="card-content">
@@ -236,7 +271,7 @@
                 </div>
               </div>
               <div class="card">
-                <img src="../assets/images/peg-solitaire.jpg" 
+                <img src="../assets/images/RunningGame.png" 
                     alt="Peg Solitaire" 
                     class="card-image">
                 <div class="card-content">
@@ -248,7 +283,7 @@
                 </div>
               </div>
               <div class="card">
-                <img src="../assets/images/peg-solitaire.jpg" 
+                <img src="../assets/images/RunningGame.png" 
                     alt="Peg Solitaire" 
                     class="card-image">
                 <div class="card-content">
@@ -260,7 +295,7 @@
                 </div>
               </div>
               <div class="card">
-                <img src="../assets/images/peg-solitaire.jpg" 
+                <img src="../assets/images/RunningGame.png" 
                     alt="Peg Solitaire" 
                     class="card-image">
                 <div class="card-content">
@@ -272,7 +307,7 @@
                 </div>
               </div>
               <div class="card">
-                <img src="../assets/images/peg-solitaire.jpg" 
+                <img src="../assets/images/RunningGame.png" 
                     alt="Peg Solitaire" 
                     class="card-image">
                 <div class="card-content">
@@ -284,7 +319,7 @@
                 </div>
               </div>
               <div class="card">
-                <img src="../assets/images/peg-solitaire.jpg" 
+                <img src="../assets/images/RunningGame.png" 
                     alt="Peg Solitaire" 
                     class="card-image">
                 <div class="card-content">
@@ -296,7 +331,7 @@
                 </div>
               </div>
               <div class="card">
-                <img src="../assets/images/peg-solitaire.jpg" 
+                <img src="../assets/images/RunningGame.png" 
                     alt="Peg Solitaire" 
                     class="card-image">
                 <div class="card-content">
@@ -308,7 +343,7 @@
                 </div>
               </div>
               <div class="card">
-                <img src="../assets/images/peg-solitaire.jpg" 
+                <img src="../assets/images/RunningGame.png" 
                     alt="Peg Solitaire" 
                     class="card-image">
                 <div class="card-content">
@@ -323,7 +358,79 @@
           </section>
         </section>
       </article>
-      <footer></footer>
+      <footer>
+        <!-- Footer Content -->
+        <div class="footer-content">
+          <!-- Sobre nosotros -->
+          <section class="footer-section">
+            <h4>Sobre nosotros</h4>
+            <ul>
+              <li><a href="#">Equipo de desarrollo</a></li>
+              <li><a href="#">Noticias y actualizaciones</a></li>
+              <li><a href="#">Blog de gaming</a></li>
+              <li><a href="#">Prensa y medios</a></li>
+            </ul>
+          </section>
+
+          <!-- Comunidad -->
+          <section class="footer-section">
+            <h4>Comunidad</h4>
+            <ul>
+              <li><a href="#">Foros de jugadores</a></li>
+              <li><a href="#">Rankings y tablas</a></li>
+              <li><a href="#">Torneos activos</a></li>
+              <li><a href="#">Discord oficial</a></li>
+              <li><a href="#">Streamers asociados</a></li>
+            </ul>
+          </section>
+
+          <!-- Soporte y Ayuda -->
+          <section class="footer-section">
+            <h4>Soporte y Ayuda</h4>
+            <ul>
+              <li><a href="#">Centro de ayuda / FAQ</a></li>
+              <li><a href="#">Guías de juego</a></li>
+              <li><a href="#">Soporte técnico</a></li>
+              <li><a href="#">Reportar problemas</a></li>
+              <li><a href="#">Contacto</a></li>
+            </ul>
+          </section>
+
+          <!-- Legal -->
+          <section class="footer-section">
+            <h4>Legal</h4>
+            <ul>
+              <li><a href="#">Términos de servicio</a></li>
+              <li><a href="#">Política de privacidad</a></li>
+              <li><a href="#">Política de cookies</a></li>
+              <li><a href="#">Reglas de la comunidad</a></li>
+              <li><a href="#">Límites de edad</a></li>
+            </ul>
+          </section>
+
+          <!-- Noticias -->
+          <section class="footer-section">
+            <h4>Noticias</h4>
+            <ul>
+              <li><a href="#">Lanzamientos recientes</a></li>
+              <li><a href="#">Actualizaciones de juegos</a></li>
+              <li><a href="#">Eventos y torneos</a></li>
+              <li><a href="#">Noticias de la industria</a></li>
+              <li><a href="#">Mantenimientos programados</a></li>
+            </ul>
+          </section>
+        </div>
+
+        <!-- Redes sociales -->
+        <div class="social-icons">
+          <i class="fa-brands fa-facebook"></i>
+          <i class="fa-brands fa-instagram"></i>
+          <i class="fa-brands fa-x-twitter"></i>
+        </div>
+
+        <!-- Copyright -->
+        <p>© 2025 Quantum Arcade. Todos los derechos reservados.</p>
+      </footer>
     </main>
   </body>
 </html>
