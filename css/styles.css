@@ -71,6 +71,8 @@
   --Purple90: #5603ade6;
   --Purple: #5603ad;
   --SecondaryLight: #74e0a9;
+  --SecondaryLight2: #a9efcb4e;
+  --SecondaryShadow: #07733c;
   --Star: #fbbc05;
   --Stroke-Star: #cd9600;
   --Success10: #2294221a;
@@ -166,6 +168,9 @@ form {
 }
 
 .btn-signup {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 50%;
   background-color: var(--Purple);
   color: var(--PureWhite);
@@ -174,10 +179,62 @@ form {
   padding: 10px;
   font-size: 16px;
   cursor: pointer;
+  transition: .6s ease all;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-signup::after {
+  content: "";
+  width: 1px;
+  height: 1px;
+  background: none;
+  position: absolute;
+  z-index: 1;
+  top: 30%;
+  left: 60%;
+  transition: .6s ease-in-out all;
+  border-radius: 12px;
+  transform-origin: center;
 }
 
 .btn-signup:hover {
-  background-color: var(--Purple80);
+  background: var(--SecondaryLight);
+  color: var(--Black);
+}
+
+.btn-signup:hover::after {
+  transform: scale(300);
+  background: var(--Green);
+}
+
+.btn-signup:focus {
+  background: var(--Green);
+  width: 50px;
+  height: 50px;
+  border: 0;
+  border-radius: 50%;
+}
+
+.btn-signup:focus span {
+  opacity: 0;
+}
+
+.btn-signup:focus::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 17px;
+  width: 10px;
+  height: 26px;
+  border-right: 5px solid var(--PureWhite);
+  border-bottom: 5px solid var(--PureWhite);
+  transform: rotate(45deg);
+}
+
+.btn-signup span {
+  position: relative;
+  z-index: 2;
 }
 
 .container-input {
@@ -417,6 +474,20 @@ figure img {
   max-height: 70px;
 }
 
+.menu-game .star, .shopping_cart, .share, .fullscreen, .fullscreen-exit {
+  cursor: pointer;
+}
+
+.menu-game .material-symbols-outlined.star {
+  font-variation-settings: "FILL" 1, "wght" 700, "GRAD" 0, "opsz" 24;
+  color: var(--Star);
+}
+
+.menu-game .material-symbols-outlined.shopping_cart {
+  font-variation-settings: "FILL" 1, "wght" 700, "GRAD" 0, "opsz" 24;
+  color: var(--PureWhite);
+}
+
 .menu-game-container {
   display: flex;
   justify-content: space-between;
@@ -545,6 +616,15 @@ figure img {
   align-items: flex-start;
 }
 
+.comment-form #comment {
+  vertical-align: top;
+}
+
+.comment-form #comment::placeholder {
+  position: relative;
+  top: 0;
+}
+
 .btns-form {
   width: 100%;
   display: flex;
@@ -559,14 +639,48 @@ figure img {
   color: var(--PureWhite);
   cursor: pointer;
   border: none;
+  transition: all .3s ease;
+  position: relative;
 }
 
 .btn-cancel {
   background-color: var(--White60);
 }
 
+.btn-cancel:hover {
+  background-color: var(--Error);
+  color: var(--Black);
+  animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+  0%, 100% { 
+    transform: translateX(0);
+  }
+  25% { 
+    transform: translateX(-3px);
+  }
+  75% { 
+    transform: translateX(3px);
+  }
+}
+
 .btn-comment {
   background-color: var(--Green);
+}
+
+.btn-comment:hover {
+  background: var(--SecondaryShadow);
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 var(--Green80);
+  }
+  50% {
+    box-shadow: 0 0 0 5px var(--SecondaryLight2);
+  }
 }
 
 .container-comment .username {
@@ -578,7 +692,7 @@ figure img {
   border: var(--PrimaryLight1) 1px solid;
   color: var(--PureWhite);
   border-radius: 15px;
-  padding: 15px;
+  padding: 15px 30px 15px 15px;
   margin-bottom: 20px;
   position: relative;
 }
@@ -588,6 +702,8 @@ figure img {
   bottom: 10px;
   right: 10px;
   cursor: pointer;
+  font-variation-settings: "FILL" 1, "wght" 700, "GRAD" 0, "opsz" 24;
+  color: var(--Error);
 }
 
 .header-comment {
