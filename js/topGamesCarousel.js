@@ -15,6 +15,18 @@ async function loadTopGamesCarousel() {
 
         // Selecciona los 9 juegos con mejor rating
         const topGames = sortedGames.slice(0, 9);
+
+        // Reemplaza el juego en la posición 3 (índice 2) con Peg Solitaire
+        if (topGames.length > 2) {
+            topGames[2] = {
+                name: 'Peg Solitaire - League of Legends',
+                background_image: '../assets/images/RunningGame.png',
+                background_image_low_res: '../assets/images/RunningGame.png',
+                rating: topGames[2].rating, // Mantiene el rating original
+                isPegSolitaire: true // Marca para redirección especial
+            };
+        }
+
         const topCarousel = document.getElementById('top-carousel');
 
         if (!topCarousel) return;
@@ -55,6 +67,14 @@ function createTopGameCard(game, index) {
             </div>
         </div>
     `;
+
+    // Agrega evento de click para redireccionar a running-game si es Peg Solitaire
+    if (game.isPegSolitaire) {
+        topGameCard.style.cursor = 'pointer';
+        topGameCard.addEventListener('click', () => {
+            window.location.href = '/html/running-game.html';
+        });
+    }
 
     return topGameCard;
 }
