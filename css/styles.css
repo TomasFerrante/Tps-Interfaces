@@ -670,16 +670,16 @@ figure img {
 }
 
 .btn-comment:hover {
-  background: var(--SecondaryShadow);
+  background: var(--PrimaryLight1);
   animation: pulse 1s infinite;
 }
 
 @keyframes pulse {
   0%, 100% {
-    box-shadow: 0 0 0 0 var(--Green80);
+    box-shadow: 0 0 0 0 var(--Purple10);
   }
   50% {
-    box-shadow: 0 0 0 5px var(--SecondaryLight2);
+    box-shadow: 0 0 0 5px var(--Purple70);
   }
 }
 
