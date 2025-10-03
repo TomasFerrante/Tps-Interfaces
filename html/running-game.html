@@ -4,120 +4,427 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quantum Arcade</title>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&icon_names=alternate_email,fullscreen,fullscreen_exit,share,shopping_cart,star&display=block" rel="stylesheet" />
-    <script src="https://kit.fontawesome.com/dc94cdf766.js" crossorigin="anonymous"></script>
-    <script src="../js/main.js" defer></script>
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=account_circle,favorite,fullscreen,fullscreen_exit,keyboard_arrow_right,menu,search,share,shopping_cart,star&display=block" />
+    <script
+      src="https://kit.fontawesome.com/dc94cdf766.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="icon" type="image/png" href="../assets/images/icono.png" />
   </head>
-  <body>
-    <main>
-      <header></header>
-
-      <div>
-        <a href="#">Home</a>
-        <a href="#">Estrategia</a>
-        <a href="#">Peg Solitaire de League of Legends</a>
-      </div>
-
-      <article>
+  <body class="body-running-game">
+    <main class="main-running-game">
+      <header>
+        <!-- Menú hamburguesa -->
+        <span class="material-symbols-outlined menu">menu</span>
+        
+        <!-- Barra de búsqueda -->
+        <div class="search-container">
+          <input type="search" placeholder="Buscar juegos...">
+          <span class="material-symbols-outlined search">search</span>
+        </div>
+        
+        <!-- Iconos de header -->
+        <div class="header-icons">
+          <span class="material-symbols-outlined cart">shopping_cart</span>
+          <span class="material-symbols-outlined account">account_circle</span>
+        </div>
+      </header>
+      
+      <article class="running-game">
+        <div class="breadcrumb">
+          <a href="../html/home.html">Home 
+            <span class="material-symbols-outlined">keyboard_arrow_right</span>
+          </a>
+          <a href="#">Estrategia
+            <span class="material-symbols-outlined">keyboard_arrow_right</span>
+          </a>
+          <a href="#">Peg Solitaire de League of Legends</a>
+        </div>
         <section>
-          <img src="" alt="" />
-          <div></div>
-          <!-- Menu del juego -->
-          <span class="material-symbols-outlined">star</span>
-          <span class="material-symbols-outlined">shopping_cart</span>
-          <span class="material-symbols-outlined">share</span>
-          <span class="material-symbols-outlined">fullscreen</span>
-          <span class="material-symbols-outlined">fullscreen_exit</span>
-          <i class="fa-brands fa-whatsapp"></i>
+          <div class="container-game">
+            <img class="image-game" src="../assets/images/RunningGame.png" alt="Peg Solitaire de League of Legends" />
+            <div class="menu-game">
+              <div class="menu-game-container">
+                <div>
+                  <span class="material-symbols-outlined star">star</span>
+                  <span class="material-symbols-outlined shopping_cart">shopping_cart</span>
+                </div>
+                <div>
+                  <span class="material-symbols-outlined share">share</span>
+                  <span class="material-symbols-outlined fullscreen">fullscreen</span>
+                  <!-- <span class="material-symbols-outlined fullscreen-exit">fullscreen_exit</span> -->
+                </div>
+              </div>
+            </div>
+            <div class="menu-share">
+              <i class="fa-brands fa-whatsapp fa-xl"></i>
+              <i class="fa-brands fa-facebook fa-xl"></i>
+              <i class="fa-brands fa-instagram fa-xl"></i>
+              <i class="fa-brands fa-x-twitter fa-xl"></i>
+              <span class="material-symbols-outlined">alternate_email</span>
+            </div>
+          </div>
+        </section>
+        <section class="container-info-games">
+          <section class="description-game">
+            <h3>Peg Solitaire de League of Legends</h3>
+            <p>
+              Peg Solitaire de League of Legends: Un Desafío Estratégico en
+              Runaterra ¡Pon a prueba tu intelecto y estrategia con el Peg
+              Solitaire de League of Legends! En este clásico juego de mesa, los
+              campeones de Runaterra se convierten en tus piezas, y cada
+              movimiento cuenta. Salta sobre tus rivales para eliminarlos del
+              tablero y sé el último campeón en pie.
+            </p>
+            <p>
+              Diseñado con una estética única, el tablero representa un mapa
+              detallado de Runaterra, mientras que las piezas son figuras en
+              miniatura de tus campeones favoritos, como Garen, Ashe y Jinx.
+            </p>
+            <p>
+              Con cada partida, sentirás la emoción de un duelo en la Grieta del
+              Invocador, donde solo los movimientos más astutos te llevarán a la
+              victoria. ¿Tienes lo que se necesita para dominar el tablero?
+              ¡Descubre si tu estrategia es digna de un maestro en este desafío
+              para un solo jugador!
+            </p>
+            <ul class="info-game">
+              <li>
+                Página oficial:
+                <a href="https://www.leagueoflegends.com/es-mx/"
+                  >https://www.leagueoflegends.com/es-mx/</a
+                >
+              </li>
+              <li>
+                Soporte:
+                <a
+                  href="https://support-leagueoflegends.riotgames.com/hc/es-419"
+                  >https://support-leagueoflegends.riotgames.com/hc/es-419</a
+                >
+              </li>
+            </ul>
+            <img class="media-game-info" src="../assets/images/Game.png" alt="Peg Solitaire de League of Legends" />
+            <iframe 
+              class="media-game-info"
+              height="350" 
+              src="https://www.youtube.com/embed/2VuQ76RhKG0?start=80" 
+              title="EL VIDEO MAS EPICO DE BARBAKAHN || Los Bronzas en LAS II#16 II S6 II" 
+              frameborder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+              allowfullscreen>
+            </iframe>
+          </section>
+          <section class="manual-game">
+            <div class="manual-game-container">
+              <h5>Manual de juego</h5>
+              <h6>Objetivo:</h6>
+              <p>
+                El objetivo final es terminar la partida con un solo campeón en el
+                tablero.
+              </p>
+              <h6>Preparación:</h6>
+              <p>
+                Coloca a todos los campeones en el tablero, dejando un solo
+                espacio vacío en el centro.
+              </p>
+              <h6>Como jugar:</h6>
+              <ul class="how-to-play">
+                <li>
+                  Mueve un campeón saltando sobre otro (de forma horizontal o
+                  vertical) hacia un espacio vacío inmediatamente después.
+                </li>
+                <li>El campeón que ha sido saltado se retira del tablero.</li>
+              </ul>
+              <h6>Victoria:</h6>
+              <p>
+                Continúa moviendo y retirando campeones hasta que solo te quede
+                uno.
+              </p>
+              <br />
+              <p>¡Tu estrategia es digna de la Grieta del Invocador!</p>
+            </div>
+            <div class="tutorial-game">
+              <h5>Tutorial</h5>
+              <iframe
+                class="media-game-info"
+                height="450"
+                src="https://www.youtube.com/embed/LjLKNGQK0Tg?start=80" 
+                title="Como jugar al League of Legends 2025 - Guía para empezar de cero." 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+              </iframe>
+            </div>
+          </section>
+        </section>
+        <section class="container-comments-games">
+          <section class="comments-game">
+            <div class="add-comment">
+              <h5>Deja tu comentario!!</h5>
+              <h4>Comentario</h4>
+              <form class="comment-form" action="">
+                <textarea name="comentario" id="comment" placeholder="Escribe tu comentario aquí..."></textarea>
+                <div class="btns-form">
+                  <button class="btn-cancel">Cancelar</button>
+                  <button class="btn-comment">Comentar</button>
+                </div>
+              </form>
+            </div>
+            <div class="comments">
+              <h5>Comentarios</h5>
+              <div class="container-comment">
+                <div class="header-comment">
+                  <p class="username">@Graffigna</p>
+                  <p class="date">14 de Julio 2024</p>
+                </div>
+                <p class="text-comment">
+                  Esta re roto el yasuo, metanle un nerfeo a la E que te pega con la silla de ruedas, y el hermano esta igual de roto, media pila con el balance de esos champs loco!!!!!.
+                  <span class="favorite-comment material-symbols-outlined">favorite</span>
+                </p>
+              </div>
+              <div class="container-comment">
+                <div class="header-comment">
+                  <p class="username">@Barbakhan</p>
+                  <p class="date">12 de Septiembre 2024</p>
+                </div>
+                <p class="text-comment">
+                  Me gano un pendejo de 12 años con garen, no puede ser que el champ sea tan facil como para que me gane un nene dale!!
+                  <span class="favorite-comment material-symbols-outlined">favorite</span>
+                </p>
+              </div>
+              <div class="container-comment">
+                <div class="header-comment">
+                  <p class="username">@Luchito777rex</p>
+                  <p class="date">12 de Septiembre 2024</p>
+                </div>
+                <p class="text-comment">
+                  Buenisimo el juego, la verdad mucha variedad de personajes y cada uno con sus mecanicas, muy entretenido, la comunidad esta un poco descontrolada pero bueno.
+                  <span class="favorite-comment  material-symbols-outlined">favorite</span>
+                </p>
+              </div>
+              <div class="container-comment">
+                <div class="header-comment">
+                  <p class="username">@Alvaro845</p>
+                  <p class="date">6 de Agosto 2025</p>
+                </div>
+                <p class="text-comment">
+                  Sería genial tener más campeones para elegir como piezas.
+                  <span class="favorite-comment  material-symbols-outlined">favorite</span>
+                </p>
+              </div>
+              <div class="container-comment">
+                <div class="header-comment">
+                  <p class="username">@Coscu</p>
+                  <p class="date">7 de Octubre 2024</p>
+                </div>
+                <p class="text-comment">
+                  Casi me da un ACV de la bronca que me dio jugar a este juego y los inutiles que me tocan de equipo. (me va a dar un ACV si no apruebo la materia tmb)
+                  <span class="favorite-comment  material-symbols-outlined">favorite</span>
+                </p>
+              </div>
+              <div class="container-comment">
+                <div class="header-comment">
+                  <p class="username">@Gemini</p>
+                  <p class="date">15 de Septiembre 2025</p>
+                </div>
+                <p class="text-comment">
+                  "Pensé que era una tontería, pero es brutal"  
+                  Cuando vi este juego por primera vez, me reí. 
+                  ¿Un Peg Solitaire de LoL? Suena a algo que compraría un fanático para tenerlo de adorno.
+                  Pero me animé a probarlo y, la verdad, me ha sorprendido para bien
+                  ...
+                  <span class="favorite-comment  material-symbols-outlined">favorite</span>
+                </p>
+              </div>
+              <div class="container-comment">
+                <div class="header-comment">
+                  <p class="username">@faker</p>
+                  <p class="date">18 de Enero 2025</p>
+                </div>
+                <p class="text-comment">
+                  처음엔 그냥 장식용인 줄 알았는데, 생각보다 훨씬 재밌네요! 챔피언 피규어 퀄리티도 정말 좋고, 전략적으로 생각하게 만드는 게 LoL이랑 비슷해서 좋아요. LoL 팬이라면 무조건 사야 합니다!
+                  <span class="favorite-comment  material-symbols-outlined">favorite</span>
+                </p>
+              </div>
+            </div>
+          </section>
+          <section class="similar-games">
+            <h5>Juegos similares</h5>
+            <div class="container-similar-games">
+              <div class="card">
+                <img src="../assets/images/RunningGame.png" 
+                    alt="Peg Solitaire" 
+                    class="card-image">
+                <div class="card-content">
+                    <div class="card-header">
+                        <h2 class="card-title">Peg Solitaire</h2>
+                        <span class="material-symbols-outlined star-card">star</span>
+                    </div>
+                    <div class="card-price">$5000</div>
+                </div>
+              </div>
+              <div class="card">
+                <img src="../assets/images/RunningGame.png" 
+                    alt="Peg Solitaire" 
+                    class="card-image">
+                <div class="card-content">
+                    <div class="card-header">
+                        <h2 class="card-title">Peg Solitaire</h2>
+                        <span class="material-symbols-outlined star-card">star</span>
+                    </div>
+                    <div class="card-price">$5000</div>
+                </div>
+              </div>
+              <div class="card">
+                <img src="../assets/images/RunningGame.png" 
+                    alt="Peg Solitaire" 
+                    class="card-image">
+                <div class="card-content">
+                    <div class="card-header">
+                        <h2 class="card-title">Peg Solitaire</h2>
+                        <span class="material-symbols-outlined star-card">star</span>
+                    </div>
+                    <div class="card-price">$5000</div>
+                </div>
+              </div>
+              <div class="card">
+                <img src="../assets/images/RunningGame.png" 
+                    alt="Peg Solitaire" 
+                    class="card-image">
+                <div class="card-content">
+                    <div class="card-header">
+                        <h2 class="card-title">Peg Solitaire</h2>
+                        <span class="material-symbols-outlined star-card">star</span>
+                    </div>
+                    <div class="card-price">$5000</div>
+                </div>
+              </div>
+              <div class="card">
+                <img src="../assets/images/RunningGame.png" 
+                    alt="Peg Solitaire" 
+                    class="card-image">
+                <div class="card-content">
+                    <div class="card-header">
+                        <h2 class="card-title">Peg Solitaire</h2>
+                        <span class="material-symbols-outlined star-card">star</span>
+                    </div>
+                    <div class="card-price">$5000</div>
+                </div>
+              </div>
+              <div class="card">
+                <img src="../assets/images/RunningGame.png" 
+                    alt="Peg Solitaire" 
+                    class="card-image">
+                <div class="card-content">
+                    <div class="card-header">
+                        <h2 class="card-title">Peg Solitaire</h2>
+                        <span class="material-symbols-outlined star-card">star</span>
+                    </div>
+                    <div class="card-price">$5000</div>
+                </div>
+              </div>
+              <div class="card">
+                <img src="../assets/images/RunningGame.png" 
+                    alt="Peg Solitaire" 
+                    class="card-image">
+                <div class="card-content">
+                    <div class="card-header">
+                        <h2 class="card-title">Peg Solitaire</h2>
+                        <span class="material-symbols-outlined star-card">star</span>
+                    </div>
+                    <div class="card-price">$5000</div>
+                </div>
+              </div>
+              <div class="card">
+                <img src="../assets/images/RunningGame.png" 
+                    alt="Peg Solitaire" 
+                    class="card-image">
+                <div class="card-content">
+                    <div class="card-header">
+                        <h2 class="card-title">Peg Solitaire</h2>
+                        <span class="material-symbols-outlined star-card">star</span>
+                    </div>
+                    <div class="card-price">$5000</div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
+      </article>
+      <footer>
+        <!-- Footer Content -->
+        <div class="footer-content">
+          <!-- Sobre nosotros -->
+          <section class="footer-section">
+            <h4>Sobre nosotros</h4>
+            <ul>
+              <li><a href="#">Equipo de desarrollo</a></li>
+              <li><a href="#">Noticias y actualizaciones</a></li>
+              <li><a href="#">Blog de gaming</a></li>
+              <li><a href="#">Prensa y medios</a></li>
+            </ul>
+          </section>
+
+          <!-- Comunidad -->
+          <section class="footer-section">
+            <h4>Comunidad</h4>
+            <ul>
+              <li><a href="#">Foros de jugadores</a></li>
+              <li><a href="#">Rankings y tablas</a></li>
+              <li><a href="#">Torneos activos</a></li>
+              <li><a href="#">Discord oficial</a></li>
+              <li><a href="#">Streamers asociados</a></li>
+            </ul>
+          </section>
+
+          <!-- Soporte y Ayuda -->
+          <section class="footer-section">
+            <h4>Soporte y Ayuda</h4>
+            <ul>
+              <li><a href="#">Centro de ayuda / FAQ</a></li>
+              <li><a href="#">Guías de juego</a></li>
+              <li><a href="#">Soporte técnico</a></li>
+              <li><a href="#">Reportar problemas</a></li>
+              <li><a href="#">Contacto</a></li>
+            </ul>
+          </section>
+
+          <!-- Legal -->
+          <section class="footer-section">
+            <h4>Legal</h4>
+            <ul>
+              <li><a href="#">Términos de servicio</a></li>
+              <li><a href="#">Política de privacidad</a></li>
+              <li><a href="#">Política de cookies</a></li>
+              <li><a href="#">Reglas de la comunidad</a></li>
+              <li><a href="#">Límites de edad</a></li>
+            </ul>
+          </section>
+
+          <!-- Noticias -->
+          <section class="footer-section">
+            <h4>Noticias</h4>
+            <ul>
+              <li><a href="#">Lanzamientos recientes</a></li>
+              <li><a href="#">Actualizaciones de juegos</a></li>
+              <li><a href="#">Eventos y torneos</a></li>
+              <li><a href="#">Noticias de la industria</a></li>
+              <li><a href="#">Mantenimientos programados</a></li>
+            </ul>
+          </section>
+        </div>
+
+        <!-- Redes sociales -->
+        <div class="social-icons">
           <i class="fa-brands fa-facebook"></i>
           <i class="fa-brands fa-instagram"></i>
           <i class="fa-brands fa-x-twitter"></i>
-          <span class="material-symbols-outlined">alternate_email</span>
-        </section>
+        </div>
 
-        <section>
-          <h3>Peg Solitaire de League of Legends</h3>
-          <p>
-            Peg Solitaire de League of Legends: Un Desafío Estratégico en
-            Runaterra ¡Pon a prueba tu intelecto y estrategia con el Peg
-            Solitaire de League of Legends! En este clásico juego de mesa, los
-            campeones de Runaterra se convierten en tus piezas, y cada
-            movimiento cuenta. Salta sobre tus rivales para eliminarlos del
-            tablero y sé el último campeón en pie.
-          </p>
-          <p>
-            Diseñado con una estética única, el tablero representa un mapa
-            detallado de Runaterra, mientras que las piezas son figuras en
-            miniatura de tus campeones favoritos, como Garen, Ashe y Jinx.
-          </p>
-          <p>
-            Con cada partida, sentirás la emoción de un duelo en la Grieta del
-            Invocador, donde solo los movimientos más astutos te llevarán a la
-            victoria. ¿Tienes lo que se necesita para dominar el tablero?
-            ¡Descubre si tu estrategia es digna de un maestro en este desafío
-            para un solo jugador!
-          </p>
-          <ul>
-            <li>Página oficial: 
-              <a href="https://www.leagueoflegends.com/es-mx/">https://www.leagueoflegends.com/es-mx/</a></li>
-            <li>
-              Soporte: <a href="https://support-leagueoflegends.riotgames.com/hc/es-419">https://support-leagueoflegends.riotgames.com/hc/es-419</a>
-            </li>
-          </ul>
-
-          <img src="" alt="">
-          <video></video>
-        </section>
-        <section>
-          <h5>Manuel de juego</h5>
-          <p>Objetivo: El objetivo final es terminar la partida con un solo campeón en el tablero.</p>
-          <p>Preparación: Coloca a todos los campeones en el tablero, dejando un solo espacio vacío en el centro.</p>
-          <p>Cómo Jugar:  
-            <ul>
-              <li>Mueve un campeón saltando sobre otro (de forma horizontal o vertical) hacia un espacio vacío inmediatamente después.</li>
-              <li>El campeón que ha sido saltado se retira del tablero. </li>
-            </ul>
-          </p>
-          <p>Victoria: Continúa moviendo y retirando campeones hasta que solo te quede uno.</p>
-          <p>¡Tu estrategia es digna de la Grieta del Invocador!</p>
-        </section>
-        <section>
-          <h5>Tutorial</h5>
-          <video></video>
-        </section>
-
-        <section>
-          <div>
-            <h5>Deja tu comentario!!</h5>
-            <form action="">
-
-            </form>
-          </div>
-          <div>
-            <span class="material-symbols-outlined">favorite</span>
-            <h5>Comentarios</h5>
-            <div>
-              <p>Usuario1</p>
-              <p>¡Me encanta este juego! Es un gran desafío estratégico.</p>
-            </div>
-            <div>
-              <p>Usuario2</p>
-              <p>Los gráficos son impresionantes y los campeones están muy bien representados.</p>
-            </div>
-            <div>
-              <p>Usuario3</p>
-              <p>Sería genial tener más campeones para elegir como piezas.</p>
-            </div>
-          </div>
-        </section>
-
-        <section>
-          <h5>Juegos similares</h5>
-          <!-- Tarjetas de juegos similares -->
-        </section>
-      </article>
-
-      <footer></footer>
+        <!-- Copyright -->
+        <p>© 2025 Quantum Arcade. Todos los derechos reservados.</p>
+      </footer>
     </main>
   </body>
 </html>
