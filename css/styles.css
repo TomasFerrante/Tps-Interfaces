@@ -884,6 +884,14 @@ header .material-symbols-outlined:hover {
       rotateY(calc(var(--i) * 60deg))
       translateZ(280px);
   }
+
+  .logo-header {
+    display: none;
+  }
+
+  .search-container {
+    margin-right: 0;
+  }
 }
 
 /* //////////////////////////// FOOTER ///////////////////////// */
