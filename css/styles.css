@@ -1575,7 +1575,7 @@ footer p {
 
   .carousel-item {
     width: 320px;
-    height: 240px;
+    height: 220px;
     transform: 
       translate(-50%, -50%)
       rotateY(calc(var(--i) * 60deg))
