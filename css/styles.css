@@ -1416,6 +1416,12 @@ footer p {
     display: block;
   }
 
+  .menu-logo-container{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  }
+
   .search-container {
     max-width: 500px;
   }
@@ -1601,6 +1607,12 @@ footer p {
             scale(1.15);
         cursor: pointer;
    }
+   
+   .menu-logo-container{
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
 }
 
 /*////////////////////////////////////////////////////////////////////////////////////////
