@@ -43,6 +43,8 @@
   --Green80: #03ad5680;
   --Green90: #03ad5690;
   --Green: #03ad56;
+  --Red: #e74c3c;
+  --Blue: #3498db;
   --Gris: #a6a6a6;
   --Orange10: #f250221a;
   --Orange20: #f25022cc;
@@ -107,6 +109,56 @@
   --White: #e2e0e0;
 }
 
+/*////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////SCROLLBAR PERSONALIZADO//////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////*/
+
+/* Scrollbar para navegadores Webkit (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--Background);
+  border-radius: 10px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--Green) 0%, var(--Purple) 50%, var(--SecondaryLight) 100%);
+  border-radius: 10px;
+  border: 2px solid var(--Background);
+  box-shadow: 0 0 10px var(--Green30);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--SecondaryLight) 0%, var(--Green) 50%, var(--Purple) 100%);
+  box-shadow: 0 0 15px var(--Green50), 0 0 25px var(--Green30);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: var(--Green);
+  box-shadow: 0 0 20px var(--Green), 0 0 40px var(--Green50);
+}
+
+/* Esquinas del scrollbar */
+::-webkit-scrollbar-corner {
+  background: var(--Background);
+}
+
+/* Scrollbar para Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--Green) var(--Background);
+}
+
+/* Estilo adicional para Firefox */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--Green) var(--Background);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -129,8 +181,8 @@ html, body {
 .carousel-container {
     width: 100%;
     max-width: 100%;
-    padding: 40px 20px;
-    overflow: hidden;
+    padding: 40px 20px 40px 20px;
+    overflow: visible;
 }
 
 .title {
@@ -147,12 +199,12 @@ html, body {
 .carousel-wrapper {
     perspective: 1200px;
     width: 100%;
-    height: 400px;
+    height: 450px;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
-    
+    overflow: visible;
+
 }
 
 .carousel {
@@ -178,8 +230,8 @@ html, body {
     border-radius: 12px;
     overflow: hidden;
     box-shadow:
-        0 15px 40px rgba(0, 0, 0, 0.5),
-        inset 0 0 15px rgba(255, 255, 255, 0.1);
+        0 8px 20px rgba(0, 0, 0, 0.4),
+        inset 0 0 10px rgba(255, 255, 255, 0.1);
 }
 
 .carousel-item::before {
@@ -377,6 +429,108 @@ form {
 
 .helper-text {
   font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  transition: all 0.3s ease;
+}
+
+.helper-text .icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+/* Estados del helper text */
+.helper-text.info {
+  color: var(--Blue);
+}
+
+.helper-text.info .icon {
+  color: var(--Blue);
+}
+
+.helper-text.success {
+  color: var(--Green);
+}
+
+.helper-text.success .icon {
+  color: var(--Green);
+}
+
+.helper-text.error {
+  color: var(--Red);
+}
+
+.helper-text.error .icon {
+  color: var(--Red);
+}
+
+.helper-text.warning {
+  color: var(--Orange);
+}
+
+.helper-text.warning .icon {
+  color: var(--Orange);
+}
+
+/* ========== CAPTCHA ========== */
+.captcha-container {
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.captcha-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, var(--Purple30) 0%, var(--Background) 100%);
+  padding: 15px;
+  border-radius: 12px;
+  border: 2px solid var(--Purple);
+  box-shadow: 0 4px 15px rgba(86, 3, 173, 0.3);
+}
+
+#captchaCanvas {
+  background: var(--PureWhite);
+  border-radius: 8px;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+  flex: 1;
+}
+
+.captcha-refresh {
+  background: var(--Green);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px var(--Green30);
+}
+
+.captcha-refresh:hover {
+  background: var(--SecondaryLight);
+  transform: rotate(180deg) scale(1.1);
+  box-shadow: 0 4px 15px var(--Green50);
+}
+
+.captcha-refresh .material-symbols-outlined {
+  color: var(--PureWhite);
+  font-size: 24px;
+}
+
+.captcha-input {
+  margin-top: 0;
+}
+
+.captcha-input label {
+  margin-bottom: 5px;
 }
 
 .input-with-icon {
@@ -390,6 +544,23 @@ form .input-with-icon input {
   outline: none;
   font-size: 15px;
   padding-right: 40px; /* espacio para el icono */
+  transition: border-color 0.3s ease;
+}
+
+/* Estados de validación del input */
+form .input-with-icon input.valid {
+  border-color: var(--Green);
+  border-width: 2px;
+}
+
+form .input-with-icon input.invalid {
+  border-color: var(--Red);
+  border-width: 2px;
+}
+
+form .input-with-icon input.warning {
+  border-color: var(--Orange);
+  border-width: 2px;
 }
 
 form .input-with-icon .icon {
@@ -496,18 +667,19 @@ figure img {
 /* Desktop - Mayor a 768px */
 @media (min-width: 769px) {
     .carousel-container {
-        padding: 40px 0;
+        padding: 40px 0 40px 0;
         width: 100%;
+        overflow: visible;
     }
-    
+
     .title {
         font-size: 3rem;
         margin-bottom: 60px;
     }
-    
+
     .carousel-wrapper {
         perspective: 1400px;
-        height: 400px;
+        height: 450px;
         overflow: visible;
         width: 100%;
     }
@@ -625,7 +797,7 @@ header input[type="search"]:focus {
 }
 
 header input[type="search"]::placeholder {
-  color: var(--White10);
+  color: var(--White60);
 }
 
 /* Iconos del header */
@@ -658,8 +830,7 @@ header .material-symbols-outlined:hover {
 .search-container .search {
   position: absolute;
   right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 20%;
   color: var(--PureWhite);
   font-size: 22px;
   cursor: pointer;
@@ -678,8 +849,9 @@ header .material-symbols-outlined:hover {
 /* //////////////////////////// CAROUSEL MOBILE ///////////////////////// */
 @media (max-width: 767px) {
   .carousel-container {
-    padding: 20px 10px;
+    padding: 20px 10px 30px 10px;
     width: 100%;
+    overflow: visible;
   }
 
   .title {
@@ -690,7 +862,7 @@ header .material-symbols-outlined:hover {
 
   .carousel-wrapper {
     perspective: 800px;
-    height: 250px;
+    height: 280px;
     overflow: visible;
     width: 100vh;
   }
@@ -958,7 +1130,7 @@ footer p {
 .game-tag {
   background-color: var(--Green);
   color: var(--PureWhite);
-  padding: 4px 12px;
+  padding: 3px 12px;
   border-radius: 8px;
   font-size: 0.85rem;
   font-weight: 600;
@@ -1039,7 +1211,7 @@ footer p {
 /* Contenedor general de la sección */
 .top-games-section {
   width: 100%;
-  padding: 40px 20px;
+  padding: 10px 20px;
 }
 
 /* Contenedor del carrusel con botones */
@@ -1142,13 +1314,26 @@ footer p {
   padding: 20px;
   background: linear-gradient(to top, rgba(16, 5, 39, 0.95) 0%, transparent 100%);
   z-index: 2;
+  min-height: 110px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .top-game-title {
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: var(--PureWhite);
   margin-bottom: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 1.4;
+  max-height: calc(1.4em * 2);
+  word-wrap: break-word;
+  word-break: break-word;
 }
 
 .top-game-rating {
@@ -1229,7 +1414,8 @@ footer p {
   }
 
   .carousel-container {
-    padding: 30px 20px;
+    padding: 30px 20px 40px 20px;
+    overflow: visible;
   }
 
   .title {
@@ -1239,8 +1425,9 @@ footer p {
 
   .carousel-wrapper {
     perspective: 1100px;
-    height: 300px;
+    height: 350px;
     width: 100vh;
+    overflow: visible;
   }
 
   .carousel {
@@ -1304,9 +1491,9 @@ footer p {
   }
 
   .carousel-container {
-    padding-top: 10px;
+    padding: 10px 0 40px 0;
     width: 100%;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .title {
@@ -1316,8 +1503,9 @@ footer p {
 
   .carousel-wrapper {
     perspective: 1400px;
-    height: 340px;
+    height: 400px;
     width: 150vh;
+    overflow: visible;
   }
 
   .carousel {
@@ -1368,15 +1556,16 @@ footer p {
 
 @media (min-width: 1440px) {
   .carousel-container {
-    padding: 20px 0;
+    padding: 20px 0 50px 0;
     width: 100%;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .carousel-wrapper {
-    height: 380px;
+    height: 450px;
     width: 180vh;
     perspective: 1600px;
+    overflow: visible;
   }
 
   .carousel {
@@ -1438,7 +1627,8 @@ footer p {
   width: 100%;
   display: flex;
   justify-content: flex-start;
-  margin-bottom: 10px;
+  margin-top: 25px;
+  margin-bottom: 15px;
 }
 
 .breadcrumb a {
@@ -1489,8 +1679,15 @@ footer p {
 }
 
 .menu-game .material-symbols-outlined.star {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  color: var(--PureWhite);
+  transition: all 0.3s ease;
+}
+
+.menu-game .material-symbols-outlined.star.active-favorite {
   font-variation-settings: "FILL" 1, "wght" 700, "GRAD" 0, "opsz" 24;
-  color: var(--Star);
+  color: #FFD700;
+  filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.5));
 }
 
 .menu-game .material-symbols-outlined.shopping_cart {
@@ -1523,6 +1720,28 @@ footer p {
   justify-content: space-evenly;
   padding: 5px;
   opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.menu-share.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.menu-share i,
+.menu-share .material-symbols-outlined {
+  color: var(--PureWhite);
+  transition: all 0.3s ease;
+}
+
+.menu-share i:hover,
+.menu-share .material-symbols-outlined:hover {
+  color: var(--Green);
 }
 
 .media-game-info {
@@ -1712,8 +1931,29 @@ footer p {
   bottom: 10px;
   right: 10px;
   cursor: pointer;
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  color: var(--PureWhite);
+  transition: all 0.3s ease;
+  font-size: 24px;
+}
+
+.text-comment .favorite-comment:hover {
+  transform: scale(1.15);
+}
+
+.text-comment .favorite-comment.liked {
   font-variation-settings: "FILL" 1, "wght" 700, "GRAD" 0, "opsz" 24;
-  color: var(--Error);
+  color: var(--Red);
+  animation: heartBeat 0.3s ease;
+}
+
+@keyframes heartBeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
 }
 
 .header-comment {
@@ -1743,9 +1983,38 @@ footer p {
 .container-similar-games {
   display: grid;
   justify-items: center;
-  grid-template-columns: 50% 50%;
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
   margin-top: 40px;
+  padding: 0 10px;
+}
+
+/* Cards más grandes para la sección de juegos similares */
+.container-similar-games .game-card {
+  min-width: 100%;
+  height: 260px;
+}
+
+.container-similar-games .game-card-image {
+  height: 170px;
+}
+
+.container-similar-games .game-card-content {
+  height: 90px;
+  padding: 12px 15px;
+}
+
+.container-similar-games .game-card-title {
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.container-similar-games .game-price {
+  gap: 10px;
+}
+
+.container-similar-games .price-current {
+  font-size: 1.2rem;
 }
 
 .card {
@@ -1800,6 +2069,142 @@ footer p {
 /*////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////MENÚ LATERAL (SIDEBAR)//////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////*/
+
+/* ========== MENÚ DESPLEGABLE DE USUARIO ========== */
+.account-menu-container {
+  position: relative;
+}
+
+.user-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 15px);
+  right: 0;
+  width: 280px;
+  background: linear-gradient(180deg, var(--Purple) 0%, var(--DarkPurple) 50%, var(--PrimaryShadow1) 100%);
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  border: 2px solid var(--Green);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.user-dropdown-menu.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Header del menú desplegable */
+.user-dropdown-header {
+  padding: 20px;
+  border-bottom: 2px solid var(--Green30);
+  background: linear-gradient(135deg, var(--Purple80) 0%, var(--Purple50) 100%);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border-radius: 10px 10px 0 0;
+}
+
+.user-dropdown-header .user-icon {
+  font-size: 48px;
+  color: var(--Green);
+  text-shadow: 0 0 10px var(--Green30);
+}
+
+.user-info {
+  flex: 1;
+}
+
+.user-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--Green);
+  margin: 0 0 5px 0;
+  text-shadow: 0 0 5px var(--Green30);
+}
+
+.user-email {
+  font-size: 12px;
+  color: var(--PureWhite);
+  margin: 0;
+  opacity: 0.8;
+}
+
+/* Navegación del menú desplegable */
+.user-dropdown-nav {
+  list-style: none;
+  padding: 10px;
+  margin: 0;
+}
+
+.user-dropdown-nav li {
+  margin: 5px 0;
+}
+
+.user-dropdown-nav a {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 15px;
+  color: var(--PureWhite);
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-size: 15px;
+  font-weight: 500;
+  position: relative;
+  overflow: hidden;
+}
+
+.user-dropdown-nav a::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--Green30) 0%, var(--Green20) 100%);
+  transition: width 0.3s ease;
+  z-index: -1;
+}
+
+.user-dropdown-nav a:hover::before {
+  width: 100%;
+}
+
+.user-dropdown-nav a:hover {
+  color: var(--Green);
+  background: var(--Purple30);
+  transform: translateX(5px);
+  box-shadow: 0 4px 15px var(--Green20);
+}
+
+.user-dropdown-nav a .material-symbols-outlined {
+  font-size: 22px;
+  color: var(--Green);
+  transition: all 0.3s ease;
+}
+
+.user-dropdown-nav a:hover .material-symbols-outlined {
+  color: var(--SecondaryLight);
+  transform: scale(1.1) rotate(5deg);
+}
+
+/* Flecha del dropdown */
+.user-dropdown-menu::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  right: 20px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid var(--Green);
+}
 
 /* Menú lateral */
 .sidebar-menu {
@@ -1982,4 +2387,269 @@ footer p {
 
 .menu:hover {
   transform: scale(1.1) rotate(90deg);
+}
+
+/*////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////LOADING SCREEN///////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////*/
+
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, var(--Background) 0%, var(--DarkPurple) 50%, var(--PrimaryShadow1) 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 1;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.loading-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  animation: fadeInUp 0.8s ease;
+}
+
+/* Logo y título */
+.loading-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.loading-logo .arcade-icon {
+  font-size: 80px;
+  color: var(--Green);
+  text-shadow: 0 0 20px var(--Green50), 0 0 40px var(--Green30);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.loading-logo h1 {
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--Green);
+  text-shadow: 0 0 10px var(--Green30);
+  letter-spacing: 3px;
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* Spinner de anillos */
+.loading-spinner {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.spinner-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 4px solid transparent;
+}
+
+.spinner-ring:nth-child(1) {
+  width: 120px;
+  height: 120px;
+  border-top-color: var(--Green);
+  border-right-color: var(--Green);
+  animation: spin 1.5s linear infinite;
+}
+
+.spinner-ring:nth-child(2) {
+  width: 90px;
+  height: 90px;
+  border-top-color: var(--Purple);
+  border-right-color: var(--Purple);
+  animation: spin 2s linear infinite reverse;
+}
+
+.spinner-ring:nth-child(3) {
+  width: 60px;
+  height: 60px;
+  border-top-color: var(--SecondaryLight);
+  border-right-color: var(--SecondaryLight);
+  animation: spin 1s linear infinite;
+}
+
+/* Texto de carga */
+.loading-text {
+  font-size: 18px;
+  color: var(--PureWhite);
+  font-weight: 500;
+  animation: fadeInOut 2s ease-in-out infinite;
+  letter-spacing: 1px;
+}
+
+/* Porcentaje de carga */
+.loading-percentage {
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--Green);
+  text-shadow: 0 0 15px var(--Green50), 0 0 30px var(--Green30);
+  letter-spacing: 2px;
+  font-family: 'Titillium Web', monospace;
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* Barra de progreso */
+.loading-bar {
+  width: 300px;
+  height: 6px;
+  background-color: var(--Purple30);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 15px var(--Purple20);
+}
+
+.loading-progress {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--Green) 0%, var(--SecondaryLight) 50%, var(--Green) 100%);
+  border-radius: 10px;
+  animation: loadProgress 5s ease-in-out forwards;
+  box-shadow: 0 0 20px var(--Green50);
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.1);
+    filter: brightness(1.3);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    text-shadow: 0 0 10px var(--Green30), 0 0 20px var(--Green20);
+  }
+  50% {
+    text-shadow: 0 0 20px var(--Green50), 0 0 40px var(--Green30), 0 0 60px var(--Green20);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes fadeInOut {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes loadProgress {
+  0% {
+    width: 0%;
+  }
+  20% {
+    width: 25%;
+  }
+  40% {
+    width: 50%;
+  }
+  60% {
+    width: 70%;
+  }
+  80% {
+    width: 90%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+/* Responsive para loading screen */
+@media (max-width: 767px) {
+  .loading-logo .arcade-icon {
+    font-size: 60px;
+  }
+
+  .loading-logo h1 {
+    font-size: 28px;
+    letter-spacing: 2px;
+    text-align: center;
+    padding: 0 10px;
+  }
+
+  .loading-spinner {
+    width: 100px;
+    height: 100px;
+  }
+
+  .spinner-ring:nth-child(1) {
+    width: 100px;
+    height: 100px;
+  }
+
+  .spinner-ring:nth-child(2) {
+    width: 75px;
+    height: 75px;
+  }
+
+  .spinner-ring:nth-child(3) {
+    width: 50px;
+    height: 50px;
+  }
+
+  .loading-text {
+    font-size: 16px;
+    text-align: center;
+    padding: 0 10px;
+  }
+
+  .loading-percentage {
+    font-size: 38px;
+  }
+
+  .loading-bar {
+    width: 250px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .loading-logo h1 {
+    font-size: 36px;
+  }
+
+  .loading-percentage {
+    font-size: 44px;
+  }
 }

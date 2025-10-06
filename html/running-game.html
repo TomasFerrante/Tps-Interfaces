@@ -58,7 +58,23 @@
         <!-- Iconos de header -->
         <div class="header-icons">
           <span class="material-symbols-outlined cart">shopping_cart</span>
-          <span class="material-symbols-outlined account">account_circle</span>
+          <div class="account-menu-container">
+            <span class="material-symbols-outlined account">account_circle</span>
+            <!-- Menú desplegable de usuario -->
+            <div class="user-dropdown-menu">
+              <div class="user-dropdown-header">
+                <span class="material-symbols-outlined user-icon">account_circle</span>
+                <div class="user-info">
+                  <p class="user-name">@titocalderon23</p>
+                  <p class="user-email">titocalderon@gmail.com</p>
+                </div>
+              </div>
+              <ul class="user-dropdown-nav">
+                <li><a href="#"><span class="material-symbols-outlined">settings</span>Configuración</a></li>
+                <li><a href="#"><span class="material-symbols-outlined">logout</span>Cerrar Sesión</a></li>
+              </ul>
+            </div>
+          </div>
         </div>
       </header>
       
@@ -282,103 +298,8 @@
           </section>
           <section class="similar-games">
             <h5>Juegos similares</h5>
-            <div class="container-similar-games">
-              <div class="card">
-                <img src="../assets/images/RunningGame.png" 
-                    alt="Peg Solitaire" 
-                    class="card-image">
-                <div class="card-content">
-                    <div class="card-header">
-                        <h2 class="card-title">Peg Solitaire</h2>
-                        <span class="material-symbols-outlined star-card">star</span>
-                    </div>
-                    <div class="card-price">$5000</div>
-                </div>
-              </div>
-              <div class="card">
-                <img src="../assets/images/RunningGame.png" 
-                    alt="Peg Solitaire" 
-                    class="card-image">
-                <div class="card-content">
-                    <div class="card-header">
-                        <h2 class="card-title">Peg Solitaire</h2>
-                        <span class="material-symbols-outlined star-card">star</span>
-                    </div>
-                    <div class="card-price">$5000</div>
-                </div>
-              </div>
-              <div class="card">
-                <img src="../assets/images/RunningGame.png" 
-                    alt="Peg Solitaire" 
-                    class="card-image">
-                <div class="card-content">
-                    <div class="card-header">
-                        <h2 class="card-title">Peg Solitaire</h2>
-                        <span class="material-symbols-outlined star-card">star</span>
-                    </div>
-                    <div class="card-price">$5000</div>
-                </div>
-              </div>
-              <div class="card">
-                <img src="../assets/images/RunningGame.png" 
-                    alt="Peg Solitaire" 
-                    class="card-image">
-                <div class="card-content">
-                    <div class="card-header">
-                        <h2 class="card-title">Peg Solitaire</h2>
-                        <span class="material-symbols-outlined star-card">star</span>
-                    </div>
-                    <div class="card-price">$5000</div>
-                </div>
-              </div>
-              <div class="card">
-                <img src="../assets/images/RunningGame.png" 
-                    alt="Peg Solitaire" 
-                    class="card-image">
-                <div class="card-content">
-                    <div class="card-header">
-                        <h2 class="card-title">Peg Solitaire</h2>
-                        <span class="material-symbols-outlined star-card">star</span>
-                    </div>
-                    <div class="card-price">$5000</div>
-                </div>
-              </div>
-              <div class="card">
-                <img src="../assets/images/RunningGame.png" 
-                    alt="Peg Solitaire" 
-                    class="card-image">
-                <div class="card-content">
-                    <div class="card-header">
-                        <h2 class="card-title">Peg Solitaire</h2>
-                        <span class="material-symbols-outlined star-card">star</span>
-                    </div>
-                    <div class="card-price">$5000</div>
-                </div>
-              </div>
-              <div class="card">
-                <img src="../assets/images/RunningGame.png" 
-                    alt="Peg Solitaire" 
-                    class="card-image">
-                <div class="card-content">
-                    <div class="card-header">
-                        <h2 class="card-title">Peg Solitaire</h2>
-                        <span class="material-symbols-outlined star-card">star</span>
-                    </div>
-                    <div class="card-price">$5000</div>
-                </div>
-              </div>
-              <div class="card">
-                <img src="../assets/images/RunningGame.png" 
-                    alt="Peg Solitaire" 
-                    class="card-image">
-                <div class="card-content">
-                    <div class="card-header">
-                        <h2 class="card-title">Peg Solitaire</h2>
-                        <span class="material-symbols-outlined star-card">star</span>
-                    </div>
-                    <div class="card-price">$5000</div>
-                </div>
-              </div>
+            <div class="container-similar-games" id="similar-games-container">
+              <!-- Las tarjetas de juegos similares se cargarán dinámicamente desde la API -->
             </div>
           </section>
         </section>
@@ -459,6 +380,8 @@
     </main>
 
     <!-- JavaScript -->
-    <script src="../js/sidebarMenu.js" defer></script>
+    <script src="../js/sharedUI.js" defer></script>
+    <script src="../js/similarGames.js" defer></script>
+    <script src="../js/gameInteractions.js" defer></script>
   </body>
 </html>

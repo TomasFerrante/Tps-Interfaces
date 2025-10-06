@@ -61,10 +61,10 @@
             <label for="password">Contraseña *</label>
             <div class="input-with-icon">
               <span class="icon material-symbols-outlined">lock</span>
-              <input type="password" placeholder="********" required />
+              <input id="password" type="password" placeholder="********" required />
               <span class="material-symbols-outlined icon toggle-password">visibility</span>
               <span class="material-symbols-outlined icon toggle-password">visibility_off</span>
-            </div> 
+            </div>
             <p class="helper-text">Helper text</p>
           </div>
 
@@ -79,7 +79,24 @@
               <p class="helper-text">Helper text</p>
           </div>
 
-          <!-- Imagen de captcha? -->
+          <!-- Captcha -->
+          <div class="captcha-container">
+            <div class="captcha-box">
+              <canvas id="captchaCanvas" width="200" height="60"></canvas>
+              <button type="button" class="captcha-refresh" id="refreshCaptcha">
+                <span class="material-symbols-outlined">refresh</span>
+              </button>
+            </div>
+            <div class="container-input captcha-input">
+              <label for="captcha-input">Ingresa el código *</label>
+              <div class="input-with-icon">
+                <span class="icon material-symbols-outlined">security</span>
+                <input id="captcha-input" type="text" placeholder="Código del captcha" required autocomplete="off" />
+              </div>
+              <p class="helper-text captcha-helper">Helper text</p>
+            </div>
+          </div>
+
           <button class="btn-signup" type="submit"><span>Registrarse</span></button>
         </form>
 
@@ -95,6 +112,6 @@
       </section>
     </main>
   <script src="./js/main.js" defer></script>
-  <script src="./js/signupForm.js" defer></script>
+  <script src="./js/authForms.js" defer></script>
   </body>
 </html>

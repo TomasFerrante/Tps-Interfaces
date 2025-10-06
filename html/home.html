@@ -18,6 +18,28 @@
   <script src="https://kit.fontawesome.com/dc94cdf766.js" crossorigin="anonymous"></script>
 </head>
 <body class="home-body">
+  <!-- LOADING SCREEN -->
+  <div class="loading-screen">
+    <div class="loading-content">
+      <div class="loading-logo">
+        <span class="material-symbols-outlined arcade-icon">sports_esports</span>
+        <h1>QUANTUM ARCADE</h1>
+      </div>
+      <div class="loading-spinner">
+        <div class="spinner-ring"></div>
+        <div class="spinner-ring"></div>
+        <div class="spinner-ring"></div>
+      </div>
+      <p class="loading-text">Cargando experiencia de juego...</p>
+      <div class="loading-percentage">
+        <span id="loadingPercent">0</span>%
+      </div>
+      <div class="loading-bar">
+        <div class="loading-progress"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- MENÚ LATERAL -->
   <nav class="sidebar-menu">
     <div class="sidebar-header">
@@ -64,7 +86,23 @@
       <!-- Iconos de header -->
       <div class="header-icons">
         <span class="material-symbols-outlined cart">shopping_cart</span>
-        <span class="material-symbols-outlined account">account_circle</span>
+        <div class="account-menu-container">
+          <span class="material-symbols-outlined account">account_circle</span>
+          <!-- Menú desplegable de usuario -->
+          <div class="user-dropdown-menu">
+            <div class="user-dropdown-header">
+              <span class="material-symbols-outlined user-icon">account_circle</span>
+              <div class="user-info">
+                <p class="user-name">@titocalderon23</p>
+                <p class="user-email">titocalderon@gmail.com</p>
+              </div>
+            </div>
+            <ul class="user-dropdown-nav">
+              <li><a href="#"><span class="material-symbols-outlined">settings</span>Configuración</a></li>
+              <li><a href="./login.html"><span class="material-symbols-outlined">logout</span>Cerrar Sesión</a></li>
+            </ul>
+          </div>
+        </div>
       </div>
     </header>
 
@@ -82,7 +120,7 @@
 
     <!-- TOP WISHLISTED CAROUSEL SECTION -->
     <section class="top-games-section">
-      <h2 class="section-title">Más Jugados</h2>
+      <h2 class="section-title">Mejores Rankeados</h2>
       <div class="top-carousel-container">
         <button class="carousel-btn prev-btn-top">
           <span class="material-symbols-outlined">chevron_left</span>
@@ -221,10 +259,9 @@
   </main>
 
   <!-- JavaScript -->
+  <script src="../js/loadingScreen.js"></script>
   <script src="../js/main.js" defer></script>
-  <script src="../js/carousel3D.js" defer></script>
-  <script src="../js/topGamesCarousel.js" defer></script>
-  <script src="../js/genreCarousel.js" defer></script>
-  <script src="../js/sidebarMenu.js" defer></script>
+  <script src="../js/homeCarousels.js" defer></script>
+  <script src="../js/sharedUI.js" defer></script>
 </body>
 </html>
