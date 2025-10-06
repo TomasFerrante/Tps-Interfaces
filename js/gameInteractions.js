@@ -33,11 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isFavorite) {
       element.textContent = 'star';
       element.classList.add('active-favorite');
-      element.style.color = '#FFD700'; // Dorado
     } else {
       element.textContent = 'star_border';
       element.classList.remove('active-favorite');
-      element.style.color = ''; // Color por defecto
     }
   }
 

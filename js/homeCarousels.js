@@ -144,8 +144,8 @@ async function loadTopGamesCarousel() {
         if (topGames.length > 2) {
             topGames[2] = {
                 name: 'Peg Solitaire - League of Legends',
-                background_image: '../assets/images/RunningGame.png',
-                background_image_low_res: '../assets/images/RunningGame.png',
+                background_image: '../assets/images/RunningGame.jpg',
+                background_image_low_res: '../assets/images/RunningGame.jpg',
                 rating: topGames[2].rating,
                 isPegSolitaire: true
             };
@@ -317,7 +317,7 @@ function createGameCard(game, index) {
     gameCard.innerHTML = `
         <div class="game-card-image">
             <span class="material-symbols-outlined favorite-icon" data-id="${game.id}">
-                ${index % 4 === 0 ? 'star' : 'star_border'}
+                star
             </span>
             <img src="${game.background_image_low_res || game.background_image || 'https://via.placeholder.com/220x130'}"
                  alt="${game.name}"
@@ -347,13 +347,7 @@ function setupFavoriteIcons(container) {
     favoriteIcons.forEach(icon => {
         icon.addEventListener('click', (e) => {
             e.stopPropagation();
-            if (icon.textContent.trim() === 'star_border') {
-                icon.textContent = 'star';
-                icon.classList.add('active');
-            } else {
-                icon.textContent = 'star_border';
-                icon.classList.remove('active');
-            }
+            icon.classList.toggle('active');
         });
     });
 }

@@ -306,7 +306,7 @@ html, body {
 }
 
 .material-symbols-outlined {
-  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
 }
 
 main {
@@ -771,12 +771,15 @@ header {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-.logo {
-  display: none;
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--Green);
-  white-space: nowrap;
+.logo-header {
+  height: 25px;
+  width: auto;
+}
+
+.menu-logo-container{
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 /* Barra de búsqueda */
@@ -820,6 +823,7 @@ header .material-symbols-outlined:hover {
   display: inline-block;
   flex: 1;
   max-width: 400px;
+  margin-right: 180px;
 }
 
 .search-container input[type="search"] {
@@ -830,7 +834,7 @@ header .material-symbols-outlined:hover {
 .search-container .search {
   position: absolute;
   right: 12px;
-  top: 20%;
+  top: 22%;
   color: var(--PureWhite);
   font-size: 22px;
   cursor: pointer;
@@ -961,7 +965,7 @@ footer p {
 /* Contenedor general de la sección */
 .games-section {
   width: 100%;
-  padding: 40px 20px;
+  padding: 20px 20px;
 }
 
 .section-title {
@@ -1035,8 +1039,8 @@ footer p {
 /* Tarjeta de juego */
 .game-card {
   position: relative;
-  min-width: calc((100% - 100px) / 4.3);
-  height: 200px;
+  width: 260px; /* Tamaño fijo (ajustá según tu diseño) */
+  height: 200px; /* Altura fija total */
   border-radius: 16px;
   overflow: hidden;
   cursor: pointer;
@@ -1053,7 +1057,7 @@ footer p {
 /* Contenedor de imagen */
 .game-card-image {
   width: 100%;
-  height: 130px;
+  height: 60%; /* Parte superior ocupa 60% de la tarjeta */
   overflow: hidden;
 }
 
@@ -1070,95 +1074,94 @@ footer p {
   filter: brightness(1.1);
 }
 
-/* Contenido de la tarjeta (parte blanca inferior) */
+/* Contenido inferior */
 .game-card-content {
-  position: relative;
   background-color: var(--PureWhite);
   padding: 10px 12px;
-  height: 70px;
+  height: 40%; /* Fijo en 40% de la altura total */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow: hidden; /* Evita que el texto empuje el tamaño */
 }
 
 .game-card-title {
   font-size: 0.9rem;
   font-weight: 700;
   color: var(--Black);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  line-height: 1.2;
+  max-height: 1.2em; /* Impide saltos de línea */
 }
 
+/* Info inferior */
 .game-card-info {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 8px;
 }
 
-/* Sección de precios */
+/* Precios */
 .game-price {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .price-original {
   color: var(--Black70);
   text-decoration: line-through;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .price-current {
   color: var(--Orange);
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .price-discount {
   background-color: var(--Orange);
   color: var(--PureWhite);
-  padding: 2px 8px;
+  padding: 2px 6px;
   border-radius: 4px;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   font-weight: 600;
 }
 
 .game-tag {
   background-color: var(--Green);
   color: var(--PureWhite);
-  padding: 3px 12px;
+  padding: 3px 10px;
   border-radius: 8px;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 600;
 }
 
-/* Icono de favorito (estrella) */
+/* Icono de favorito */
 .favorite-icon {
   position: absolute;
   bottom: 15px;
   right: 15px;
   color: var(--Black);
-  font-size: 28px;
+  font-size: 24px;
   cursor: pointer;
   transition: all 0.3s ease;
   z-index: 2;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
-  -webkit-text-fill-color: var(--Black);
 }
 
 .favorite-icon:hover {
   color: var(--Star);
-  -webkit-text-fill-color: var(--Star);
   transform: scale(1.2);
 }
 
 .favorite-icon.active {
   color: var(--Star);
-  -webkit-text-fill-color: var(--Star);
 }
 
 /* Botones de navegación del carrusel (ocultos en mobile) */
@@ -1679,7 +1682,7 @@ footer p {
 }
 
 .menu-game .material-symbols-outlined.star {
-  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
   color: var(--PureWhite);
   transition: all 0.3s ease;
 }
@@ -1721,16 +1724,15 @@ footer p {
   padding: 5px;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-10px);
+  transform: translate(576px, -10px);
   transition: all 0.3s ease;
-  border-radius: 8px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .menu-share.active {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0);
+  transform: translate(576.7px)
 }
 
 .menu-share i,
