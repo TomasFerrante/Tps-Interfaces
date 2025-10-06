@@ -72,7 +72,7 @@ function createTopGameCard(game, index) {
     if (game.isPegSolitaire) {
         topGameCard.style.cursor = 'pointer';
         topGameCard.addEventListener('click', () => {
-            window.location.href = '/html/running-game.html';
+            window.location.href = './html/running-game.html';
         });
     }
 

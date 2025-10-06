@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Esperar a que termine la animación (600ms según el CSS transition)
       setTimeout(() => {
-        window.location.href = '../html/home.html';
+        window.location.href = './html/home.html';
       }, 600);
     });
   }
