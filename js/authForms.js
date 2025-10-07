@@ -1,8 +1,35 @@
 // ==================== FORMULARIOS DE AUTENTICACIÓN ====================
-// Módulo consolidado que maneja la validación y el captcha para:
-// - Formulario de registro (index.html)
-// - Formulario de login (login.html)
-// - Sistema de captcha visual
+// FUNCIONALIDAD:
+// - Validación en tiempo real de formularios de registro y login
+// - Sistema de captcha visual con ruido aleatorio
+// - Validación de nombre, nickname, edad, email, contraseña
+// - Feedback visual inmediato con iconos y colores
+// - Toggle de visibilidad de contraseña
+// - Redirección automática tras validación exitosa
+
+// VARIABLES CRÍTICAS Y SU IMPACTO:
+
+// VALIDADORES:
+// - Nombre mínimo (línea 36): 3 caracteres - MODIFICAR para cambiar longitud mínima
+// - Nickname mínimo (línea 49): 3 caracteres - MODIFICAR para cambiar longitud mínima
+// - Edad mínima (línea 63): 13 años - MODIFICAR para cambiar restricción de edad
+// - Edad máxima (línea 66): 110 años - MODIFICAR para cambiar límite superior
+// - Contraseña mínima (línea 88): 8 caracteres - MODIFICAR para cambiar seguridad
+// - Regex nombre (línea 39): /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/ - Solo letras y espacios
+// - Regex nickname (línea 52): /^[a-zA-Z0-9_]+$/ - Letras, números y guiones bajos
+// - Regex email (línea 76): Formato estándar de email
+
+// CAPTCHA:
+// - Longitud código (línea 124): 6 caracteres - MODIFICAR para hacer captcha más largo/corto
+// - Caracteres permitidos (línea 122): Excluye I, O, l, 0, 1 para evitar confusión
+// - Líneas de ruido (línea 147): 5 líneas - MODIFICAR para más/menos distracción
+// - Puntos de ruido (línea 157): 30 puntos - MODIFICAR para más/menos ruido
+// - Tamaño fuente (línea 171): 28px - MODIFICAR para hacer texto más grande/pequeño
+
+// REDIRECCIONES:
+// - Registro exitoso (línea 382): './html/home.html' - MODIFICAR para cambiar destino
+// - Login exitoso (línea 475): './home.html' - MODIFICAR para cambiar destino
+// - Delay redirección (líneas 382, 475): 600ms - MODIFICAR para cambiar tiempo de espera
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -33,9 +60,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if (value.length === 0) {
         return { valid: null, message: 'Ingresa tu nombre completo' };
       }
+      // MODIFICAR 3 para cambiar longitud mínima del nombre
       if (value.length < 3) {
         return { valid: false, message: 'El nombre debe tener al menos 3 caracteres' };
       }
+      // MODIFICAR regex para cambiar caracteres permitidos (actualmente: letras y espacios con acentos)
       if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(value)) {
         return { valid: false, message: 'El nombre solo puede contener letras' };
       }
@@ -46,9 +75,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if (value.length === 0) {
         return { valid: null, message: 'Ingresa tu nickname (opcional)' };
       }
+      // MODIFICAR 3 para cambiar longitud mínima del nickname
       if (value.length < 3) {
         return { valid: false, message: 'El nickname debe tener al menos 3 caracteres' };
       }
+      // MODIFICAR regex para cambiar caracteres permitidos (actualmente: letras, números, guiones bajos)
       if (!/^[a-zA-Z0-9_]+$/.test(value)) {
         return { valid: false, message: 'Solo letras, números y guiones bajos' };
       }
@@ -60,9 +91,11 @@ document.addEventListener('DOMContentLoaded', () => {
         return { valid: null, message: 'Ingresa tu edad' };
       }
       const age = parseInt(value);
+      // MODIFICAR 13 para cambiar edad mínima permitida
       if (isNaN(age) || age < 13) {
         return { valid: false, message: 'Debes tener al menos 13 años' };
       }
+      // MODIFICAR 110 para cambiar edad máxima permitida
       if (age > 110) {
         return { valid: false, message: 'Edad no válida' };
       }
@@ -73,6 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (value.length === 0) {
         return { valid: null, message: 'Ingresa un email válido' };
       }
+      // MODIFICAR regex para cambiar formato de email aceptado (actualmente: formato estándar)
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(value)) {
         return { valid: false, message: 'Email inválido' };
@@ -85,12 +119,15 @@ document.addEventListener('DOMContentLoaded', () => {
         return { valid: null, message: isLogin ? 'Ingresa tu contraseña' : 'Mínimo 8 caracteres, 1 mayúscula y 1 número' };
       }
       if (!isLogin) {
+        // MODIFICAR 8 para cambiar longitud mínima de contraseña
         if (value.length < 8) {
           return { valid: false, message: 'Debe tener al menos 8 caracteres' };
         }
+        // MODIFICAR regex para cambiar requisito de mayúscula
         if (!/[A-Z]/.test(value)) {
           return { valid: false, message: 'Debe tener al menos una mayúscula' };
         }
+        // MODIFICAR regex para cambiar requisito de número
         if (!/[0-9]/.test(value)) {
           return { valid: false, message: 'Debe tener al menos un número' };
         }
@@ -119,8 +156,10 @@ document.addEventListener('DOMContentLoaded', () => {
   let captchaCode = '';
 
   function generateCaptchaCode() {
+    // MODIFICAR para incluir/excluir caracteres (excluye I, O, l, 0, 1 por similitud visual)
     const characters = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
     let code = '';
+    // MODIFICAR 6 para cambiar longitud del captcha
     for (let i = 0; i < 6; i++) {
       code += characters.charAt(Math.floor(Math.random() * characters.length));
     }
@@ -144,6 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     // Líneas de ruido
+    // MODIFICAR 5 para cambiar cantidad de líneas de distracción
     for (let i = 0; i < 5; i++) {
       ctx.strokeStyle = `rgba(${Math.random() * 100}, ${Math.random() * 100}, ${Math.random() * 100}, 0.3)`;
       ctx.beginPath();
@@ -154,6 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Puntos de ruido
+    // MODIFICAR 30 para cambiar cantidad de puntos de distracción
     for (let i = 0; i < 30; i++) {
       ctx.fillStyle = `rgba(${Math.random() * 100}, ${Math.random() * 100}, ${Math.random() * 100}, 0.5)`;
       ctx.beginPath();
@@ -168,6 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Dibujar el código
+    // MODIFICAR '28px' para cambiar tamaño del texto del captcha
     ctx.font = 'bold 28px Arial';
     ctx.textBaseline = 'middle';
 
@@ -378,6 +420,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const submitButton = signupForm.querySelector('.btn-signup');
         submitButton.focus();
 
+        // MODIFICAR './html/home.html' para cambiar destino tras registro exitoso
+        // MODIFICAR 600 para cambiar delay antes de redirección (en ms)
         setTimeout(() => {
           window.location.href = './html/home.html';
         }, 600);
@@ -471,6 +515,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (isValid) {
           submitButton.focus();
+          // MODIFICAR './home.html' para cambiar destino tras login exitoso
+          // MODIFICAR 600 para cambiar delay antes de redirección (en ms)
           setTimeout(() => {
             window.location.href = './home.html';
           }, 600);

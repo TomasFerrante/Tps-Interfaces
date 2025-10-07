@@ -1,7 +1,20 @@
-// Carrusel de juegos similares - Muestra juegos del mismo género en la página de detalle
+// ==================== SIMILAR GAMES - CARRUSEL DE JUEGOS SIMILARES ====================
+// FUNCIONALIDAD:
+// - Muestra hasta 8 juegos similares en la página de detalle del juego
+// - Filtra juegos por el género "Strategy" (similar a League of Legends)
+// - Si no hay suficientes juegos de estrategia, completa con otros juegos
+// - Genera precios y descuentos aleatorios para cada juego
+// - Permite marcar juegos como favoritos
 
-// Carga y renderiza las tarjetas de juegos similares
-// Obtiene juegos de la API y muestra aquellos del género "Strategy"
+// VARIABLES CRÍTICAS Y SU IMPACTO:
+// - API URL (línea 8): 'https://vj.interfaces.jima.com.ar/api/v2' - Cambiar afecta de dónde obtiene los juegos
+// - Género filtrado (línea 14): 'strategy' - Cambiar a otro género mostrará juegos de esa categoría
+// - Cantidad de juegos (línea 19): .slice(0, 8) - Cambiar el 8 muestra más o menos juegos
+// - Patrón de descuento (línea 67): index % 3 === 0 - Cambiar el 3 afecta cada cuántos juegos tienen descuento
+// - Porcentaje de descuento (línea 69): 15 - Cambiar modifica el % de descuento mostrado
+// - Rango de precios (línea 68): Math.random() * 40 + 10 - Genera precios entre $10 y $50
+// - Patrón de favoritos (línea 76): index % 4 === 0 - Cada 4to juego inicia marcado como favorito
+
 async function loadSimilarGames() {
     try {
         // Obtiene todos los juegos desde la API
@@ -9,13 +22,15 @@ async function loadSimilarGames() {
         const games = await response.json();
 
         // Filtra juegos del género "Strategy" (similar a League of Legends)
+        // MODIFICAR 'strategy' para cambiar el género de los juegos mostrados
         const strategyGames = games.filter(game =>
             game.genres && game.genres.some(g =>
                 g.name && g.name.toLowerCase() === 'strategy'
             )
         );
 
-        // Inicializa el array de juegos similares
+        // Inicializa el array de juegos similares (máximo 8)
+        // MODIFICAR el número 8 para mostrar más o menos juegos
         let similarGames = strategyGames.slice(0, 8);
 
         // Si hay menos de 8 juegos de estrategia, completa con otros juegos
@@ -64,8 +79,11 @@ function createSimilarGameCard(game, index) {
     gameCard.className = 'game-card';
 
     // Genera información de precio y descuento de forma aleatoria
+    // MODIFICAR index % 3 para cambiar cada cuántos juegos tienen descuento (ej: % 2 = cada 2do juego)
     const hasDiscount = index % 3 === 0;
+    // MODIFICAR el rango (40) y base (10) para cambiar precios: random * RANGO + BASE
     const originalPrice = Math.floor(Math.random() * 40) + 10;
+    // MODIFICAR 15 para cambiar el porcentaje de descuento
     const discountPercent = hasDiscount ? 15 : 0;
     const currentPrice = hasDiscount ? originalPrice * (1 - discountPercent/100) : originalPrice;
 
@@ -75,6 +93,7 @@ function createSimilarGameCard(game, index) {
             <span class="material-symbols-outlined favorite-icon" data-id="${game.id}">
                 ${index % 4 === 0 ? 'star' : 'star_border'}
             </span>
+            <!-- MODIFICAR index % 4 para cambiar cada cuántos juegos inician como favoritos -->
             <img src="${game.background_image_low_res || game.background_image || 'https://via.placeholder.com/220x130'}"
                  alt="${game.name}"
                  onerror="this.src='https://via.placeholder.com/220x130?text=${encodeURIComponent(game.name)}'">
@@ -100,6 +119,7 @@ function createSimilarGameCard(game, index) {
 
 // Configura la interactividad de los iconos de favoritos
 // Permite alternar entre estrella llena y vacía al hacer clic
+// IMPACTO: Modifica clases CSS para mostrar visualmente el estado de favorito
 function setupFavoriteIcons(container) {
     const favoriteIcons = container.querySelectorAll('.favorite-icon');
     favoriteIcons.forEach(icon => {

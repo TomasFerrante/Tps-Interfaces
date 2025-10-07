@@ -1,8 +1,37 @@
 // ==================== CARRUSELES DE HOME ====================
-// Módulo consolidado que maneja todos los carruseles de la página principal:
-// - Carrusel 3D rotatorio de juegos destacados
-// - Carrusel de top juegos (mejor valorados)
-// - Carruseles por género (Action, RPG, Shooter)
+// FUNCIONALIDAD GENERAL:
+// Este archivo maneja TODOS los carruseles de la página home:
+// 1. Carrusel 3D: Rotación automática de 6 juegos destacados en perspectiva 3D
+// 2. Top Juegos: Carrusel horizontal de 9 juegos mejor valorados
+// 3. Carruseles por Género: 3 carruseles horizontales (Action, RPG, Shooter) con 8 juegos cada uno
+
+// ==================== VARIABLES CRÍTICAS GLOBALES ====================
+// CARRUSEL 3D:
+// - Cantidad de juegos (línea 29): games.slice(0, 6) - MODIFICAR para mostrar más/menos juegos
+// - Velocidad rotación (línea 82): setInterval 3000ms - MODIFICAR para rotar más rápido/lento
+// - Delay reinicio (línea 122): setTimeout 5000ms - Tiempo antes de reactivar auto-rotación
+// - Sensibilidad swipe (línea 97): 50px - MODIFICAR para hacer swipe más/menos sensible
+// - Ángulo rotación (línea 30): 360/cantidad - Se calcula automáticamente
+
+// TOP JUEGOS:
+// - Cantidad juegos (línea 141): sortedGames.slice(0, 9) - MODIFICAR para mostrar más/menos
+// - Posición Peg Solitaire (línea 144): topGames[2] - Juego personalizado en posición 3
+// - Distancia scroll (línea 206): 400px - MODIFICAR para scroll más largo/corto
+// - Duración animación scroll (línea 248): 600ms - MODIFICAR para scroll más rápido/lento
+
+// GÉNERO CARRUSELES:
+// - Cantidad juegos (línea 285): genreGames.slice(0, 8) - MODIFICAR cantidad por género
+// - Patrón descuentos (línea 312): index % 3 - Cada 3er juego tiene descuento
+// - Porcentaje descuento (línea 314): 15% - MODIFICAR para cambiar descuento
+// - Rango precios (línea 313): random*40+10 = $10-$50 - MODIFICAR rango de precios
+// - Distancia scroll (línea 362): 300px - MODIFICAR para scroll más largo/corto
+// - Sensibilidad drag (línea 457): multiplicador *2 - MODIFICAR para drag más sensible
+
+// GÉNEROS CARGADOS (líneas 477-486):
+// - 'Action' - games-carousel
+// - 'RPG' - rpg-carousel
+// - 'Shooter' - shooter-carousel
+// MODIFICAR para agregar/cambiar géneros cargados
 
 // ==================== CARRUSEL 3D PRINCIPAL ====================
 
@@ -24,9 +53,12 @@ const carousel3D = {
 
     async loadGames() {
         try {
+            // MODIFICAR URL para cambiar fuente de datos
             const response = await fetch('https://vj.interfaces.jima.com.ar/api/v2');
             const games = await response.json();
+            // MODIFICAR 6 para cambiar cantidad de juegos en el carrusel 3D
             const selectedGames = games.slice(0, 6);
+            // Calcula ángulo automáticamente basado en cantidad de juegos
             this.anglePerItem = 360 / selectedGames.length;
 
             selectedGames.forEach((game, index) => {
@@ -79,6 +111,8 @@ const carousel3D = {
 
     startAutoRotate() {
         this.stopAutoRotate();
+        // MODIFICAR 3000 para cambiar velocidad de rotación automática (en ms)
+        // Valores menores = rotación más rápida, mayores = más lenta
         this.autoRotateInterval = setInterval(() => this.rotate(), 3000);
     },
 
@@ -94,6 +128,9 @@ const carousel3D = {
     },
 
     handleSwipe() {
+        // MODIFICAR 50 para cambiar sensibilidad del swipe
+        // Valor menor = más sensible (necesita menos desplazamiento)
+        // Valor mayor = menos sensible (necesita más desplazamiento)
         const swipeThreshold = 50;
 
         if (this.touchEndX < this.touchStartX - swipeThreshold) {
@@ -117,6 +154,7 @@ const carousel3D = {
             this.touchEndX = e.changedTouches[0].screenX;
             this.handleSwipe();
             this.stopAutoRotate();
+            // MODIFICAR 5000 para cambiar cuánto tarda en reiniciar rotación automática tras interacción
             this.restartTimeout = setTimeout(() => {
                 this.startAutoRotate();
             }, 5000);
@@ -131,16 +169,21 @@ const carousel3D = {
 
 async function loadTopGamesCarousel() {
     try {
+        // MODIFICAR URL para cambiar fuente de datos
         const response = await fetch('https://vj.interfaces.jima.com.ar/api/v2');
         const games = await response.json();
 
+        // Filtra juegos con rating y los ordena de mayor a menor
         const sortedGames = games
             .filter(game => game.rating && game.rating > 0)
             .sort((a, b) => b.rating - a.rating);
 
+        // MODIFICAR 9 para cambiar cantidad de juegos en top juegos
         const topGames = sortedGames.slice(0, 9);
 
-        // Reemplaza el juego en la posición 3 con Peg Solitaire
+        // Reemplaza el juego en la posición 3 con Peg Solitaire (juego personalizado)
+        // MODIFICAR topGames[2] para cambiar posición del juego personalizado
+        // MODIFICAR toda esta sección para cambiar/eliminar el juego personalizado
         if (topGames.length > 2) {
             topGames[2] = {
                 name: 'Peg Solitaire - League of Legends',
@@ -186,6 +229,8 @@ function createTopGameCard(game, index) {
         </div>
     `;
 
+    // Si es Peg Solitaire, hace la tarjeta clickeable y redirige a la página del juego
+    // MODIFICAR './running-game.html' para cambiar destino del click
     if (game.isPegSolitaire) {
         topGameCard.style.cursor = 'pointer';
         topGameCard.addEventListener('click', () => {
@@ -203,6 +248,7 @@ function initTopCarouselButtons() {
 
     if (!carousel || !prevBtn || !nextBtn) return;
 
+    // MODIFICAR 400 para cambiar distancia de scroll por click (en px)
     const scrollAmount = 400;
 
     function updateTopButtonsVisibility() {
@@ -245,6 +291,7 @@ function initTopCarouselButtons() {
     prevBtn.addEventListener('click', () => {
         carousel.classList.add('scrolling-left');
         const targetScroll = carousel.scrollLeft - scrollAmount;
+        // MODIFICAR 600 para cambiar duración de la animación de scroll (en ms)
         smoothScroll(carousel, targetScroll, 600);
 
         setTimeout(() => {
@@ -256,6 +303,7 @@ function initTopCarouselButtons() {
     nextBtn.addEventListener('click', () => {
         carousel.classList.add('scrolling-right');
         const targetScroll = carousel.scrollLeft + scrollAmount;
+        // MODIFICAR 600 para cambiar duración de la animación de scroll (en ms)
         smoothScroll(carousel, targetScroll, 600);
 
         setTimeout(() => {
@@ -273,15 +321,18 @@ function initTopCarouselButtons() {
 
 async function loadGenreCarousel(genre, carouselId, prevBtnClass, nextBtnClass) {
     try {
+        // MODIFICAR URL para cambiar fuente de datos
         const response = await fetch('https://vj.interfaces.jima.com.ar/api/v2');
         const games = await response.json();
 
+        // Filtra juegos que contengan el género especificado
         const genreGames = games.filter(game =>
             game.genres && game.genres.some(g =>
                 g.name && g.name.toLowerCase() === genre.toLowerCase()
             )
         );
 
+        // MODIFICAR 8 para cambiar cantidad de juegos por carrusel de género
         const selectedGames = genreGames.slice(0, 8);
         const gamesCarousel = document.getElementById(carouselId);
 
@@ -309,8 +360,11 @@ function createGameCard(game, index) {
     const gameCard = document.createElement('div');
     gameCard.className = 'game-card';
 
+    // MODIFICAR index % 3 para cambiar cada cuántos juegos tienen descuento
     const hasDiscount = index % 3 === 0;
+    // MODIFICAR rango (40) y base (10) para cambiar precios: random * RANGO + BASE = $10-$50
     const originalPrice = Math.floor(Math.random() * 40) + 10;
+    // MODIFICAR 15 para cambiar porcentaje de descuento
     const discountPercent = hasDiscount ? 15 : 0;
     const currentPrice = hasDiscount ? originalPrice * (1 - discountPercent/100) : originalPrice;
 
@@ -359,6 +413,7 @@ function initGenreCarouselButtons(carouselId, prevBtnClass, nextBtnClass) {
 
     if (!carousel || !prevBtn || !nextBtn) return;
 
+    // MODIFICAR 300 para cambiar distancia de scroll por click en carruseles de género (en px)
     const scrollAmount = 300;
 
     function updateButtonsVisibility() {
@@ -401,6 +456,7 @@ function initGenreCarouselButtons(carouselId, prevBtnClass, nextBtnClass) {
     prevBtn.addEventListener('click', () => {
         carousel.classList.add('scrolling-left');
         const targetScroll = carousel.scrollLeft - scrollAmount;
+        // MODIFICAR 600 para cambiar duración del scroll animado (en ms)
         smoothScroll(carousel, targetScroll, 600);
 
         setTimeout(() => {
@@ -412,6 +468,7 @@ function initGenreCarouselButtons(carouselId, prevBtnClass, nextBtnClass) {
     nextBtn.addEventListener('click', () => {
         carousel.classList.add('scrolling-right');
         const targetScroll = carousel.scrollLeft + scrollAmount;
+        // MODIFICAR 600 para cambiar duración del scroll animado (en ms)
         smoothScroll(carousel, targetScroll, 600);
 
         setTimeout(() => {
@@ -427,6 +484,7 @@ function initGenreCarouselButtons(carouselId, prevBtnClass, nextBtnClass) {
 
 // ==================== FUNCIONALIDAD COMPARTIDA ====================
 // Drag scroll compartido por todos los carruseles horizontales
+// Permite arrastrar con el mouse para hacer scroll
 
 function setupCarouselDragScroll(carousel) {
     let isDown = false;
@@ -454,12 +512,16 @@ function setupCarouselDragScroll(carousel) {
         if (!isDown) return;
         e.preventDefault();
         const x = e.pageX - carousel.offsetLeft;
+        // MODIFICAR multiplicador *2 para cambiar sensibilidad del drag
+        // Valor mayor = más sensible (scroll más rápido), menor = menos sensible
         const walk = (x - startX) * 2;
         carousel.scrollLeft = scrollLeft - walk;
     });
 }
 
 // ==================== INICIALIZACIÓN ====================
+// Se ejecuta automáticamente al cargar el script
+// Solo inicializa los carruseles si los elementos existen en el DOM
 
 // Carrusel 3D
 if (document.getElementById('carousel')) {
@@ -473,6 +535,9 @@ if (document.getElementById('top-carousel')) {
 }
 
 // Carruseles por género
+// MODIFICAR 'Action', 'RPG', 'Shooter' para cambiar los géneros cargados
+// MODIFICAR IDs y clases de botones si cambias el HTML
+// Para agregar más géneros, copia el patrón y agrega un nuevo bloque if
 if (document.getElementById('games-carousel')) {
     loadGenreCarousel('Action', 'games-carousel', 'prev-btn-action', 'next-btn-action');
 }

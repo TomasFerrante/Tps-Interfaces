@@ -1,10 +1,12 @@
-// Archivo principal - Punto de entrada de la aplicación
-// Importa y coordina todos los módulos de carruseles
+// ==================== MAIN.JS - PUNTO DE ENTRADA ====================
+// FUNCIONALIDAD:
+// - Archivo principal que sirve como punto de entrada de la aplicación
+// - Actualmente solo registra un mensaje en consola para confirmar que la app se inició
+// - Los módulos reales se cargan mediante etiquetas <script> en el HTML
 
-// Este archivo se asegura de que todos los módulos se carguen correctamente
-// Los scripts se cargan en el siguiente orden:
-// 1. carousel3D.js - Carrusel 3D principal con rotación automática
-// 2. genreCarousel.js - Carruseles horizontales por categorías (Action, RPG, Shooter)
-// 3. topGamesCarousel.js - Carrusel de juegos mejor valorados
+// IMPACTO DE MODIFICACIONES:
+// - Este archivo es básicamente un placeholder
+// - Modificar o eliminar el console.log no afecta funcionalidad
+// - Podrías agregar aquí lógica de inicialización global si fuera necesario
 
 console.log('Aplicación de videojuegos iniciada');
