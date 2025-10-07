@@ -1786,15 +1786,14 @@ figure img {
   padding: 5px;
   opacity: 0;
   visibility: hidden;
-  transform: translate(576px, -10px);
-  transition: var(--transition-normal);
   box-shadow: var(--shadow-md);
 }
 
 .menu-share.active {
   opacity: 1;
   visibility: visible;
-  transform: translate(576.7px);
+  position: sticky;
+  left: 100%;
 }
 
 .menu-share i,
