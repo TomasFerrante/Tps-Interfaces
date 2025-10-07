@@ -1575,7 +1575,7 @@ figure img {
   font-size: 80px;
   color: var(--Green);
   text-shadow: 0 0 20px var(--Green50), 0 0 40px var(--Green30);
-  animation: pulse 2s ease-in-out infinite;
+  animation: iconPulse 2s ease-in-out infinite;
 }
 
 .loading-logo h1 {
@@ -2170,6 +2170,15 @@ figure img {
   }
 }
 
+@keyframes iconPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
 @keyframes heartBeat {
   0%, 100% {
     transform: scale(1);
@@ -2526,14 +2535,13 @@ figure img {
 ======================================================================================== */
 @media (min-width: 769px) {
   .carousel-container {
-    padding: 40px 0;
+    padding: 10px 0;
     width: 100%;
     overflow: visible;
   }
 
   .title {
     font-size: 3rem;
-    margin-bottom: 60px;
   }
 
   .carousel-wrapper {
