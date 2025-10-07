@@ -2525,7 +2525,7 @@ figure img {
 
   .carousel-item:hover {
     z-index: 20;
-    transform: translate(-50%, -50%) rotateY(calc(var(--i) * 60deg)) translateZ(550px) scale(1.15);
+    transform: translate(-50%, -50%) rotateY(calc(var(--i) * 60deg)) translateZ(550px) scale(1.05);
     cursor: pointer;
   }
 }
