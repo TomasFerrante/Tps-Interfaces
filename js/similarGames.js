@@ -95,8 +95,9 @@ function createSimilarGameCard(game, index) {
             </span>
             <!-- MODIFICAR index % 4 para cambiar cada cuántos juegos inician como favoritos -->
             <img src="${game.background_image_low_res || game.background_image || 'https://via.placeholder.com/220x130'}"
-                 alt="${game.name}"
-                 onerror="this.src='https://via.placeholder.com/220x130?text=${encodeURIComponent(game.name)}'">
+                alt="${game.name}"
+                onerror="this.src='https://via.placeholder.com/220x130?text=${encodeURIComponent(game.name)}'">
+            <button class="play-btn-genre">Jugar</button>
         </div>
         <div class="game-card-content">
             <h3 class="game-card-title">${game.name}</h3>
