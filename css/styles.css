@@ -1,15 +1,15 @@
 /* ========================================================================================
-   QUANTUM ARCADE - STYLES REFACTORIZADO
-   Organización: Variables > Reset > Layout > Componentes > Páginas > Media Queries
+  QUANTUM ARCADE - STYLES REFACTORIZADO
+  Organización: Variables > Reset > Layout > Componentes > Páginas > Media Queries
 ======================================================================================== */
 
 /* ========================================================================================
-   1. IMPORTACIONES Y FUENTES
+  1. IMPORTACIONES Y FUENTES
 ======================================================================================== */
 @import url("https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap");
 
 /* ========================================================================================
-   2. VARIABLES CSS (Custom Properties)
+  2. VARIABLES CSS (Custom Properties)
 ======================================================================================== */
 :root {
   /* Backgrounds */
@@ -388,7 +388,7 @@ header .material-symbols-outlined:hover {
 }
 
 /* ========================================================================================
-   8. COMPONENTES - FOOTER
+  8. COMPONENTES - FOOTER
 ======================================================================================== */
 footer {
   background-color: var(--PrimaryShadow1);
@@ -459,7 +459,7 @@ footer .social-icons i:hover {
 }
 
 /* ========================================================================================
-   9. COMPONENTES - CARRUSELES BASE
+  9. COMPONENTES - CARRUSELES BASE
 ======================================================================================== */
 /* Contenedor general */
 .carousel-container {
@@ -510,6 +510,7 @@ footer .social-icons i:hover {
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.1);
+  cursor: default;
 }
 
 .carousel-item h2 {
@@ -562,8 +563,12 @@ footer .social-icons i:hover {
   animation: shimmer 3s infinite;
 }
 
+.carousel-item:hover .play-btn {
+  display: block;
+}
+
 /* ========================================================================================
-   10. COMPONENTES - CARRUSELES HORIZONTALES (Compartido)
+  10. COMPONENTES - CARRUSELES HORIZONTALES (Compartido)
 ======================================================================================== */
 .games-section,
 .top-games-section {
@@ -621,7 +626,7 @@ footer .social-icons i:hover {
 }
 
 /* ========================================================================================
-   11. COMPONENTES - GAME CARDS
+  11. COMPONENTES - GAME CARDS
 ======================================================================================== */
 .game-card {
   position: relative;
@@ -629,15 +634,42 @@ footer .social-icons i:hover {
   height: 200px;
   border-radius: 16px;
   overflow: hidden;
-  cursor: pointer;
   transition: transform var(--transition-normal), box-shadow var(--transition-normal);
   flex-shrink: 0;
   background-color: var(--Background);
+  cursor: default;
 }
 
 .game-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 12px 30px rgba(86, 3, 173, 0.5);
+}
+
+.game-card:hover img {
+  background: linear-gradient(to top, rgba(16, 5, 39, 0.98) 0%, transparent 100%);
+}
+
+.play-btn-genre {
+  display: none;
+  width: 120px;
+  height: 40px;
+  border-radius: 12px;
+  color: var(--PureWhite);
+  cursor: pointer;
+  border: none;
+  transition: var(--transition-normal);
+  position: absolute;
+  background-color: var(--Green);
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  font-size: 16px;
+  z-index: 20;
+}
+
+.game-card:hover .play-btn-genre {
+  display: block;
 }
 
 .game-card-image {
@@ -746,7 +778,7 @@ footer .social-icons i:hover {
 }
 
 /* ========================================================================================
-   12. COMPONENTES - TOP GAME CARDS
+  12. COMPONENTES - TOP GAME CARDS
 ======================================================================================== */
 .top-game-card {
   position: relative;
@@ -781,6 +813,7 @@ footer .social-icons i:hover {
   transform: translate(-50%, -50%);
   font-weight: bold;
   font-size: 16px;
+  z-index: 20;
 }
 
 .top-game-card:hover .play-btn {
@@ -866,7 +899,7 @@ footer .social-icons i:hover {
 }
 
 /* ========================================================================================
-   13. COMPONENTES - BOTONES DE CARRUSEL (Consolidado)
+  13. COMPONENTES - BOTONES DE CARRUSEL (Consolidado)
 ======================================================================================== */
 .carousel-btn,
 .prev-btn-top,
@@ -929,7 +962,7 @@ footer .social-icons i:hover {
 }
 
 /* ========================================================================================
-   14. COMPONENTES - FORMULARIOS DE AUTENTICACIÓN
+  14. COMPONENTES - FORMULARIOS DE AUTENTICACIÓN
 ======================================================================================== */
 main {
   display: flex;
@@ -1276,7 +1309,7 @@ figure img {
 }
 
 /* ========================================================================================
-   15. COMPONENTES - MENÚS DE NAVEGACIÓN (Sidebar y Dropdown - Consolidado)
+  15. COMPONENTES - MENÚS DE NAVEGACIÓN (Sidebar y Dropdown - Consolidado)
 ======================================================================================== */
 .account-menu-container {
   position: relative;
@@ -1564,7 +1597,7 @@ figure img {
 }
 
 /* ========================================================================================
-   16. COMPONENTES - LOADING SCREEN
+  16. COMPONENTES - LOADING SCREEN
 ======================================================================================== */
 .loading-screen {
   position: fixed;
@@ -1694,7 +1727,7 @@ figure img {
 }
 
 /* ========================================================================================
-   17. PÁGINAS - RUNNING GAME
+  17. PÁGINAS - RUNNING GAME
 ======================================================================================== */
 .main-running-game {
   display: flex;
@@ -2130,7 +2163,7 @@ figure img {
 }
 
 /* ========================================================================================
-   18. ANIMACIONES
+  18. ANIMACIONES
 ======================================================================================== */
 @keyframes shimmer {
   0% {
@@ -2279,7 +2312,7 @@ figure img {
 }
 
 /* ========================================================================================
-   19. MEDIA QUERIES - MOBILE (< 768px)
+  19. MEDIA QUERIES - MOBILE (< 768px)
 ======================================================================================== */
 @media (max-width: 767px) {
   /* Carrusel 3D Mobile */
@@ -2370,7 +2403,7 @@ figure img {
 }
 
 /* ========================================================================================
-   20. MEDIA QUERIES - TABLET (768px - 1023px)
+  20. MEDIA QUERIES - TABLET (768px - 1023px)
 ======================================================================================== */
 @media (min-width: 768px) {
   /* Header Tablet */
@@ -2446,7 +2479,7 @@ figure img {
 }
 
 /* ========================================================================================
-   21. MEDIA QUERIES - DESKTOP (1024px - 1439px)
+  21. MEDIA QUERIES - DESKTOP (1024px - 1439px)
 ======================================================================================== */
 @media (min-width: 1024px) {
   /* Header Desktop */
@@ -2503,7 +2536,6 @@ figure img {
   .carousel-item:hover {
     z-index: 20;
     transform: translate(-50%, -50%) rotateY(calc(var(--i) * 60deg)) translateZ(550px) scale(1.01);
-    cursor: pointer;
   }
 
   /* Footer Desktop */
@@ -2526,7 +2558,7 @@ figure img {
 }
 
 /* ========================================================================================
-   22. MEDIA QUERIES - LARGE DESKTOP (>= 1440px)
+  22. MEDIA QUERIES - LARGE DESKTOP (>= 1440px)
 ======================================================================================== */
 @media (min-width: 1440px) {
   /* Carrusel 3D Large Desktop */
@@ -2557,12 +2589,11 @@ figure img {
   .carousel-item:hover {
     z-index: 20;
     transform: translate(-50%, -50%) rotateY(calc(var(--i) * 60deg)) translateZ(550px) scale(1.05);
-    cursor: pointer;
   }
 }
 
 /* ========================================================================================
-   23. MEDIA QUERIES ADICIONALES - DESKTOP GRANDE (>= 769px)
+  23. MEDIA QUERIES ADICIONALES - DESKTOP GRANDE (>= 769px)
 ======================================================================================== */
 @media (min-width: 769px) {
   .carousel-container {
