@@ -80,6 +80,9 @@ const carousel3D = {
         const img = document.createElement('img');
         img.src = game.background_image_low_res || game.background_image || 'https://via.placeholder.com/400x300?text=No+Image';
         img.alt = game.name;
+        const h2 = document.createElement('h2');
+        h2.textContent = game.name;
+        carouselItem.appendChild(h2);
         img.onerror = function() {
             this.src = 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(game.name);
         };
@@ -214,11 +217,10 @@ function createTopGameCard(game, index) {
     topGameCard.className = 'top-game-card';
 
     topGameCard.innerHTML = `
-        <div class="top-game-number">${index + 1}</div>
         <div class="top-game-image">
             <img src="${game.background_image_low_res || game.background_image || 'https://via.placeholder.com/400x280'}"
-                 alt="${game.name}"
-                 onerror="this.src='https://via.placeholder.com/400x280?text=${encodeURIComponent(game.name)}'">
+                alt="${game.name}"
+                onerror="this.src='https://via.placeholder.com/400x280?text=${encodeURIComponent(game.name)}'">
             <div class="top-game-content">
                 <h3 class="top-game-title">${game.name}</h3>
                 <div class="top-game-rating">
@@ -227,13 +229,15 @@ function createTopGameCard(game, index) {
                 </div>
             </div>
         </div>
+        <button class="play-btn">Jugar</button>
     `;
 
     // Si es Peg Solitaire, hace la tarjeta clickeable y redirige a la página del juego
     // MODIFICAR './running-game.html' para cambiar destino del click
     if (game.isPegSolitaire) {
-        topGameCard.style.cursor = 'pointer';
-        topGameCard.addEventListener('click', () => {
+        const playBtn = topGameCard.querySelector('.play-btn');
+        playBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
             window.location.href = './running-game.html';
         });
     }

@@ -500,7 +500,7 @@ footer .social-icons i:hover {
 
 .carousel-item {
   position: absolute;
-  width: 320px;
+  width: 450px;
   height: 280px;
   left: 50%;
   top: 50%;
@@ -510,6 +510,14 @@ footer .social-icons i:hover {
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.carousel-item h2 {
+  position: absolute;
+  color: var(--PureWhite);
+  left: 20px;
+  bottom: 10px;
+  z-index: 4;
 }
 
 .carousel-item::before {
@@ -522,6 +530,7 @@ footer .social-icons i:hover {
   z-index: 1;
   border-radius: 12px;
   opacity: 0.8;
+  background: linear-gradient(to top, rgba(16, 5, 39, 0.98) 0%, transparent 100%);
 }
 
 .carousel-item img {
@@ -741,19 +750,41 @@ footer .social-icons i:hover {
 ======================================================================================== */
 .top-game-card {
   position: relative;
-  min-width: calc((100% - 120px) / 3.2);
+  width: calc((100% - 80px) / 3.2);
+  min-width: 400px;
   height: 280px;
   border-radius: 16px;
   overflow: visible;
-  cursor: pointer;
+  cursor: default;
   transition: transform var(--transition-normal), box-shadow var(--transition-normal);
   flex-shrink: 0;
-  margin-left: 80px;
 }
 
 .top-game-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 12px 30px rgba(86, 3, 173, 0.5);
+}
+
+.play-btn {
+  display: none;
+  width: 120px;
+  height: 40px;
+  border-radius: 12px;
+  color: var(--PureWhite);
+  cursor: pointer;
+  border: none;
+  transition: var(--transition-normal);
+  position: absolute;
+  background-color: var(--Green);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.top-game-card:hover .play-btn {
+  display: block;
 }
 
 .top-game-image {
@@ -2557,8 +2588,8 @@ figure img {
   }
 
   .carousel-item {
-    width: 320px;
-    height: 280px;
+    width: 450px;
+    height: 230px;
     transform: translate(-50%, -50%) rotateY(calc(var(--i) * 60deg)) translateZ(500px);
   }
 }
