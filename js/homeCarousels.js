@@ -82,11 +82,21 @@ const carousel3D = {
         img.alt = game.name;
         const h2 = document.createElement('h2');
         h2.textContent = game.name;
-        carouselItem.appendChild(h2);
+        const btnPlay = document.createElement('button');
+        btnPlay.className = 'play-btn';
+        btnPlay.textContent = 'Jugar';
+        
         img.onerror = function() {
             this.src = 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(game.name);
         };
+        
+        btnPlay.addEventListener('click', (e) => {
+            e.stopPropagation();
+            console.log(`Jugar: ${game.name}`);
+        });
 
+        carouselItem.appendChild(h2);
+        carouselItem.appendChild(btnPlay);
         carouselItem.appendChild(img);
         this.element.appendChild(carouselItem);
     },
@@ -378,8 +388,9 @@ function createGameCard(game, index) {
                 star
             </span>
             <img src="${game.background_image_low_res || game.background_image || 'https://via.placeholder.com/220x130'}"
-                 alt="${game.name}"
-                 onerror="this.src='https://via.placeholder.com/220x130?text=${encodeURIComponent(game.name)}'">
+                alt="${game.name}"
+                onerror="this.src='https://via.placeholder.com/220x130?text=${encodeURIComponent(game.name)}'">
+            <button class="play-btn-genre">Jugar</button>
         </div>
         <div class="game-card-content">
             <h3 class="game-card-title">${game.name}</h3>
