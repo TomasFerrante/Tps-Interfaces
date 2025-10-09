@@ -145,14 +145,100 @@
             <span class="material-symbols-outlined">keyboard_arrow_right</span>
           </a>
           <a href="#"
-            >Estrategia
+            >Puzzles
             <span class="material-symbols-outlined">keyboard_arrow_right</span>
           </a>
-          <a href="#">Peg Solitaire de League of Legends</a>
+          <a href="#">Blocka League of Legends</a>
         </div>
         <section>
           <div class="container-game">
             <canvas id="canvas-game" width="1340" height="507"></canvas>
+
+            <!-- UI Overlays -->
+            <div id="ui-overlay" class="ui-overlay">
+              <!-- Pantalla de inicio -->
+              <div id="start-screen" class="screen-overlay start-screen">
+                <h1 class="game-title">Blocka League of Legends</h1>
+                <p class="game-subtitle">¡Resuelve el rompecabezas de tu campeón favorito!</p>
+                <div class="start-buttons">
+                  <button id="btn-instructions" class="btn-game btn-instructions">
+                    <span class="material-symbols-outlined">info</span>
+                    Instrucciones
+                  </button>
+                  <button id="btn-play" class="btn-game btn-play">
+                    <span class="material-symbols-outlined">play_arrow</span>
+                    Jugar
+                  </button>
+                </div>
+              </div>
+
+              <!-- Pantalla de instrucciones -->
+              <div id="instructions-screen" class="screen-overlay instructions-screen hidden">
+                <div class="instructions-content">
+                  <h2>¿Cómo jugar?</h2>
+                  <ol>
+                    <li><strong>Fase 1 - Slot:</strong> Las columnas girarán y revelarán un campeón aleatorio</li>
+                    <li><strong>Fase 2 - Selección:</strong> Elige la dificultad (4, 6 u 8 piezas)</li>
+                    <li><strong>Fase 3 - Rompecabezas:</strong> Rota las piezas para completar la imagen</li>
+                    <li><strong>Click Izquierdo:</strong> Rota la pieza a la izquierda (90°)</li>
+                    <li><strong>Click Derecho:</strong> Rota la pieza a la derecha (90°)</li>
+                    <li>¡Completa el rompecabezas antes de que se acabe el tiempo!</li>
+                  </ol>
+                  <button id="btn-back" class="btn-game btn-back">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                    Volver
+                  </button>
+                </div>
+              </div>
+
+              <!-- Pantalla de selección de dificultad -->
+              <div id="difficulty-screen" class="screen-overlay difficulty-screen hidden">
+                <h2 class="difficulty-title">Selecciona la Dificultad</h2>
+                <div class="difficulty-buttons">
+                  <button id="btn-easy" class="btn-game btn-difficulty" data-pieces="4">
+                    <span class="difficulty-number">4</span>
+                    <span class="difficulty-label">Piezas - Fácil</span>
+                  </button>
+                  <button id="btn-medium" class="btn-game btn-difficulty" data-pieces="6">
+                    <span class="difficulty-number">6</span>
+                    <span class="difficulty-label">Piezas - Medio</span>
+                  </button>
+                  <button id="btn-hard" class="btn-game btn-difficulty" data-pieces="8">
+                    <span class="difficulty-number">8</span>
+                    <span class="difficulty-label">Piezas - Difícil</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- HUD del juego (temporizador y controles) -->
+              <div id="game-hud" class="game-hud hidden">
+                <div class="hud-timer">
+                  <span class="material-symbols-outlined">timer</span>
+                  <span id="timer-display">00:00</span>
+                </div>
+                <button id="btn-restart-puzzle" class="btn-game btn-restart-small">
+                  <span class="material-symbols-outlined">refresh</span>
+                  Reiniciar
+                </button>
+              </div>
+
+              <!-- Pantalla de victoria -->
+              <div id="victory-screen" class="screen-overlay victory-screen hidden">
+                <h1 class="victory-title">¡Felicitaciones!</h1>
+                <p class="victory-message">Completaste el rompecabezas en <span id="final-time">00:00</span></p>
+                <div class="victory-buttons">
+                  <button id="btn-play-again" class="btn-game btn-play">
+                    <span class="material-symbols-outlined">replay</span>
+                    Jugar de Nuevo
+                  </button>
+                  <button id="btn-menu" class="btn-game btn-back">
+                    <span class="material-symbols-outlined">home</span>
+                    Menú Principal
+                  </button>
+                </div>
+              </div>
+            </div>
+
             <div class="menu-game">
               <div class="menu-game-container">
                 <div>
@@ -344,9 +430,8 @@
                   <p class="date">14 de Julio 2024</p>
                 </div>
                 <p class="text-comment">
-                  Esta re roto el yasuo, metanle un nerfeo a la E que te pega
-                  con la silla de ruedas, y el hermano esta igual de roto, media
-                  pila con el balance de esos champs loco!!!!!.
+                  Muy buen juego, pero saquen a esa leblanc porque me recuerda
+                  cuando una me mato y me saco maestria QUE SACAS MAESTRIA???!!!!!!
                   <span class="favorite-comment material-symbols-outlined"
                     >favorite</span
                   >
@@ -355,11 +440,12 @@
               <div class="container-comment">
                 <div class="header-comment">
                   <p class="username">@Barbakhan</p>
-                  <p class="date">12 de Septiembre 2024</p>
+                  <p class="date">12 de Septiembre 2012</p>
                 </div>
                 <p class="text-comment">
-                  Me gano un pendejo de 12 años con garen, no puede ser que el
-                  champ sea tan facil como para que me gane un nene dale!!
+                  Me toco resolver el puzzle de la ashi, y quede enamorado de
+                  de esa campeona, voy a empezar a jugar al lol nomas por ella.
+                  10/10
                   <span class="favorite-comment material-symbols-outlined"
                     >favorite</span
                   >
@@ -371,9 +457,9 @@
                   <p class="date">12 de Septiembre 2024</p>
                 </div>
                 <p class="text-comment">
-                  Buenisimo el juego, la verdad mucha variedad de personajes y
-                  cada uno con sus mecanicas, muy entretenido, la comunidad esta
-                  un poco descontrolada pero bueno.
+                  Me toco el tejon asqueroso ese, no lo quiero ver ni en figurita
+                  y me lo traen aca aparte te clava un ceta y te mete 2millones de daño
+                  EL FORRROOOOOOOOOO!!!!
                   <span class="favorite-comment material-symbols-outlined"
                     >favorite</span
                   >
@@ -385,21 +471,8 @@
                   <p class="date">6 de Agosto 2025</p>
                 </div>
                 <p class="text-comment">
-                  Sería genial tener más campeones para elegir como piezas.
-                  <span class="favorite-comment material-symbols-outlined"
-                    >favorite</span
-                  >
-                </p>
-              </div>
-              <div class="container-comment">
-                <div class="header-comment">
-                  <p class="username">@Coscu</p>
-                  <p class="date">7 de Octubre 2024</p>
-                </div>
-                <p class="text-comment">
-                  Casi me da un ACV de la bronca que me dio jugar a este juego y
-                  los inutiles que me tocan de equipo. (me va a dar un ACV si no
-                  apruebo la materia tmb)
+                  Muy buena esta esa skin de jhin, me encanta como le quedan los
+                  detalles de estrellas y el cosmos.
                   <span class="favorite-comment material-symbols-outlined"
                     >favorite</span
                   >
@@ -412,7 +485,7 @@
                 </div>
                 <p class="text-comment">
                   "Pensé que era una tontería, pero es brutal" Cuando vi este
-                  juego por primera vez, me reí. ¿Un Peg Solitaire de LoL? Suena
+                  juego por primera vez, me reí. ¿un blocka de LoL? Suena
                   a algo que compraría un fanático para tenerlo de adorno. Pero
                   me animé a probarlo y, la verdad, me ha sorprendido para bien
                   ...
@@ -524,5 +597,6 @@
     <script src="../js/sharedUI.js" defer></script>
     <script src="../js/similarGames.js" defer></script>
     <script src="../js/gameInteractions.js" defer></script>
+    <script src="../js/blockaGame.js" defer></script>
   </body>
 </html>

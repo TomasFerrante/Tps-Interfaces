@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slot Machine</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial Black', sans-serif;
+            background: linear-gradient(135deg, #1a0033, #4a0080, #2d0052);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: white;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0,255,150,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .slot-machine {
+            background: linear-gradient(180deg, #2d0052 0%, #1a0033 100%);
+            border: 15px solid;
+            border-image: linear-gradient(45deg, #00ff88, #00cc66, #00ff88) 1;
+            border-radius: 30px;
+            padding: 60px 80px 40px 40px;
+            box-shadow:
+                0 0 60px rgba(0, 255, 136, 0.4),
+                inset 0 0 40px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .lever-container {
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            perspective: 1200px;
+            perspective-origin: center center;
+            z-index: 1000;
+        }
+
+        .lever-base {
+            width: 50px;
+            height: 120px;
+            background:
+                linear-gradient(90deg,
+                    #1a1a1a 0%,
+                    #2d2d2d 10%,
+                    #404040 50%,
+                    #2d2d2d 90%,
+                    #1a1a1a 100%
+                );
+            border-radius: 10px;
+            position: relative;
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.8),
+                inset -2px 0 8px rgba(0, 0, 0, 0.5),
+                inset 2px 0 8px rgba(255, 255, 255, 0.1);
+            z-index: 1001;
+        }
+
+        .lever-base::before {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 20px;
+            background: linear-gradient(180deg, #1a1a1a, #0a0a0a);
+            border-radius: 30px;
+            left: 50%;
+            bottom: -10px;
+            transform: translateX(-50%);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
+        }
+
+        .lever-arm {
+            position: absolute;
+            width: 14px;
+            height: 160px;
+            left: 50%;
+            top: -140px;
+            transform: translateX(-50%);
+            z-index: 1002;
+            overflow: visible;
+        }
+
+        .lever-arm::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            background:
+                linear-gradient(90deg,
+                    #999 0%,
+                    #ccc 20%,
+                    #fff 40%,
+                    #ccc 60%,
+                    #999 80%,
+                    #666 100%
+                );
+            border-radius: 7px;
+            box-shadow:
+                -3px 0 8px rgba(0, 0, 0, 0.5),
+                inset -2px 0 4px rgba(0, 0, 0, 0.3),
+                inset 2px 0 4px rgba(255, 255, 255, 0.6);
+            transition: all 0.8s ease-in-out;
+        }
+
+        .lever-arm.pulled::before {
+            height: 0%;
+            top: 100%;
+        }
+
+        .lever-handle {
+            position: absolute;
+            width: 65px;
+            height: 65px;
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            z-index: 1003;
+            transition: transform 0.8s ease-in-out;
+        }
+
+        .lever-ball {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background:
+                radial-gradient(circle at 30% 30%,
+                    #ff6666 0%,
+                    #ff0000 30%,
+                    #cc0000 60%,
+                    #990000 100%
+                );
+            box-shadow:
+                0 8px 25px rgba(255, 0, 0, 0.6),
+                inset -8px -8px 15px rgba(0, 0, 0, 0.6),
+                inset 8px 8px 15px rgba(255, 100, 100, 0.4);
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .lever-ball::before {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background: radial-gradient(circle at 50% 50%,
+                rgba(255, 255, 255, 0.8),
+                rgba(255, 255, 255, 0) 70%);
+            border-radius: 50%;
+            top: 8px;
+            left: 12px;
+            filter: blur(3px);
+        }
+
+        .lever-ball::after {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: radial-gradient(circle,
+                rgba(255, 255, 255, 0.6),
+                transparent);
+            border-radius: 50%;
+            top: 12px;
+            left: 16px;
+        }
+
+        .lever-handle:hover .lever-ball {
+            transform: scale(1.05);
+            box-shadow:
+                0 10px 35px rgba(255, 0, 0, 0.8),
+                inset -8px -8px 15px rgba(0, 0, 0, 0.6),
+                inset 8px 8px 15px rgba(255, 100, 100, 0.5);
+        }
+
+        .lever-handle.pulled {
+            transform: translate(-50%, calc(160px - 50%));
+        }
+
+        .slot-machine::before {
+            content: '★ SLOT MACHINE ★';
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.8em;
+            background: linear-gradient(90deg, #00ff88, #00ffcc, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(0, 255, 136, 0.6);
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .reels-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 50px;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 20px;
+            border: 3px solid rgba(0, 255, 136, 0.4);
+            position: relative;
+        }
+
+        .reels-container::before,
+        .reels-container::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .reels-container::before {
+            top: 40px;
+        }
+
+        .reels-container::after {
+            bottom: 40px;
+            transform: rotate(180deg);
+        }
+
+        .reel-wrapper {
+            width: 130px;
+            height: 180px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(180deg, #1a0033 0%, #2d0052 50%, #1a0033 100%);
+            border: 4px solid;
+            border-image: linear-gradient(180deg, #00ff88, #00ffcc, #00ff88) 1;
+            border-radius: 15px;
+            box-shadow:
+                inset 0 0 30px rgba(0, 0, 0, 0.8),
+                0 0 20px rgba(0, 255, 136, 0.4);
+        }
+
+        .reel {
+            position: absolute;
+            width: 100%;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .reel.spinning {
+            animation: spin-fall 0.1s linear infinite;
+        }
+
+        @keyframes spin-fall {
+            from {
+                transform: translateY(0);
+            }
+            to {
+                transform: translateY(-180px);
+            }
+        }
+
+        .symbol {
+            width: 110px;
+            height: 110px;
+            margin: 35px 0;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            filter: brightness(0.9);
+        }
+
+        .reel.spinning .symbol {
+            filter: blur(3px) brightness(0.7);
+        }
+
+        .reel-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg,
+                rgba(255, 255, 255, 0.1) 0%,
+                transparent 20%,
+                transparent 80%,
+                rgba(0, 0, 0, 0.5) 100%);
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .spin-button-container {
+            text-align: center;
+        }
+
+        .spin-button {
+            background: linear-gradient(180deg, #00ff88 0%, #00aa55 100%);
+            border: none;
+            color: white;
+            font-size: 2.5em;
+            font-weight: bold;
+            padding: 25px 80px;
+            border-radius: 60px;
+            cursor: pointer;
+            box-shadow:
+                0 10px 30px rgba(0, 255, 136, 0.5),
+                inset 0 2px 10px rgba(255, 255, 255, 0.3);
+            transition: all 0.3s;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .spin-button::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .spin-button:hover {
+            transform: scale(1.05) translateY(-2px);
+            box-shadow:
+                0 15px 40px rgba(0, 255, 136, 0.7),
+                inset 0 2px 10px rgba(255, 255, 255, 0.4);
+        }
+
+        .spin-button:active {
+            transform: scale(0.98);
+        }
+
+        .spin-button:disabled {
+            background: linear-gradient(180deg, #555 0%, #333 100%);
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: scale(1);
+        }
+
+        .message {
+            margin-top: 40px;
+            font-size: 2.5em;
+            font-weight: bold;
+            min-height: 60px;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+        }
+
+        .win-message {
+            background: linear-gradient(90deg, #00ff88, #00ffcc, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: win-pulse 0.6s ease-in-out infinite;
+        }
+
+        @keyframes win-pulse {
+            0%, 100% {
+                transform: scale(1);
+                filter: brightness(1);
+            }
+            50% {
+                transform: scale(1.1);
+                filter: brightness(1.3);
+            }
+        }
+
+        .win-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(0, 255, 136, 0.2), transparent);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .win-glow.active {
+            opacity: 1;
+            animation: glow-pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Efectos épicos de victoria */
+        .firework {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+            z-index: 9999;
+            animation: fall 3s linear forwards;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .flash-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: white;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 9998;
+        }
+
+        .flash-overlay.active {
+            animation: flash 0.5s ease-out;
+        }
+
+        @keyframes flash {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 0.8; }
+        }
+
+        .win-message {
+            background: linear-gradient(90deg, #00ff88, #00ffcc, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: win-pulse 0.6s ease-in-out infinite, rainbow 2s linear infinite;
+            position: relative;
+        }
+
+        @keyframes rainbow {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        .star-burst {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            font-size: 30px;
+            animation: burst 1s ease-out forwards;
+        }
+
+        @keyframes burst {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.5) rotate(180deg);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0.5) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .reels-container.winning {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+            20%, 40%, 60%, 80% { transform: translateX(10px); }
+        }
+
+        .win-video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw; /* Ocupa 100% del ancho de la vista (viewport width) */
+            height: 100vh; /* Ocupa 100% del alto de la vista (viewport height) */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s;
+            background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro para que el video destaque */
+        }
+
+        .win-video-container.active {
+            opacity: 1;
+            pointer-events: auto; /* Permite que el video o canvas capture clics si es necesario */
+        }
+
+        #winVideo {
+            display: none;
+        }
+
+        #winCanvas {
+            /* El canvas debe ser del mismo tamaño que el video, pero visualmente cubriremos la pantalla */
+            /* Lo mantenemos centrado, pero el efecto visual de "pantalla completa" viene del contenedor */
+            width: 100%; /* El canvas toma el 100% del ancho de su contenedor (.win-video-container) */
+            height: 100%; /* El canvas toma el 100% del alto de su contenedor */
+            object-fit: contain; /* Asegura que el contenido (el video renderizado) se ajuste sin distorsión */
+            display: none;
+            border: none;
+            box-shadow: none;
+            transform: none;
+        }
+
+        /* Opcional: Si el video debe estar ligeramente por encima del contenido principal */
+        .container {
+            position: relative;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+    <div class="win-glow" id="winGlow"></div>
+    <div class="flash-overlay" id="flashOverlay"></div>
+
+    <div class="win-video-container" id="winVideoContainer">
+        <video id="winVideo" src="1007.mp4" muted></video>
+        <canvas id="winCanvas"></canvas>
+    </div>
+
+    <div class="container">
+        <div class="slot-machine">
+            <div class="lever-container">
+                <div class="lever-base">
+                    <div class="lever-arm" id="leverArm">
+                        <div class="lever-handle" onclick="spin()">
+                            <div class="lever-ball"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="reels-container">
+                <div class="reel-wrapper">
+                    <div class="reel" id="reel0">
+                        <img class="symbol" src="" alt="">
+                        <img class="symbol" src="" alt="">
+                        <img class="symbol" src="" alt="">
+                    </div>
+                </div>
+                <div class="reel-wrapper">
+                    <div class="reel" id="reel1">
+                        <img class="symbol" src="" alt="">
+                        <img class="symbol" src="" alt="">
+                        <img class="symbol" src="" alt="">
+                    </div>
+                </div>
+                <div class="reel-wrapper">
+                    <div class="reel" id="reel2">
+                        <img class="symbol" src="" alt="">
+                        <img class="symbol" src="" alt="">
+                        <img class="symbol" src="" alt="">
+                    </div>
+                </div>
+                <div class="reel-wrapper">
+                    <div class="reel" id="reel3">
+                        <img class="symbol" src="" alt="">
+                        <img class="symbol" src="" alt="">
+                        <img class="symbol" src="" alt="">
+                    </div>
+                </div>
+                <div class="reel-wrapper">
+                    <div class="reel" id="reel4">
+                        <img class="symbol" src="" alt="">
+                        <img class="symbol" src="" alt="">
+                        <img class="symbol" src="" alt="">
+                    </div>
+                </div>
+                <div class="reel-wrapper">
+                    <div class="reel" id="reel5">
+                        <img class="symbol" src="" alt="">
+                        <img class="symbol" src="" alt="">
+                        <img class="symbol" src="" alt="">
+                    </div>
+                </div>
+            </div>
+
+            <div class="spin-button-container">
+                <button class="spin-button" id="spinBtn" onclick="spin()">GIRAR</button>
+            </div>
+
+            <div class="message" id="message"></div>
+        </div>
+    </div>
+
+    <script>
+    const symbols = [
+        'yasuoWheelchair.jpeg',
+        'Aspecto_centrado_-_Gangplank_Base.webp',
+        'Jhin_5.webp',
+        'Teemo_0.jpg',
+        'Veigar_0.jpg',
+        'Azir_0.jpg',
+        'Leblanc_0.jpg',
+        'Sett_0.jpg',
+        'Karma_0.jpg',
+        'LeeSin_0.jpg',
+        'Nautilus_0.jpg'
+    ];
+
+    let isSpinning = false;
+    const messageEl = document.getElementById('message');
+    const spinBtn = document.getElementById('spinBtn');
+    const winGlow = document.getElementById('winGlow');
+    const leverArm = document.getElementById('leverArm');
+    const video = document.getElementById('winVideo');
+    const videoContainer = document.getElementById('winVideoContainer');
+    const canvas = document.getElementById('winCanvas');
+    const jackpotAudio = new Audio('Slot Machine Jackpot Sound Effect.mp3'); // Asumo que este es el sonido del giro
+
+    // Configurar el video para que el audio se reproduzca
+    video.muted = false; // Desactivar el 'muted' para que el audio del video suene
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    function getRandomSymbol() {
+        return symbols[Math.floor(Math.random() * symbols.length)];
+    }
+
+    function spin() {
+        if (isSpinning) return;
+
+        isSpinning = true;
+        spinBtn.disabled = true;
+        messageEl.textContent = '';
+        messageEl.className = 'message';
+        winGlow.classList.remove('active');
+
+        // Reiniciar el video por si se reprodujo antes
+        video.currentTime = 0;
+        video.style.display = 'none';
+        canvas.style.display = 'none';
+        videoContainer.classList.remove('active');
+        
+        // Animar la palanca
+        const leverHandle = document.querySelector('.lever-handle');
+        leverArm.classList.add('pulled');
+        leverHandle.classList.add('pulled');
+        setTimeout(() => {
+            leverArm.classList.remove('pulled');
+            leverHandle.classList.remove('pulled');
+        }, 800);
+
+        // Reproducir sonido de giro (el del jackpot que usaste antes, si aplica)
+        playSpinSound();
+
+        // Elegir la imagen ganadora
+        const winningSymbol = symbols[Math.floor(Math.random() * symbols.length)];
+
+        // Obtener los reels
+        const reels = document.querySelectorAll('.reel');
+
+        // Iniciar animación de giro
+        reels.forEach(reel => {
+            reel.classList.add('spinning');
+            const interval = setInterval(() => {
+                const imgs = reel.querySelectorAll('.symbol');
+                imgs.forEach(img => {
+                    img.src = getRandomSymbol() + '&t=' + Math.random();
+                });
+            }, 100);
+            reel.dataset.interval = interval;
+        });
+
+        // Detener los reels uno por uno
+        stopReels(reels, winningSymbol);
+    }
+    
+    // TIEMPO TOTAL DE GIRO ESTIMADO: 1000ms inicial + (5 reels * 300ms) = 2500ms
+    const REEL_STOP_DURATION = 1000;
+    const REEL_STOP_DELAY = 300;
+    const REEL_COUNT = 9;
+    const LAST_REEL_STOP_TIME = REEL_STOP_DURATION + (REEL_COUNT - 1) * REEL_STOP_DELAY; // 2500ms
+    const VIDEO_START_OFFSET = 100; // 500ms antes de que pare el último reel
+
+    function stopReels(reels, winningSymbol) {
+        reels.forEach((reel, index) => {
+            const stopTime = REEL_STOP_DURATION + (index * REEL_STOP_DELAY);
+
+            // Iniciar el video justo antes de que se detenga el último reel
+            if (index === reels.length - 1) {
+                const videoStartTime = LAST_REEL_STOP_TIME - VIDEO_START_OFFSET;
+                setTimeout(showWin, videoStartTime);
+            }
+            
+            setTimeout(() => {
+                // Detener el cambio de imágenes
+                clearInterval(parseInt(reel.dataset.interval));
+
+                // Quitar animación
+                reel.classList.remove('spinning');
+
+                // Establecer la imagen ganadora
+                const imgs = reel.querySelectorAll('.symbol');
+                imgs.forEach(img => {
+                    img.src = winningSymbol;
+                });
+
+            }, stopTime);
+        });
+    }
+
+    function playSpinSound() {
+        jackpotAudio.currentTime = 0;
+        jackpotAudio.volume = 0.5;
+        // Establecer la velocidad de reproducción para que dure un poco más que el giro
+        jackpotAudio.playbackRate = 1.0; 
+        jackpotAudio.play().catch(e => console.error("Error al reproducir el audio:", e));
+    }
+
+    function createFireworks() {
+        const colors = ['#00ff88', '#00ffcc', '#ff00ff', '#ffff00', '#ff0088', '#00ffff'];
+        for (let i = 0; i < 5; i++) {
+            setTimeout(() => {
+                const x = Math.random() * window.innerWidth;
+                const y = Math.random() * (window.innerHeight * 0.6);
+                for (let j = 0; j < 30; j++) {
+                    const firework = document.createElement('div');
+                    firework.className = 'firework';
+                    firework.style.left = x + 'px';
+                    firework.style.top = y + 'px';
+                    firework.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    const angle = (Math.PI * 2 * j) / 30;
+                    const velocity = 100 + Math.random() * 100;
+                    const tx = Math.cos(angle) * velocity;
+                    const ty = Math.sin(angle) * velocity;
+                    firework.style.setProperty('--tx', tx + 'px');
+                    firework.style.setProperty('--ty', ty + 'px');
+                    firework.style.animation = 'explode 1s ease-out forwards';
+                    document.body.appendChild(firework);
+                    setTimeout(() => firework.remove(), 1000);
+                }
+            }, i * 200);
+        }
+    }
+
+    function createConfetti() {
+        const colors = ['#00ff88', '#00ffcc', '#ff00ff', '#ffff00', '#ff0088', '#00ffff'];
+        for (let i = 0; i < 100; i++) {
+            setTimeout(() => {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * window.innerWidth + 'px';
+                confetti.style.top = '-10px';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                confetti.style.animationDuration = (2 + Math.random() * 2) + 's';
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 5000);
+            }, i * 30);
+        }
+    }
+
+    function createStarBurst() {
+        const stars = ['⭐', '✨', '💫', '🌟', '⚡'];
+        for (let i = 0; i < 20; i++) {
+            setTimeout(() => {
+                const star = document.createElement('div');
+                star.className = 'star-burst';
+                star.textContent = stars[Math.floor(Math.random() * stars.length)];
+                star.style.left = Math.random() * window.innerWidth + 'px';
+                star.style.top = Math.random() * window.innerHeight + 'px';
+                document.body.appendChild(star);
+                setTimeout(() => star.remove(), 1000);
+            }, i * 50);
+        }
+    }
+
+    function showWin() {
+        messageEl.innerHTML = '🎉 ¡JACKPOT! 🎉';
+        messageEl.className = 'message win-message';
+        winGlow.classList.add('active');
+
+        // 1. INICIAR EL VIDEO DE VICTORIA
+        
+        // Ajustar el canvas al tamaño actual de la ventana
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        video.onloadeddata = () => { /* No es necesario aquí, mantenemos la lógica en el canvas */ };
+
+        video.play().catch(error => {
+            console.error("Error al intentar reproducir el video:", error);
+        });
+
+        videoContainer.classList.add('active');
+        canvas.style.display = 'block';
+
+        // Detener los efectos cuando el video termine
+        video.onended = () => {
+            videoContainer.classList.remove('active');
+            canvas.style.display = 'none';
+            messageEl.textContent = '¡Gira de nuevo!';
+            messageEl.className = 'message';
+            winGlow.classList.remove('active');
+            isSpinning = false;
+            spinBtn.disabled = false;
+        };
+
+        // Iniciar el renderizado en el canvas
+        video.addEventListener('play', renderVideoToCanvas, { once: true });
+
+
+        // 2. EFECTOS VISUALES
+        const flashOverlay = document.getElementById('flashOverlay');
+        flashOverlay.classList.add('active');
+        setTimeout(() => flashOverlay.classList.remove('active'), 500);
+
+        const reelsContainer = document.querySelector('.reels-container');
+        reelsContainer.classList.add('winning');
+        setTimeout(() => reelsContainer.classList.remove('winning'), 500);
+
+        createFireworks();
+        createConfetti();
+        createStarBurst();
+    }
+    
+    function renderVideoToCanvas() {
+        const video = document.getElementById('winVideo');
+        const canvas = document.getElementById('winCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        if (video.paused || video.ended) {
+            return;
+        }
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // --- CÁLCULO DE ESCALADO Y CENTRADO (Object-fit: cover) ---
+        let vRatio = video.videoWidth / video.videoHeight;
+        let cRatio = canvas.width / canvas.height;
+        let drawWidth, drawHeight, x = 0, y = 0;
+
+        if (vRatio < cRatio) {
+            drawHeight = canvas.height;
+            drawWidth = drawHeight * vRatio;
+            x = (canvas.width - drawWidth) / 2;
+        } else {
+            drawWidth = canvas.width;
+            drawHeight = drawWidth / vRatio;
+            y = (canvas.height - drawHeight) / 2;
+        }
+
+        // 1. DIBUJAR EL FRAME
+        ctx.drawImage(video, x, y, drawWidth, drawHeight);
+
+        // 2. OBTENER LOS DATOS DE PÍXELES
+        const frame = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = frame.data;
+        
+        // --- BUCLUE CON CHROMA KEY Y SUAVIZADO DE BORDES (Anti-Aliasing) ---
+        
+        // AJUSTES CLAVE: Modifica keyColor y tolerance según el verde de tu video
+        const keyColor = { r: 0, g: 200, b: 0 }; 
+        const tolerance = 200; 
+        const edgeSoftness = 100;
+
+        for (let i = 0; i < data.length; i += 4) {
+            const r = data[i];
+            const g = data[i + 1];
+            const b = data[i + 2];
+            
+            // 1. Calcular la distancia euclidiana al color clave
+            const dist = Math.sqrt(
+                Math.pow(r - keyColor.r, 2) + 
+                Math.pow(g - keyColor.g, 2) + 
+                Math.pow(b - keyColor.b, 2)
+            );
+
+            // 2. Aplicar transparencia gradual (Suavizado de bordes)
+            if (dist < tolerance) {
+                data[i + 3] = 0; // Totalmente transparente
+            } else if (dist < tolerance + edgeSoftness) {
+                // Zona de transición
+                let alpha = 255 * ((dist - tolerance) / edgeSoftness);
+                data[i + 3] = alpha;
+            } else {
+                data[i + 3] = 255; // Totalmente opaco
+            }
+            
+            // 3. Remoción opcional de Spill (Tinte verdoso en el sujeto)
+            if (g > r + 50 && g > b + 50) { 
+                // Si el verde es MUCHO más dominante que R y B, lo desaturamos.
+                data[i] = Math.min(r + 40, 255);
+                data[i + 2] = Math.min(b + 40, 255);
+            }
+        }
+
+        // 3. VOLVER A DIBUJAR LOS DATOS DE PÍXELES MODIFICADOS
+        ctx.putImageData(frame, 0, 0);
+
+        // 4. BUCLE DE ANIMACIÓN
+        requestAnimationFrame(renderVideoToCanvas);
+    }
+
+    // Inicializar con imágenes diferentes
+    function initializeReels() {
+        const reels = document.querySelectorAll('.reel');
+        reels.forEach((reel, reelIndex) => {
+            const imgs = reel.querySelectorAll('.symbol');
+            imgs.forEach(img => {
+                img.src = symbols[reelIndex % symbols.length];
+            });
+        });
+    }
+
+    initializeReels();
+</script>
+</body>
+</html>
