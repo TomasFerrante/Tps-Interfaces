@@ -1875,7 +1875,8 @@ figure img {
   font-size: 22px;
 }
 
-.manual-game h6 {
+.manual-game h6,
+.manual-game .manual-game-container h6 {
   font-size: 17px;
   color: var(--Green);
 }
@@ -2592,4 +2593,20 @@ figure img {
     height: 230px;
     transform: translate(-50%, -50%) rotateY(calc(var(--i) * 60deg)) translateZ(500px);
   }
+}
+
+/* ========================================================================================
+  14. COMPONENTES - BLOCKA
+======================================================================================== */ 
+#canvas-game {
+  margin: 0;
+  padding: 0;
+}
+
+.manual-game-container ol li {
+  margin-left: 20px;
+}
+
+.manual-game-container ol .how-to-play-title {
+  text-decoration: underline;
 }

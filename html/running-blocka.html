@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quantum Arcade</title>
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"
+    />
+    <script
+      src="https://kit.fontawesome.com/dc94cdf766.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="icon" type="image/png" href="../assets/images/icono.png" />
+  </head>
+  <body class="body-running-game">
+    <!-- MENÚ LATERAL -->
+    <nav class="sidebar-menu">
+      <div class="sidebar-header">
+        <span class="material-symbols-outlined close-menu">close</span>
+        <h2>QUANTUM ARCADE</h2>
+      </div>
+
+      <ul class="sidebar-nav">
+        <li>
+          <a href="home.html"
+            ><span class="material-symbols-outlined">home</span>Inicio</a
+          >
+        </li>
+        <li>
+          <a href="#"
+            ><span class="material-symbols-outlined">favorite</span>Favoritos</a
+          >
+        </li>
+        <li>
+          <a href="#"
+            ><span class="material-symbols-outlined">new_releases</span
+            >Nuevos</a
+          >
+        </li>
+        <li>
+          <a href="#"
+            ><span class="material-symbols-outlined">star</span>Populares</a
+          >
+        </li>
+        <li>
+          <a href="#"
+            ><span class="material-symbols-outlined">sports_esports</span
+            >Multijugador</a
+          >
+        </li>
+        <li>
+          <a href="#"
+            ><span class="material-symbols-outlined">sports_soccer</span
+            >Deportes</a
+          >
+        </li>
+        <li>
+          <a href="#"
+            ><span class="material-symbols-outlined">local_fire_department</span
+            >Acción</a
+          >
+        </li>
+        <li>
+          <a href="#"
+            ><span class="material-symbols-outlined">castle</span>Aventura</a
+          >
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="social-icons">
+          <i class="fa-brands fa-facebook"></i>
+          <i class="fa-brands fa-instagram"></i>
+          <i class="fa-brands fa-x-twitter"></i>
+        </div>
+        <p>© 2025 Quantum Arcade.</p>
+      </div>
+    </nav>
+
+    <!-- OVERLAY -->
+    <div class="sidebar-overlay"></div>
+
+    <main class="main-running-game">
+      <header>
+        <!-- Menú hamburguesa y logo -->
+        <div class="menu-logo-container">
+          <span class="material-symbols-outlined menu">menu</span>
+          <img
+            class="logo-header"
+            src="../assets/images/Logo_header.png"
+            alt="logo_Header"
+          />
+        </div>
+
+        <!-- Barra de búsqueda -->
+        <div class="search-container">
+          <input type="search" placeholder="Buscar juegos..." />
+          <span class="material-symbols-outlined search">search</span>
+        </div>
+
+        <!-- Iconos de header -->
+        <div class="header-icons">
+          <span class="material-symbols-outlined cart">shopping_cart</span>
+          <div class="account-menu-container">
+            <span class="material-symbols-outlined account"
+              >account_circle</span
+            >
+            <!-- Menú desplegable de usuario -->
+            <div class="user-dropdown-menu">
+              <div class="user-dropdown-header">
+                <span class="material-symbols-outlined user-icon"
+                  >account_circle</span
+                >
+                <div class="user-info">
+                  <p class="user-name">@titocalderon23</p>
+                  <p class="user-email">titocalderon@gmail.com</p>
+                </div>
+              </div>
+              <ul class="user-dropdown-nav">
+                <li>
+                  <a href="#"
+                    ><span class="material-symbols-outlined">settings</span
+                    >Configuración</a
+                  >
+                </li>
+                <li>
+                  <a href="#"
+                    ><span class="material-symbols-outlined">logout</span>Cerrar
+                    Sesión</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <article class="running-game">
+        <div class="breadcrumb">
+          <a href="../html/home.html"
+            >Home
+            <span class="material-symbols-outlined">keyboard_arrow_right</span>
+          </a>
+          <a href="#"
+            >Estrategia
+            <span class="material-symbols-outlined">keyboard_arrow_right</span>
+          </a>
+          <a href="#">Peg Solitaire de League of Legends</a>
+        </div>
+        <section>
+          <div class="container-game">
+            <canvas id="canvas-game" width="1340" height="507"></canvas>
+            <div class="menu-game">
+              <div class="menu-game-container">
+                <div>
+                  <span class="material-symbols-outlined star">star</span>
+                  <span class="material-symbols-outlined shopping_cart"
+                    >shopping_cart</span
+                  >
+                </div>
+                <div>
+                  <span class="material-symbols-outlined share">share</span>
+                  <span class="material-symbols-outlined fullscreen"
+                    >fullscreen</span
+                  >
+                  <!-- <span class="material-symbols-outlined fullscreen-exit">fullscreen_exit</span> -->
+                </div>
+              </div>
+            </div>
+            <div class="menu-share">
+              <i class="fa-brands fa-whatsapp fa-xl"></i>
+              <i class="fa-brands fa-facebook fa-xl"></i>
+              <i class="fa-brands fa-instagram fa-xl"></i>
+              <i class="fa-brands fa-x-twitter fa-xl"></i>
+              <span class="material-symbols-outlined">alternate_email</span>
+            </div>
+          </div>
+        </section>
+        <section class="container-info-games">
+          <section class="description-game">
+            <h3>Blocka de League of Legends</h3>
+            <p>
+              Blocka de League of Legends: Un Rompecabezas Visual en Runaterra
+              ¡Pon a prueba tu percepción visual y habilidad para resolver
+              acertijos con Blocka de League of Legends! En este fascinante
+              juego de rompecabezas basado en imágenes, deberás reconstruir
+              escenas épicas de Runaterra pieza por pieza. Cada bloque revela
+              parte de tus campeones favoritos y los lugares más emblemáticos
+              del universo de League of Legends.
+            </p>
+            <p>
+              Diseñado con una estética única, cada rompecabezas presenta
+              ilustraciones detalladas de campeones icónicos como Garen, Ashe y
+              Jinx, así como paisajes legendarios de Runaterra. Las piezas se
+              entrelazan para formar imágenes espectaculares que capturan la
+              esencia del juego.
+            </p>
+            <p>
+              Con cada partida, sentirás la emoción de descubrir y completar
+              arte conceptual exclusivo de la Grieta del Invocador, donde solo
+              la observación más aguda y la paciencia te llevarán a revelar la
+              imagen completa. ¿Tienes lo que se necesita para ensamblar cada
+              obra maestra? ¡Descubre si tu ojo para el detalle es digno de un
+              maestro en este desafío visual para un solo jugador!
+            </p>
+            <ul class="info-game">
+              <li>
+                Página oficial:
+                <a href="https://www.leagueoflegends.com/es-mx/"
+                  >https://www.leagueoflegends.com/es-mx/</a
+                >
+              </li>
+              <li>
+                Soporte:
+                <a
+                  href="https://support-leagueoflegends.riotgames.com/hc/es-419"
+                  >https://support-leagueoflegends.riotgames.com/hc/es-419</a
+                >
+              </li>
+            </ul>
+            <img
+              class="media-game-info"
+              src="../assets/images/Game.png"
+              alt="Peg Solitaire de League of Legends"
+            />
+            <iframe
+              class="media-game-info"
+              height="350"
+              src="https://www.youtube.com/embed/2VuQ76RhKG0?start=80"
+              title="EL VIDEO MAS EPICO DE BARBAKAHN || Los Bronzas en LAS II#16 II S6 II"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            >
+            </iframe>
+          </section>
+          <section class="manual-game">
+            <div class="manual-game-container">
+              <h5>Manual de Juego - Blocka de League of Legends</h5>
+              <h6>Objetivo del Juego</h6>
+              <p>
+                Reconstruir imágenes completas de campeones, escenas y lugares
+                icónicos de Runaterra colocando correctamente los bloques de
+                imagen en su posición adecuada en el tablero.
+              </p>
+              <h6>Cómo Jugar</h6>
+              <ol>
+                <li>
+                  <p class="how-to-play-title">Inicio del Juego:</p>
+                  <p>
+                    Al comenzar una partida, se te presentará un tablero
+                    dividido en secciones y una serie de bloques con fragmentos
+                    de imagen. Cada bloque contiene una parte de la imagen
+                    completa que debes reconstruir.
+                  </p>
+                </li>
+                <li>
+                  <p class="how-to-play-title">Mecánica Básica:</p>
+                  <p>
+                    Seleccionar: Haz clic en un bloque de la
+                    zona de piezas disponibles.<br />
+                    Colocar: Arrastra el bloque seleccionado
+                    hacia el tablero y suéltalo en la posición que creas
+                    correcta.<br />
+                    Ajustar: Puedes mover los bloques ya
+                    colocados si crees que están en la posición incorrecta.
+                  </p>
+                </li>
+                <li>
+                  <p class="how-to-play-title">Pistas Visuales:</p>
+                  <p>
+                    Observa cuidadosamente los colores, formas y detalles de
+                    cada fragmento. Los bordes de las imágenes, las sombras y
+                    los elementos característicos de los campeones te ayudarán a
+                    identificar dónde va cada pieza.
+                  </p>
+                </li>
+                <li>
+                  <p class="how-to-play-title">Sistema de Verificación:</p>
+                  <p>
+                    Cuando coloques un bloque en su posición correcta, este se
+                    fijará automáticamente y brillará brevemente, confirmando
+                    que está bien ubicado. Los bloques mal colocados
+                    permanecerán móviles.
+                  </p>
+                </li>
+                <li>
+                  <p class="how-to-play-title">Completar el Rompecabezas:</p>
+                  <p>
+                    Una vez que todos los bloques estén en su lugar correcto, la
+                    imagen completa se revelará en todo su esplendor, mostrando
+                    arte exclusivo de League of Legends. ¡Habrás dominado ese
+                    nivel!
+                  </p>
+                </li>
+              </ol>
+              <h6>¡A Jugar!</h6>
+              <p>
+                Ahora que conoces las reglas, es momento de demostrar tu
+                habilidad visual y tu conocimiento del universo de League of
+                Legends. ¡Que comience el desafío en Runaterra!
+              </p>
+            </div>
+            <div class="tutorial-game">
+              <h5>Tutorial</h5>
+              <iframe
+                class="media-game-info"
+                height="450"
+                src="https://www.youtube.com/embed/LjLKNGQK0Tg?start=80"
+                title="Como jugar al League of Legends 2025 - Guía para empezar de cero."
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              >
+              </iframe>
+            </div>
+          </section>
+        </section>
+        <section class="container-comments-games">
+          <section class="comments-game">
+            <div class="add-comment">
+              <h5>Deja tu comentario!!</h5>
+              <h4>Comentario</h4>
+              <form class="comment-form" action="">
+                <textarea
+                  name="comentario"
+                  id="comment"
+                  placeholder="Escribe tu comentario aquí..."
+                ></textarea>
+                <div class="btns-form">
+                  <button class="btn-cancel">Cancelar</button>
+                  <button class="btn-comment">Comentar</button>
+                </div>
+              </form>
+            </div>
+            <div class="comments">
+              <h5>Comentarios</h5>
+              <div class="container-comment">
+                <div class="header-comment">
+                  <p class="username">@Graffigna</p>
+                  <p class="date">14 de Julio 2024</p>
+                </div>
+                <p class="text-comment">
+                  Esta re roto el yasuo, metanle un nerfeo a la E que te pega
+                  con la silla de ruedas, y el hermano esta igual de roto, media
+                  pila con el balance de esos champs loco!!!!!.
+                  <span class="favorite-comment material-symbols-outlined"
+                    >favorite</span
+                  >
+                </p>
+              </div>
+              <div class="container-comment">
+                <div class="header-comment">
+                  <p class="username">@Barbakhan</p>
+                  <p class="date">12 de Septiembre 2024</p>
+                </div>
+                <p class="text-comment">
+                  Me gano un pendejo de 12 años con garen, no puede ser que el
+                  champ sea tan facil como para que me gane un nene dale!!
+                  <span class="favorite-comment material-symbols-outlined"
+                    >favorite</span
+                  >
+                </p>
+              </div>
+              <div class="container-comment">
+                <div class="header-comment">
+                  <p class="username">@Luchito777rex</p>
+                  <p class="date">12 de Septiembre 2024</p>
+                </div>
+                <p class="text-comment">
+                  Buenisimo el juego, la verdad mucha variedad de personajes y
+                  cada uno con sus mecanicas, muy entretenido, la comunidad esta
+                  un poco descontrolada pero bueno.
+                  <span class="favorite-comment material-symbols-outlined"
+                    >favorite</span
+                  >
+                </p>
+              </div>
+              <div class="container-comment">
+                <div class="header-comment">
+                  <p class="username">@Alvaro845</p>
+                  <p class="date">6 de Agosto 2025</p>
+                </div>
+                <p class="text-comment">
+                  Sería genial tener más campeones para elegir como piezas.
+                  <span class="favorite-comment material-symbols-outlined"
+                    >favorite</span
+                  >
+                </p>
+              </div>
+              <div class="container-comment">
+                <div class="header-comment">
+                  <p class="username">@Coscu</p>
+                  <p class="date">7 de Octubre 2024</p>
+                </div>
+                <p class="text-comment">
+                  Casi me da un ACV de la bronca que me dio jugar a este juego y
+                  los inutiles que me tocan de equipo. (me va a dar un ACV si no
+                  apruebo la materia tmb)
+                  <span class="favorite-comment material-symbols-outlined"
+                    >favorite</span
+                  >
+                </p>
+              </div>
+              <div class="container-comment">
+                <div class="header-comment">
+                  <p class="username">@Gemini</p>
+                  <p class="date">15 de Septiembre 2025</p>
+                </div>
+                <p class="text-comment">
+                  "Pensé que era una tontería, pero es brutal" Cuando vi este
+                  juego por primera vez, me reí. ¿Un Peg Solitaire de LoL? Suena
+                  a algo que compraría un fanático para tenerlo de adorno. Pero
+                  me animé a probarlo y, la verdad, me ha sorprendido para bien
+                  ...
+                  <span class="favorite-comment material-symbols-outlined"
+                    >favorite</span
+                  >
+                </p>
+              </div>
+              <div class="container-comment">
+                <div class="header-comment">
+                  <p class="username">@faker</p>
+                  <p class="date">18 de Enero 2025</p>
+                </div>
+                <p class="text-comment">
+                  처음엔 그냥 장식용인 줄 알았는데, 생각보다 훨씬 재밌네요!
+                  챔피언 피규어 퀄리티도 정말 좋고, 전략적으로 생각하게 만드는
+                  게 LoL이랑 비슷해서 좋아요. LoL 팬이라면 무조건 사야 합니다!
+                  <span class="favorite-comment material-symbols-outlined"
+                    >favorite</span
+                  >
+                </p>
+              </div>
+            </div>
+          </section>
+          <section class="similar-games">
+            <h5>Juegos similares</h5>
+            <div class="container-similar-games" id="similar-games-container">
+              <!-- Las tarjetas de juegos similares se cargarán dinámicamente desde la API -->
+            </div>
+          </section>
+        </section>
+      </article>
+      <footer>
+        <!-- Footer Content -->
+        <div class="footer-content">
+          <!-- Sobre nosotros -->
+          <section class="footer-section">
+            <h4>Sobre nosotros</h4>
+            <ul>
+              <li><a href="#">Equipo de desarrollo</a></li>
+              <li><a href="#">Noticias y actualizaciones</a></li>
+              <li><a href="#">Blog de gaming</a></li>
+              <li><a href="#">Prensa y medios</a></li>
+            </ul>
+          </section>
+
+          <!-- Comunidad -->
+          <section class="footer-section">
+            <h4>Comunidad</h4>
+            <ul>
+              <li><a href="#">Foros de jugadores</a></li>
+              <li><a href="#">Rankings y tablas</a></li>
+              <li><a href="#">Torneos activos</a></li>
+              <li><a href="#">Discord oficial</a></li>
+              <li><a href="#">Streamers asociados</a></li>
+            </ul>
+          </section>
+
+          <!-- Soporte y Ayuda -->
+          <section class="footer-section">
+            <h4>Soporte y Ayuda</h4>
+            <ul>
+              <li><a href="#">Centro de ayuda / FAQ</a></li>
+              <li><a href="#">Guías de juego</a></li>
+              <li><a href="#">Soporte técnico</a></li>
+              <li><a href="#">Reportar problemas</a></li>
+              <li><a href="#">Contacto</a></li>
+            </ul>
+          </section>
+
+          <!-- Legal -->
+          <section class="footer-section">
+            <h4>Legal</h4>
+            <ul>
+              <li><a href="#">Términos de servicio</a></li>
+              <li><a href="#">Política de privacidad</a></li>
+              <li><a href="#">Política de cookies</a></li>
+              <li><a href="#">Reglas de la comunidad</a></li>
+              <li><a href="#">Límites de edad</a></li>
+            </ul>
+          </section>
+
+          <!-- Noticias -->
+          <section class="footer-section">
+            <h4>Noticias</h4>
+            <ul>
+              <li><a href="#">Lanzamientos recientes</a></li>
+              <li><a href="#">Actualizaciones de juegos</a></li>
+              <li><a href="#">Eventos y torneos</a></li>
+              <li><a href="#">Noticias de la industria</a></li>
+              <li><a href="#">Mantenimientos programados</a></li>
+            </ul>
+          </section>
+        </div>
+
+        <!-- Redes sociales -->
+        <div class="social-icons">
+          <i class="fa-brands fa-facebook"></i>
+          <i class="fa-brands fa-instagram"></i>
+          <i class="fa-brands fa-x-twitter"></i>
+        </div>
+
+        <!-- Copyright -->
+        <p>© 2025 Quantum Arcade. Todos los derechos reservados.</p>
+      </footer>
+    </main>
+
+    <!-- JavaScript -->
+    <script src="../js/sharedUI.js" defer></script>
+    <script src="../js/similarGames.js" defer></script>
+    <script src="../js/gameInteractions.js" defer></script>
+  </body>
+</html>
