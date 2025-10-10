@@ -63,6 +63,7 @@ const gameHud = document.getElementById('game-hud');
 const victoryScreen = document.getElementById('victory-screen');
 const timerDisplay = document.getElementById('timer-display');
 const finalTimeDisplay = document.getElementById('final-time');
+const menuGame = document.getElementById('menu-game');
 
 // Botones
 const btnInstructions = document.getElementById('btn-instructions');
@@ -126,10 +127,16 @@ function showScreen(screen) {
     gameHud.classList.add('hidden');
     victoryScreen.classList.add('hidden');
 
+    menuGame.classList.remove('hidden');
+
+    // Limpiar el canvas antes de dibujar
+    ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
     // Mostrar la pantalla correspondiente
     switch(screen) {
         case 'START':
             startScreen.classList.remove('hidden');
+            clearCanvas();
             break;
         case 'INSTRUCTIONS':
             instructionsScreen.classList.remove('hidden');
@@ -243,8 +250,11 @@ function animateSlot() {
 }
 
 function drawSlotMachine() {
-    ctx.fillStyle = '#100527';
-    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    // Limitar el área de dibujo al área del juego
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(GAME_AREA_X, GAME_AREA_Y, GAME_AREA_WIDTH, GAME_AREA_HEIGHT);
+    ctx.clip();
 
     // Marco decorativo del área de juego
     ctx.strokeStyle = '#5603ad';
@@ -312,6 +322,8 @@ function drawSlotMachine() {
         ctx.lineWidth = 3;
         ctx.strokeRect(reel.x, reel.y, reel.width, reel.height);
     });
+
+    ctx.restore(); // Restaurar el contexto para eliminar el clipping
 }
 
 // Función auxiliar para dibujar imagen con object-fit: cover
@@ -385,8 +397,6 @@ function startPuzzle(numPieces) {
 }
 
 function drawPuzzle() {
-    ctx.fillStyle = '#100527';
-    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
     // Marco decorativo del área de juego
     ctx.strokeStyle = '#5603ad';
@@ -495,9 +505,6 @@ function checkPuzzleComplete() {
 }
 
 function drawPuzzleComplete() {
-    ctx.fillStyle = '#100527';
-    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-
     // Marco decorativo del área de juego
     ctx.strokeStyle = '#03ad56';
     ctx.lineWidth = 5;
@@ -569,16 +576,10 @@ function showVictory() {
 // ========================================================================================
 
 function drawCanvas() {
-    ctx.fillStyle = '#100527';
-    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-
-    // Agregar un diseño decorativo
-    ctx.strokeStyle = '#5603ad';
     ctx.lineWidth = 5;
     ctx.strokeRect(10, 10, CANVAS_WIDTH - 20, CANVAS_HEIGHT - 20);
 
     // Texto centrado
-    ctx.fillStyle = '#03ad56';
     ctx.font = 'bold 48px "Titillium Web", sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';

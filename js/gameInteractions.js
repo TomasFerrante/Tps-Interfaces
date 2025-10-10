@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==================== FULLSCREEN ====================
 
   const fullscreenIcon = document.querySelector('.menu-game .fullscreen');
-  const gameImage = document.querySelector('.image-game');
+  const gameImage = document.querySelector('#canvas-game');
 
   if (fullscreenIcon && gameImage) {
     fullscreenIcon.addEventListener('click', function() {

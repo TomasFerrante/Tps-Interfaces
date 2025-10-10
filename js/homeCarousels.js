@@ -58,6 +58,17 @@ const carousel3D = {
             const games = await response.json();
             // MODIFICAR 6 para cambiar cantidad de juegos en el carrusel 3D
             const selectedGames = games.slice(0, 6);
+
+            // Reemplaza el juego en la posición 1 con Blocka (juego personalizado)
+            if (selectedGames.length > 1) {
+                selectedGames[1] = {
+                    name: 'Blocka - League of Legends',
+                    background_image: '../assets/images/BlockaGame.png',
+                    background_image_low_res: '../assets/images/BlockaGame.png',
+                    isBlocka: true
+                };
+            }
+
             // Calcula ángulo automáticamente basado en cantidad de juegos
             this.anglePerItem = 360 / selectedGames.length;
 
@@ -90,10 +101,17 @@ const carousel3D = {
             this.src = 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(game.name);
         };
         
-        btnPlay.addEventListener('click', (e) => {
-            e.stopPropagation();
-            console.log(`Jugar: ${game.name}`);
-        });
+        if (game.isBlocka) {
+            btnPlay.addEventListener('click', (e) => {
+                e.stopPropagation();
+                window.location.href = './running-blocka.html';
+            });
+        } else {
+            btnPlay.addEventListener('click', (e) => {
+                e.stopPropagation();
+                console.log(`Jugar: ${game.name}`);
+            });
+        }
 
         carouselItem.appendChild(h2);
         carouselItem.appendChild(btnPlay);
