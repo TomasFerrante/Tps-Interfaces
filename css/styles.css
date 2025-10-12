@@ -653,19 +653,25 @@ footer .social-icons i:hover {
   display: none;
   width: 120px;
   height: 40px;
-  border-radius: 12px;
   color: var(--PureWhite);
-  cursor: pointer;
-  border: none;
-  transition: var(--transition-normal);
   position: absolute;
   background-color: var(--Green);
   top: 30%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-weight: bold;
   font-size: 16px;
   z-index: 20;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  transition: var(--transition-normal);
+}
+
+.play-btn-genre:hover {
+  background-color: var(--SecondaryLight);
+  transform: translate(-50%, -50%) scale(1.1);
+  box-shadow: 0 4px 15px rgba(3, 173, 86, 0.5);
 }
 
 .game-card:hover .play-btn-genre {
@@ -801,19 +807,25 @@ footer .social-icons i:hover {
   display: none;
   width: 120px;
   height: 40px;
-  border-radius: 12px;
   color: var(--PureWhite);
-  cursor: pointer;
-  border: none;
-  transition: var(--transition-normal);
   position: absolute;
   background-color: var(--Green);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-weight: bold;
   font-size: 16px;
   z-index: 20;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  transition: var(--transition-normal);
+}
+
+.play-btn:hover {
+  background-color: var(--SecondaryLight);
+  transform: translate(-50%, -50%) scale(1.1);
+  box-shadow: 0 4px 15px rgba(3, 173, 86, 0.5);
 }
 
 .top-game-card:hover .play-btn {
@@ -962,7 +974,34 @@ footer .social-icons i:hover {
 }
 
 /* ========================================================================================
-  14. COMPONENTES - FORMULARIOS DE AUTENTICACIÓN
+  14. COMPONENTES - BOTONES BASE (Consolidado)
+======================================================================================== */
+/* Clase base compartida por todos los botones del sitio */
+.btn-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: 700;
+  text-decoration: none;
+  position: relative;
+}
+
+.btn-base:hover {
+  transform: translateY(-3px);
+}
+
+.btn-base:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* ========================================================================================
+  15. COMPONENTES - FORMULARIOS DE AUTENTICACIÓN
 ======================================================================================== */
 main {
   display: flex;
@@ -1122,21 +1161,15 @@ form .input-with-icon .toggle-password {
   color: var(--Orange);
 }
 
-/* Botón de signup */
+/* Botón de signup - Extiende btn-base */
 .btn-signup {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   width: 50%;
   background-color: var(--Purple);
   color: var(--PureWhite);
   border: var(--Green) 0.5px solid;
-  border-radius: 12px;
   padding: 10px;
   font-size: 16px;
-  cursor: pointer;
   transition: .6s ease all;
-  position: relative;
   overflow: hidden;
 }
 
@@ -1990,16 +2023,12 @@ figure img {
   justify-content: space-between;
 }
 
+/* Botones de comentarios - Extienden btn-base */
 .btn-cancel,
 .btn-comment {
   width: 120px;
   height: 40px;
-  border-radius: 12px;
   color: var(--PureWhite);
-  cursor: pointer;
-  border: none;
-  transition: var(--transition-normal);
-  position: relative;
 }
 
 .btn-cancel {
@@ -2010,6 +2039,7 @@ figure img {
   background-color: var(--Error);
   color: var(--Black);
   animation: shake 0.5s ease;
+  transform: none;
 }
 
 .btn-comment {
@@ -2019,6 +2049,7 @@ figure img {
 .btn-comment:hover {
   background: var(--PrimaryLight1);
   animation: pulse 1s infinite;
+  transform: none;
 }
 
 .container-comment .username {
@@ -2718,19 +2749,13 @@ figure img {
   justify-content: center;
 }
 
+/* Botones del juego Blocka - Extienden btn-base */
 .btn-game {
-  display: flex;
-  align-items: center;
   gap: 10px;
   padding: 18px 40px;
   font-size: 1.3em;
-  font-weight: 700;
-  border: none;
   border-radius: 50px;
-  cursor: pointer;
-  transition: all 0.3s ease;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-  font-family: 'Titillium Web', sans-serif;
 }
 
 .btn-game span {
@@ -2743,7 +2768,6 @@ figure img {
 }
 
 .btn-instructions:hover {
-  transform: translateY(-3px);
   box-shadow: 0 8px 30px rgba(86, 3, 173, 0.5);
 }
 
@@ -2753,7 +2777,6 @@ figure img {
 }
 
 .btn-play:hover {
-  transform: translateY(-3px);
   box-shadow: 0 8px 30px rgba(3, 173, 86, 0.5);
 }
 
@@ -2764,7 +2787,6 @@ figure img {
 }
 
 .btn-back:hover {
-  transform: translateY(-3px);
   box-shadow: 0 8px 30px rgba(16, 16, 23, 0.5);
 }
 
@@ -2918,7 +2940,6 @@ figure img {
 
 .btn-start-game:disabled {
   background: linear-gradient(135deg, var(--Black50), var(--Black70));
-  cursor: not-allowed;
   transform: scale(1);
 }
 
@@ -2928,7 +2949,6 @@ figure img {
 }
 
 .btn-restart:hover {
-  transform: translateY(-3px);
   box-shadow: 0 8px 30px rgba(242, 80, 34, 0.5);
 }
 
@@ -2961,7 +2981,7 @@ figure img {
 }
 
 .btn-difficulty:hover {
-  transform: scale(1.05);
+  transform: scale(1.05) translateY(-3px);
   background: linear-gradient(135deg, var(--Purple), var(--PrimaryLight1));
   box-shadow: 0 10px 40px rgba(86, 3, 173, 0.6);
 }
@@ -3006,7 +3026,7 @@ figure img {
 }
 
 .btn-restart-small:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   box-shadow: 0 5px 20px rgba(242, 80, 34, 0.5);
 }
 
@@ -3054,15 +3074,6 @@ figure img {
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@keyframes glow {
-  0%, 100% {
-    text-shadow: 0 0 30px rgba(3, 173, 86, 0.5);
-  }
-  50% {
-    text-shadow: 0 0 50px rgba(3, 173, 86, 0.8), 0 0 70px rgba(3, 173, 86, 0.6);
   }
 }
 
