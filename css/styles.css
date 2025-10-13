@@ -505,7 +505,7 @@ footer .social-icons i:hover {
   left: 50%;
   top: 50%;
   transform-style: preserve-3d;
-  transform: translate(-50%, -50%) rotateY(calc(var(--i) * 60deg)) translateZ(450px);
+  transform: translate(-50%, -50%) rotateY(calc(var(--i) * var(--angle, 60) * 1deg)) translateZ(450px);
   transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 12px;
   overflow: hidden;
@@ -2377,7 +2377,7 @@ figure img {
   .carousel-item {
     width: 200px;
     height: 160px;
-    transform: translate(-50%, -50%) rotateY(calc(var(--i) * 60deg)) translateZ(280px);
+    transform: translate(-50%, -50%) rotateY(calc(var(--i) * var(--angle, 60) * 1deg)) translateZ(280px);
   }
 
   /* Header Mobile */
@@ -2483,7 +2483,7 @@ figure img {
   .carousel-item {
     width: 260px;
     height: 220px;
-    transform: translate(-50%, -50%) rotateY(calc(var(--i) * 60deg)) translateZ(400px);
+    transform: translate(-50%, -50%) rotateY(calc(var(--i) * var(--angle, 60) * 1deg)) translateZ(400px);
   }
 
   /* Footer Tablet */
@@ -2564,12 +2564,12 @@ figure img {
   .carousel-item {
     width: 280px;
     height: 240px;
-    transform: translate(-50%, -50%) rotateY(calc(var(--i) * 60deg)) translateZ(500px);
+    transform: translate(-50%, -50%) rotateY(calc(var(--i) * var(--angle, 60) * 1deg)) translateZ(500px);
   }
 
   .carousel-item:hover {
     z-index: 20;
-    transform: translate(-50%, -50%) rotateY(calc(var(--i) * 60deg)) translateZ(550px) scale(1.01);
+    transform: translate(-50%, -50%) rotateY(calc(var(--i) * var(--angle, 60) * 1deg)) translateZ(550px) scale(1.01);
   }
 
   /* Footer Desktop */
@@ -2617,12 +2617,12 @@ figure img {
   .carousel-item {
     width: 320px;
     height: 220px;
-    transform: translate(-50%, -50%) rotateY(calc(var(--i) * 60deg)) translateZ(600px);
+    transform: translate(-50%, -50%) rotateY(calc(var(--i) * var(--angle, 60) * 1deg)) translateZ(600px);
   }
 
   .carousel-item:hover {
     z-index: 20;
-    transform: translate(-50%, -50%) rotateY(calc(var(--i) * 60deg)) translateZ(550px) scale(1.05);
+    transform: translate(-50%, -50%) rotateY(calc(var(--i) * var(--angle, 60) * 1deg)) translateZ(550px) scale(1.05);
   }
 }
 
@@ -2655,7 +2655,7 @@ figure img {
   .carousel-item {
     width: 450px;
     height: 230px;
-    transform: translate(-50%, -50%) rotateY(calc(var(--i) * 60deg)) translateZ(500px);
+    transform: translate(-50%, -50%) rotateY(calc(var(--i) * var(--angle, 60) * 1deg)) translateZ(500px);
   }
 }
 

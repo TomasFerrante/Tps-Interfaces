@@ -87,6 +87,7 @@ const carousel3D = {
         const carouselItem = document.createElement('div');
         carouselItem.className = 'carousel-item';
         carouselItem.style.setProperty('--i', index);
+        carouselItem.style.setProperty('--angle', this.anglePerItem);
 
         const img = document.createElement('img');
         img.src = game.background_image_low_res || game.background_image || 'https://via.placeholder.com/400x300?text=No+Image';
@@ -120,10 +121,13 @@ const carousel3D = {
     },
 
     loadPlaceholderImages() {
-        for (let i = 0; i < 6; i++) {
+        const count = 6; // Cantidad de placeholders
+        this.anglePerItem = 360 / count;
+        for (let i = 0; i < count; i++) {
             const carouselItem = document.createElement('div');
             carouselItem.className = 'carousel-item';
             carouselItem.style.setProperty('--i', i);
+            carouselItem.style.setProperty('--angle', this.anglePerItem);
 
             const img = document.createElement('img');
             img.src = `https://picsum.photos/400/300?random=${i + 1}`;
@@ -281,7 +285,7 @@ function initTopCarouselButtons() {
     if (!carousel || !prevBtn || !nextBtn) return;
 
     // MODIFICAR 400 para cambiar distancia de scroll por click (en px)
-    const scrollAmount = 400;
+    const scrollAmount = 600;
 
     function updateTopButtonsVisibility() {
         const maxScroll = carousel.scrollWidth - carousel.clientWidth;
