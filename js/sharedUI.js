@@ -1,22 +1,4 @@
 // ==================== COMPONENTES DE UI COMPARTIDOS ====================
-// FUNCIONALIDAD:
-// - Gestión del menú lateral (sidebar) que se abre desde el ícono hamburguesa
-// - Gestión del menú desplegable de usuario (dropdown) del ícono de cuenta
-// - Cierre de menús con click fuera, tecla ESC, o botón cerrar
-// - Overlay oscuro cuando el sidebar está abierto
-
-// VARIABLES CRÍTICAS Y SU IMPACTO:
-// - Clase 'active' (múltiples líneas): Controla visibilidad de sidebar y dropdown
-//   MODIFICAR esta clase en CSS afecta cómo aparecen/desaparecen los menús
-// - Selectores CSS: Deben coincidir exactamente con las clases en el HTML
-//   MODIFICAR nombres de clases aquí requiere actualizar el HTML y CSS también
-// - Tecla 'Escape' (líneas 41, 98): Cierra menús abiertos
-//   MODIFICAR para cambiar el comportamiento del teclado
-
-// IMPACTO DE MODIFICACIONES:
-// - Cambiar selectores sin actualizar HTML/CSS romperá la funcionalidad
-// - Modificar lógica de 'active' puede hacer que múltiples menús se abran simultáneamente
-// - Eliminar stopPropagation causará que clicks dentro cierren los menús
 
 document.addEventListener('DOMContentLoaded', () => {
 

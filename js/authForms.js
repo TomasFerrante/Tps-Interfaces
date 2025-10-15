@@ -1,35 +1,4 @@
 // ==================== FORMULARIOS DE AUTENTICACIÓN ====================
-// FUNCIONALIDAD:
-// - Validación en tiempo real de formularios de registro y login
-// - Sistema de captcha visual con ruido aleatorio
-// - Validación de nombre, nickname, edad, email, contraseña
-// - Feedback visual inmediato con iconos y colores
-// - Toggle de visibilidad de contraseña
-// - Redirección automática tras validación exitosa
-
-// VARIABLES CRÍTICAS Y SU IMPACTO:
-
-// VALIDADORES:
-// - Nombre mínimo (línea 36): 3 caracteres - MODIFICAR para cambiar longitud mínima
-// - Nickname mínimo (línea 49): 3 caracteres - MODIFICAR para cambiar longitud mínima
-// - Edad mínima (línea 63): 13 años - MODIFICAR para cambiar restricción de edad
-// - Edad máxima (línea 66): 110 años - MODIFICAR para cambiar límite superior
-// - Contraseña mínima (línea 88): 8 caracteres - MODIFICAR para cambiar seguridad
-// - Regex nombre (línea 39): /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/ - Solo letras y espacios
-// - Regex nickname (línea 52): /^[a-zA-Z0-9_]+$/ - Letras, números y guiones bajos
-// - Regex email (línea 76): Formato estándar de email
-
-// CAPTCHA:
-// - Longitud código (línea 124): 6 caracteres - MODIFICAR para hacer captcha más largo/corto
-// - Caracteres permitidos (línea 122): Excluye I, O, l, 0, 1 para evitar confusión
-// - Líneas de ruido (línea 147): 5 líneas - MODIFICAR para más/menos distracción
-// - Puntos de ruido (línea 157): 30 puntos - MODIFICAR para más/menos ruido
-// - Tamaño fuente (línea 171): 28px - MODIFICAR para hacer texto más grande/pequeño
-
-// REDIRECCIONES:
-// - Registro exitoso (línea 382): './html/home.html' - MODIFICAR para cambiar destino
-// - Login exitoso (línea 475): './home.html' - MODIFICAR para cambiar destino
-// - Delay redirección (líneas 382, 475): 600ms - MODIFICAR para cambiar tiempo de espera
 
 document.addEventListener('DOMContentLoaded', () => {
 

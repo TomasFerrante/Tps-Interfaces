@@ -1,19 +1,4 @@
 // ==================== SIMILAR GAMES - CARRUSEL DE JUEGOS SIMILARES ====================
-// FUNCIONALIDAD:
-// - Muestra hasta 8 juegos similares en la página de detalle del juego
-// - Filtra juegos por el género "Strategy" (similar a League of Legends)
-// - Si no hay suficientes juegos de estrategia, completa con otros juegos
-// - Genera precios y descuentos aleatorios para cada juego
-// - Permite marcar juegos como favoritos
-
-// VARIABLES CRÍTICAS Y SU IMPACTO:
-// - API URL (línea 8): 'https://vj.interfaces.jima.com.ar/api/v2' - Cambiar afecta de dónde obtiene los juegos
-// - Género filtrado (línea 14): 'strategy' - Cambiar a otro género mostrará juegos de esa categoría
-// - Cantidad de juegos (línea 19): .slice(0, 8) - Cambiar el 8 muestra más o menos juegos
-// - Patrón de descuento (línea 67): index % 3 === 0 - Cambiar el 3 afecta cada cuántos juegos tienen descuento
-// - Porcentaje de descuento (línea 69): 15 - Cambiar modifica el % de descuento mostrado
-// - Rango de precios (línea 68): Math.random() * 40 + 10 - Genera precios entre $10 y $50
-// - Patrón de favoritos (línea 76): index % 4 === 0 - Cada 4to juego inicia marcado como favorito
 
 async function loadSimilarGames() {
     try {

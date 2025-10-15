@@ -1,21 +1,9 @@
 // ==================== LOADING SCREEN - PANTALLA DE CARGA ====================
-// FUNCIONALIDAD:
-// - Muestra una pantalla de carga de 5 segundos al entrar a la página home
-// - Anima un porcentaje de 0 a 100% de forma gradual
-// - Bloquea el scroll durante la carga
-// - Se autodestruye del DOM al finalizar
-
-// VARIABLES CRÍTICAS Y SU IMPACTO:
-// - LOADING_DURATION (línea 25): 5000ms (5 segundos) - Duración total de la pantalla de carga
-//   MODIFICAR este valor cambia cuánto tiempo se muestra la pantalla (ej: 3000 = 3 segundos)
-// - UPDATE_INTERVAL (línea 26): 50ms - Frecuencia de actualización del contador
-//   MODIFICAR afecta la suavidad: menor valor = más suave pero más procesamiento
-// - setTimeout línea 68: 500ms - Tiempo de animación de salida (fade out)
-//   MODIFICAR debe coincidir con la transición CSS de .loading-screen.hidden
 
 document.addEventListener('DOMContentLoaded', () => {
   const loadingScreen = document.querySelector('.loading-screen');
   const loadingPercent = document.getElementById('loadingPercent');
+  const loadingProgress = document.querySelector('.loading-progress');
   const body = document.body;
 
   if (!loadingScreen) return;
@@ -28,6 +16,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const LOADING_DURATION = 5000;
   // MODIFICAR 50 para cambiar la frecuencia de actualización (menor = más suave)
   const UPDATE_INTERVAL = 50;
+
+  // Sincronizar la animación CSS con la duración de JavaScript
+  if (loadingProgress) {
+    loadingProgress.style.setProperty('--loading-duration', `${LOADING_DURATION}ms`);
+  }
 
   let currentPercent = 0;
   const incrementAmount = 100 / (LOADING_DURATION / UPDATE_INTERVAL);
@@ -68,6 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // MODIFICAR 500 si cambias la duración de la transición CSS (debe coincidir)
     setTimeout(() => {
       loadingScreen.remove();
-    }, 500); // Tiempo de la transición CSS
+    }, 300); // Tiempo de la transición CSS
   }, LOADING_DURATION);
 });

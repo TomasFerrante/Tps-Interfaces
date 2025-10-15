@@ -1,31 +1,3 @@
-// ==================== GAME INTERACTIONS - INTERACCIONES DE LA PÁGINA DE JUEGO ====================
-// FUNCIONALIDAD:
-// - Marcar/desmarcar juego como favorito (estrella) con persistencia en localStorage
-// - Compartir juego en redes sociales (WhatsApp, Facebook, Twitter, Email)
-// - Modo pantalla completa para la imagen del juego
-// - Sistema de likes en comentarios con persistencia en localStorage
-// - Animaciones visuales para feedback de interacciones
-
-// VARIABLES CRÍTICAS Y SU IMPACTO:
-
-// FAVORITOS:
-// - localStorage key (línea 19): 'gameFavorite' - MODIFICAR para cambiar nombre de almacenamiento
-// - Escalas de animación (líneas 25-27): scale(1.3) rotate(15deg) - MODIFICAR para cambiar feedback visual
-// - Duración animación (línea 27): 200ms - MODIFICAR para hacer animación más lenta/rápida
-
-// COMPARTIR:
-// - shareText (línea 74): Texto predefinido - MODIFICAR para cambiar mensaje de compartir
-// - URLs redes sociales (líneas 78-96): MODIFICAR para agregar/quitar redes o cambiar formato
-// - shareUrl: Usa window.location.href (actual URL de la página)
-
-// FULLSCREEN:
-// - Compatibilidad múltiples navegadores (líneas 110-116, 121-127)
-//   MODIFICAR si necesitas agregar soporte para más navegadores
-
-// LIKES COMENTARIOS:
-// - localStorage key pattern (línea 153): 'comment-like-{index}' - Único por comentario
-// - Color like activo (línea 184): '#e74c3c' (rojo) - MODIFICAR para cambiar color del corazón
-// - Duración animación (línea 172): 200ms - MODIFICAR velocidad de feedback
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -224,8 +196,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isLiked) {
       element.textContent = 'favorite';
       element.classList.add('liked');
-      // MODIFICAR '#e74c3c' para cambiar color del corazón cuando está activo (actualmente rojo)
-      element.style.color = '#e74c3c';
     } else {
       element.textContent = 'favorite_border';
       element.classList.remove('liked');

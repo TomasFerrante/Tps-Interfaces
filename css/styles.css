@@ -73,9 +73,6 @@
   --Orange10: #f250221a;
   --Orange20: #f25022cc;
   --Orange30: #f25022e6;
-  --Orange40: #f25022ff;
-  --Orange50: #f25022ff;
-  --Orange60: #f25022ff;
   --Orange70: #f25022ff;
   --Orange80: #f25022cc;
   --Orange90: #f25022e6;
@@ -152,6 +149,11 @@
   --shadow-md: 0 4px 15px rgba(0, 0, 0, 0.3);
   --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.5);
   --shadow-glow: 0 0 20px var(--Green50);
+
+  /* Gradientes comunes */
+  --gradient-purple-menu: linear-gradient(180deg, var(--Purple) 0%, var(--DarkPurple) 50%, var(--PrimaryShadow1) 100%);
+  --gradient-purple-header: linear-gradient(135deg, var(--Purple80) 0%, var(--Purple50) 100%);
+  --gradient-game-bg: linear-gradient(135deg, var(--Black) 0%, var(--PrimaryShadow1) 40%, var(--DarkPurple) 50%, var(--PrimaryShadow1) 60%, var(--Black) 100%);
 }
 
 /* ========================================================================================
@@ -219,31 +221,23 @@ html, body {
 /* ========================================================================================
    6. LAYOUTS BASE (Body Containers)
 ======================================================================================== */
-/* Body de Sign Up */
-.body-bg {
-  margin: 0;
-  padding: 0;
+/* Body de Sign Up y Login */
+.body-bg,
+.login-body {
   min-height: 100vh;
-  background-image: url("../assets/images/Background.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background: url("../assets/images/Background.jpg") center/cover no-repeat;
   color: var(--PureWhite);
+}
+
+.body-bg {
   height: 100%;
 }
 
-/* Body de Login */
 .login-body {
-  min-height: 100vh;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url("../assets/images/Background.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  color: var(--PureWhite);
 }
 
 /* Body de Home */
@@ -343,14 +337,14 @@ header input[type="search"] {
   padding-right: 40px;
 }
 
-header input[type="search"]:focus,
-.search-container input[type="search"]:focus {
+.search-container input[type="search"]:focus,
+header input[type="search"]:focus {
   border-color: var(--Green);
   background: var(--Black30);
 }
 
-header input[type="search"]::placeholder,
-.search-container input[type="search"]::placeholder {
+.search-container input[type="search"]::placeholder,
+header input[type="search"]::placeholder {
   color: var(--White60);
 }
 
@@ -650,28 +644,7 @@ footer .social-icons i:hover {
 }
 
 .play-btn-genre {
-  display: none;
-  width: 120px;
-  height: 40px;
-  color: var(--PureWhite);
-  position: absolute;
-  background-color: var(--Green);
   top: 30%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 16px;
-  z-index: 20;
-  border-radius: 50px;
-  border: none;
-  cursor: pointer;
-  font-weight: 700;
-  transition: var(--transition-normal);
-}
-
-.play-btn-genre:hover {
-  background-color: var(--SecondaryLight);
-  transform: translate(-50%, -50%) scale(1.1);
-  box-shadow: 0 4px 15px rgba(3, 173, 86, 0.5);
 }
 
 .game-card:hover .play-btn-genre {
@@ -803,14 +776,15 @@ footer .social-icons i:hover {
   box-shadow: 0 12px 30px rgba(86, 3, 173, 0.5);
 }
 
-.play-btn {
+/* Botones de Play - Base compartida */
+.play-btn,
+.play-btn-genre {
   display: none;
   width: 120px;
   height: 40px;
   color: var(--PureWhite);
   position: absolute;
   background-color: var(--Green);
-  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 16px;
@@ -822,13 +796,20 @@ footer .social-icons i:hover {
   transition: var(--transition-normal);
 }
 
-.play-btn:hover {
+.play-btn:hover,
+.play-btn-genre:hover {
   background-color: var(--SecondaryLight);
   transform: translate(-50%, -50%) scale(1.1);
   box-shadow: 0 4px 15px rgba(3, 173, 86, 0.5);
+  animation: Pulse-btn 1s infinite;
 }
 
-.top-game-card:hover .play-btn {
+.play-btn {
+  top: 50%;
+}
+
+.top-game-card:hover .play-btn,
+.carousel-item:hover .play-btn {
   display: block;
 }
 
@@ -1032,7 +1013,7 @@ main {
 .container-form {
   width: 420px;
   background-color: var(--Black30);
-  border: var(--Green) 2px solid;
+  border: 2px solid var(--Green);
   border-radius: 15px;
   display: flex;
   flex-direction: column;
@@ -1060,13 +1041,13 @@ form {
 
 .container-input div input {
   width: 100%;
-  border: var(--Black20) 2px solid;
+  border: 2px solid var(--Black20);
   border-radius: 8px;
   padding: 5px;
 }
 
 .container-input div input:hover {
-  border: var(--Purple80) 2.5px solid;
+  border: 2.5px solid var(--Purple80);
 }
 
 .input-with-icon {
@@ -1075,11 +1056,10 @@ form {
 }
 
 form .input-with-icon input {
-  padding: 5px 5px 5px 40px;
+  padding: 5px 40px 5px 40px;
   margin-bottom: 5px;
   outline: none;
   font-size: 15px;
-  padding-right: 40px;
   transition: border-color var(--transition-normal);
 }
 
@@ -1166,7 +1146,7 @@ form .input-with-icon .toggle-password {
   width: 50%;
   background-color: var(--Purple);
   color: var(--PureWhite);
-  border: var(--Green) 0.5px solid;
+  border: 0.5px solid var(--Green);
   padding: 10px;
   font-size: 16px;
   transition: .6s ease all;
@@ -1353,7 +1333,7 @@ figure img {
   top: calc(100% + 15px);
   right: 0;
   width: 280px;
-  background: linear-gradient(180deg, var(--Purple) 0%, var(--DarkPurple) 50%, var(--PrimaryShadow1) 100%);
+  background: var(--gradient-purple-menu);
   border-radius: 12px;
   box-shadow: var(--shadow-lg);
   border: 2px solid var(--Green);
@@ -1373,7 +1353,7 @@ figure img {
 .user-dropdown-header {
   padding: 20px;
   border-bottom: 2px solid var(--Green30);
-  background: linear-gradient(135deg, var(--Purple80) 0%, var(--Purple50) 100%);
+  background: var(--gradient-purple-header);
   display: flex;
   align-items: center;
   gap: 15px;
@@ -1518,7 +1498,7 @@ figure img {
   left: -320px;
   width: 300px;
   height: 100vh;
-  background: linear-gradient(180deg, var(--Purple) 0%, var(--DarkPurple) 50%, var(--PrimaryShadow1) 100%);
+  background: var(--gradient-purple-menu);
   z-index: 1000;
   transition: left var(--transition-slow) cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
@@ -1535,7 +1515,7 @@ figure img {
 .sidebar-header {
   padding: 25px 20px;
   border-bottom: 2px solid var(--Green30);
-  background: linear-gradient(135deg, var(--Purple80) 0%, var(--Purple50) 100%);
+  background: var(--gradient-purple-header);
   display: flex;
   align-items: center;
   gap: 15px;
@@ -1644,14 +1624,9 @@ figure img {
   align-items: center;
   z-index: 9999;
   opacity: 1;
-  transition: opacity 0.5s ease, visibility 0.5s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-.loading-screen.hidden {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
 
 .loading-content {
   display: flex;
@@ -1755,7 +1730,7 @@ figure img {
   height: 100%;
   background: linear-gradient(90deg, var(--Green) 0%, var(--SecondaryLight) 50%, var(--Green) 100%);
   border-radius: 10px;
-  animation: loadProgress 5s ease-in-out forwards;
+  animation: loadProgress var(--loading-duration, 5000ms) ease-in-out forwards;
   box-shadow: var(--shadow-glow);
 }
 
@@ -1970,7 +1945,7 @@ figure img {
   height: 80px;
   color: var(--PureWhite);
   background-color: var(--Black30);
-  border: var(--PrimaryLight1) 2px solid;
+  border: 2px solid var(--PrimaryLight1);
   border-radius: 5px;
   text-align: start;
   padding: 10px;
@@ -2058,7 +2033,7 @@ figure img {
 
 .text-comment {
   background-color: var(--Purple50);
-  border: var(--PrimaryLight1) 1px solid;
+  border: 1px solid var(--PrimaryLight1);
   color: var(--PureWhite);
   border-radius: 15px;
   padding: 15px 30px 15px 15px;
@@ -2277,6 +2252,15 @@ figure img {
   }
 }
 
+@keyframes Pulse-btn {
+  0%, 100% {
+    transform:translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform:translate(-50%, -50%) scale(1.2);
+  }
+}
+
 @keyframes heartBeat {
   0%, 100% {
     transform: scale(1);
@@ -2437,10 +2421,10 @@ figure img {
 }
 
 /* ========================================================================================
-  20. MEDIA QUERIES - TABLET (768px - 1023px)
+  20. MEDIA QUERIES - DESKTOP (>= 768px)
 ======================================================================================== */
 @media (min-width: 768px) {
-  /* Header Tablet */
+  /* Header Desktop */
   header {
     gap: 30px;
   }
@@ -2455,77 +2439,6 @@ figure img {
 
   .search-container input[type="search"] {
     font-size: 16px;
-  }
-
-  /* Carrusel 3D Tablet */
-  .carousel-container {
-    padding: 30px 20px 40px 20px;
-    overflow: visible;
-  }
-
-  .title {
-    font-size: 2.5rem;
-    margin-bottom: 40px;
-  }
-
-  .carousel-wrapper {
-    perspective: 1100px;
-    height: 350px;
-    width: 100vh;
-    overflow: visible;
-  }
-
-  .carousel {
-    width: 90%;
-    height: 250px;
-  }
-
-  .carousel-item {
-    width: 260px;
-    height: 220px;
-    transform: translate(-50%, -50%) rotateY(calc(var(--i) * var(--angle, 60) * 1deg)) translateZ(400px);
-  }
-
-  /* Footer Tablet */
-  .footer-content {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .footer-section h4 {
-    color: var(--PureWhite);
-  }
-
-  /* Botones de carrusel visible en tablet */
-  .carousel-btn,
-  .prev-btn-top,
-  .next-btn-top {
-    display: flex;
-  }
-
-  /* Loading Screen Tablet */
-  .loading-logo h1 {
-    font-size: 36px;
-  }
-
-  .loading-percentage {
-    font-size: 44px;
-  }
-}
-
-/* ========================================================================================
-  21. MEDIA QUERIES - DESKTOP (1024px - 1439px)
-======================================================================================== */
-@media (min-width: 1024px) {
-  /* Header Desktop */
-  .logo {
-    font-size: 22px;
-  }
-
-  .search-container {
-    max-width: 500px;
-  }
-
-  .search-container input[type="search"] {
     padding: 6px 40px 6px 14px;
   }
 
@@ -2545,15 +2458,15 @@ figure img {
   }
 
   .title {
-    font-size: 2.5rem;
+    font-size: 3rem;
     margin-bottom: 10px;
   }
 
   .carousel-wrapper {
     perspective: 1400px;
-    height: 400px;
-    width: 150vh;
+    height: 450px;
     overflow: visible;
+    width: 1400px;
   }
 
   .carousel {
@@ -2562,8 +2475,8 @@ figure img {
   }
 
   .carousel-item {
-    width: 280px;
-    height: 240px;
+    width: 450px;
+    height: 230px;
     transform: translate(-50%, -50%) rotateY(calc(var(--i) * var(--angle, 60) * 1deg)) translateZ(500px);
   }
 
@@ -2589,82 +2502,63 @@ figure img {
     font-size: 18px;
     color: var(--PureWhite);
   }
-}
 
-/* ========================================================================================
-  22. MEDIA QUERIES - LARGE DESKTOP (>= 1440px)
-======================================================================================== */
-@media (min-width: 1440px) {
-  /* Carrusel 3D Large Desktop */
-  .carousel-container {
-    padding: 20px 0 10px 0;
-    width: 100%;
-    overflow: visible;
+  /* Botones de carrusel visibles en desktop */
+  .carousel-btn,
+  .prev-btn-top,
+  .next-btn-top {
+    display: flex;
   }
 
-  .carousel-wrapper {
-    height: 450px;
-    width: 180vh;
-    perspective: 1600px;
-    overflow: visible;
+  /* Loading Screen Desktop */
+  .loading-logo .arcade-icon {
+    font-size: 80px;
   }
 
-  .carousel {
-    width: 100%;
-    height: 320px;
+  .loading-logo h1 {
+    font-size: 42px;
   }
 
-  .carousel-item {
-    width: 320px;
-    height: 220px;
-    transform: translate(-50%, -50%) rotateY(calc(var(--i) * var(--angle, 60) * 1deg)) translateZ(600px);
+  .loading-spinner {
+    width: 120px;
+    height: 120px;
   }
 
-  .carousel-item:hover {
-    z-index: 20;
-    transform: translate(-50%, -50%) rotateY(calc(var(--i) * var(--angle, 60) * 1deg)) translateZ(550px) scale(1.05);
-  }
-}
-
-/* ========================================================================================
-  23. MEDIA QUERIES ADICIONALES - DESKTOP GRANDE (>= 769px)
-======================================================================================== */
-@media (min-width: 769px) {
-  .carousel-container {
-    padding: 10px 0;
-    width: 100%;
-    overflow: visible;
+  .spinner-ring:nth-child(1) {
+    width: 120px;
+    height: 120px;
   }
 
-  .title {
-    font-size: 3rem;
+  .spinner-ring:nth-child(2) {
+    width: 90px;
+    height: 90px;
   }
 
-  .carousel-wrapper {
-    perspective: 1400px;
-    height: 450px;
-    overflow: visible;
-    width: 100%;
+  .spinner-ring:nth-child(3) {
+    width: 60px;
+    height: 60px;
   }
 
-  .carousel {
-    width: 100%;
-    height: 300px;
+  .loading-percentage {
+    font-size: 48px;
   }
 
-  .carousel-item {
-    width: 450px;
-    height: 230px;
-    transform: translate(-50%, -50%) rotateY(calc(var(--i) * var(--angle, 60) * 1deg)) translateZ(500px);
+  .loading-bar {
+    width: 300px;
   }
 }
 
 /* ========================================================================================
-  14. COMPONENTES - BLOCKA
+  BLOCKA GAME - CANVAS Y OVERLAYS
 ======================================================================================== */
+.container-game {
+  position: relative;
+}
+
+/* Canvas principal */
 #canvas-game {
-  margin: 0;
-  padding: 0;
+  display: block;
+  background: var(--gradient-game-bg);
 }
 
 .manual-game-container ol li {
@@ -2673,20 +2567,6 @@ figure img {
 
 .manual-game-container ol .how-to-play-title {
   text-decoration: underline;
-}
-
-/* ========================================================================================
-  BLOCKA GAME - CANVAS Y OVERLAYS
-======================================================================================== */
-
-.container-game {
-  position: relative;
-}
-
-/* Canvas principal */
-#canvas-game {
-  display: block;
-  background: linear-gradient(135deg, var(--Black) 0%, var(--PrimaryShadow1) 40%, var(--DarkPurple) 50%, var(--PrimaryShadow1) 60%, var(--Black) 100%);
 }
 
 /* Overlay de UI sobre el canvas */
@@ -2704,8 +2584,12 @@ figure img {
 }
 
 /* Clase helper para ocultar elementos */
-.hidden {
+.hidden,
+.loading-screen.hidden {
   display: none !important;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 /* Pantallas overlay */
@@ -2954,7 +2838,7 @@ figure img {
 
 /* Pantalla de selección de dificultad */
 .difficulty-screen {
-  background: linear-gradient(135deg, var(--Black) 0%, var(--PrimaryShadow1) 40%, var(--DarkPurple) 50%, var(--PrimaryShadow1) 60%, var(--Black) 100%);
+  background: var(--gradient-game-bg);
 }
 
 .difficulty-title {
@@ -3032,7 +2916,7 @@ figure img {
 
 /* Pantalla de victoria */
 .victory-screen {
-  background: linear-gradient(135deg, var(--Black) 0%, var(--PrimaryShadow1) 40%, var(--DarkPurple) 50%, var(--PrimaryShadow1) 60%, var(--Black) 100%);
+  background: var(--gradient-game-bg);
 }
 
 .victory-title {

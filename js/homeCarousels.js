@@ -1,37 +1,3 @@
-// ==================== CARRUSELES DE HOME ====================
-// FUNCIONALIDAD GENERAL:
-// Este archivo maneja TODOS los carruseles de la página home:
-// 1. Carrusel 3D: Rotación automática de 6 juegos destacados en perspectiva 3D
-// 2. Top Juegos: Carrusel horizontal de 9 juegos mejor valorados
-// 3. Carruseles por Género: 3 carruseles horizontales (Action, RPG, Shooter) con 8 juegos cada uno
-
-// ==================== VARIABLES CRÍTICAS GLOBALES ====================
-// CARRUSEL 3D:
-// - Cantidad de juegos (línea 29): games.slice(0, 6) - MODIFICAR para mostrar más/menos juegos
-// - Velocidad rotación (línea 82): setInterval 3000ms - MODIFICAR para rotar más rápido/lento
-// - Delay reinicio (línea 122): setTimeout 5000ms - Tiempo antes de reactivar auto-rotación
-// - Sensibilidad swipe (línea 97): 50px - MODIFICAR para hacer swipe más/menos sensible
-// - Ángulo rotación (línea 30): 360/cantidad - Se calcula automáticamente
-
-// TOP JUEGOS:
-// - Cantidad juegos (línea 141): sortedGames.slice(0, 9) - MODIFICAR para mostrar más/menos
-// - Posición Peg Solitaire (línea 144): topGames[2] - Juego personalizado en posición 3
-// - Distancia scroll (línea 206): 400px - MODIFICAR para scroll más largo/corto
-// - Duración animación scroll (línea 248): 600ms - MODIFICAR para scroll más rápido/lento
-
-// GÉNERO CARRUSELES:
-// - Cantidad juegos (línea 285): genreGames.slice(0, 8) - MODIFICAR cantidad por género
-// - Patrón descuentos (línea 312): index % 3 - Cada 3er juego tiene descuento
-// - Porcentaje descuento (línea 314): 15% - MODIFICAR para cambiar descuento
-// - Rango precios (línea 313): random*40+10 = $10-$50 - MODIFICAR rango de precios
-// - Distancia scroll (línea 362): 300px - MODIFICAR para scroll más largo/corto
-// - Sensibilidad drag (línea 457): multiplicador *2 - MODIFICAR para drag más sensible
-
-// GÉNEROS CARGADOS (líneas 477-486):
-// - 'Action' - games-carousel
-// - 'RPG' - rpg-carousel
-// - 'Shooter' - shooter-carousel
-// MODIFICAR para agregar/cambiar géneros cargados
 
 // ==================== CARRUSEL 3D PRINCIPAL ====================
 
@@ -45,10 +11,20 @@ const carousel3D = {
     touchEndX: 0,
 
     async init() {
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
         this.element = document.getElementById('carousel');
         if (!this.element) return;
         await this.loadGames();
         this.setupEventListeners();
+
+        prevBtn.addEventListener('click', () => {
+        this.rotateLeft()
+    });
+
+    nextBtn.addEventListener('click', () => {
+        this.rotate();
+    });
     },
 
     async loadGames() {
@@ -141,6 +117,11 @@ const carousel3D = {
 
     rotate() {
         this.currentRotation -= this.anglePerItem;
+        this.element.style.transform = `rotateY(${this.currentRotation}deg)`;
+    },
+
+    rotateLeft() {
+        this.currentRotation += this.anglePerItem;
         this.element.style.transform = `rotateY(${this.currentRotation}deg)`;
     },
 
