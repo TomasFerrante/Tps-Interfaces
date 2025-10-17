@@ -539,7 +539,7 @@ function drawDefeatScreen() {
     ctx.font = '22px "Titillium Web", sans-serif';
     ctx.fillStyle = '#74e0a9';
     const difficultyText = selectedDifficulty === 6 ? 'Medio (6 piezas)' : 'Difícil (8 piezas)';
-    const timeLimit = selectedDifficulty === 6 ? '2:00' : '3:00';
+    const timeLimit = selectedDifficulty === 6 ? '20s' : '30s';
     ctx.fillText(`Dificultad: ${difficultyText} - Tiempo límite: ${timeLimit}`, CANVAS_WIDTH / 2, 270);
 
     // Botones
