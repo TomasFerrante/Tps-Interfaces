@@ -111,7 +111,13 @@ const championImages = [
     '../assets/images/Sett_0.jpg',
     '../assets/images/Karma_0.jpg',
     '../assets/images/LeeSin_0.jpg',
-    '../assets/images/Nautilus_0.jpg'
+    '../assets/images/Nautilus_0.jpg',
+    '../assets/images/Aatrox_0.jpg',
+    '../assets/images/Ahri_0.jpg',
+    '../assets/images/Akali_0.jpg',
+    '../assets/images/Aphelios_0.jpg',
+    '../assets/images/Camille_0.jpg',
+    '../assets/images/YasuoWheelchair.jpeg'
 ];
 
 const CANVAS_WIDTH = 1340;
