@@ -183,6 +183,7 @@ let imagesLoaded = false;
 // ========================================================================================
 
 const menuGame = document.getElementById('menu-game');
+let leverInstructionElement = null;
 
 // ========================================================================================
 // INICIALIZACIÓN
@@ -191,6 +192,9 @@ const menuGame = document.getElementById('menu-game');
 function init() {
     canvas = document.getElementById('canvas-game');
     ctx = canvas.getContext('2d');
+
+    // Obtener referencia al elemento de instrucción de palanca
+    leverInstructionElement = document.getElementById('lever-instruction');
 
     // Inicializar audio del slot machine
     jackpotAudio = new Audio('../assets/Slot Machine Jackpot Sound Effect.mp3');
@@ -671,6 +675,11 @@ function startSlotAnimation() {
     reelsShaking = false;
     isSlotSpinning = false;
 
+    // Mostrar el texto de instrucción
+    if (leverInstructionElement) {
+        leverInstructionElement.classList.add('visible');
+    }
+
     // Seleccionar campeón ganador
     winningSymbol = championImages[Math.floor(Math.random() * championImages.length)];
     currentChampionImage = new Image();
@@ -734,6 +743,11 @@ function spinSlotReels() {
     showWinMessage = false;
     winGlowActive = false;
     flashOverlayActive = false;
+
+    // Ocultar el texto de instrucción
+    if (leverInstructionElement) {
+        leverInstructionElement.classList.remove('visible');
+    }
 
     // Animar la palanca primero
     animateLever();
@@ -892,6 +906,7 @@ function drawSlotMachineScreen() {
     // Palanca
     drawLever();
 
+
     // Mensaje
     if (showWinMessage) {
         ctx.font = 'bold 42px "Titillium Web", sans-serif';
@@ -937,19 +952,6 @@ function drawReelsContainer() {
     ctx.strokeStyle = 'rgba(3, 173, 86, 0.4)';
     ctx.lineWidth = 3;
     ctx.stroke();
-
-    // Gradientes de sombra arriba y abajo
-    const topGradient = ctx.createLinearGradient(0, containerY + padding, 0, containerY + padding + 40);
-    topGradient.addColorStop(0, 'rgba(0, 0, 0, 0.8)');
-    topGradient.addColorStop(1, 'transparent');
-    ctx.fillStyle = topGradient;
-    ctx.fillRect(containerX, containerY + padding, containerWidth, 40);
-
-    const bottomGradient = ctx.createLinearGradient(0, containerY + containerHeight - padding - 40, 0, containerY + containerHeight - padding);
-    bottomGradient.addColorStop(0, 'transparent');
-    bottomGradient.addColorStop(1, 'rgba(0, 0, 0, 0.8)');
-    ctx.fillStyle = bottomGradient;
-    ctx.fillRect(containerX, containerY + containerHeight - padding - 40, containerWidth, 40);
 }
 
 function drawSlotReels() {
@@ -1178,6 +1180,78 @@ function drawImageCover(ctx, img, x, y, width, height) {
 }
 
 // ========================================================================================
+// FILTROS DE IMAGEN
+// ========================================================================================
+
+function setPixel(imageData, x, y, r, g, b, a) {
+    let index = (x + y * imageData.width) * 4;
+    imageData.data[index + 0] = r; // Red
+    imageData.data[index + 1] = g; // Green
+    imageData.data[index + 2] = b; // Blue
+    imageData.data[index + 3] = a; // Alpha
+}
+
+function generateAverageGray(r, g, b) {
+    return Math.round(0.299 * r + 0.587 * g + 0.114 * b);
+}
+
+function generateBrightness(r, g, b) {
+    let brightnessR = Math.min(255, r + 30);
+    let brightnessG = Math.min(255, g + 30);
+    let brightnessB = Math.min(255, b + 30);
+    return [brightnessR, brightnessG, brightnessB];
+}
+
+function generateNegative(r, g, b) {
+    let negativeR = 255 - r;
+    let negativeG = 255 - g;
+    let negativeB = 255 - b;
+    return [negativeR, negativeG, negativeB];
+}
+
+function getRed(imageData, x, y) {
+    let ind = (x + y * imageData.width) * 4;
+    return imageData.data[ind + 0];
+}
+
+function getGreen(imageData, x, y) {
+    let ind = (x + y * imageData.width) * 4;
+    return imageData.data[ind + 1];
+}
+
+function getBlue(imageData, x, y) {
+    let ind = (x + y * imageData.width) * 4;
+    return imageData.data[ind + 2];
+}
+
+function applyFilter(imageData, filterType) {
+    const w = imageData.width;
+    const h = imageData.height;
+
+    for (let x = 0; x < w; x++) {
+        for (let y = 0; y < h; y++) {
+            let r = getRed(imageData, x, y);
+            let g = getGreen(imageData, x, y);
+            let b = getBlue(imageData, x, y);
+            let a = 255;
+
+            if (filterType === 'gray') {
+                let gray = generateAverageGray(r, g, b);
+                setPixel(imageData, x, y, gray, gray, gray, a);
+            } else if (filterType === 'brightness') {
+                let [brightR, brightG, brightB] = generateBrightness(r, g, b);
+                setPixel(imageData, x, y, brightR, brightG, brightB, a);
+            } else if (filterType === 'negative') {
+                let [negR, negG, negB] = generateNegative(r, g, b);
+                setPixel(imageData, x, y, negR, negG, negB, a);
+            }
+        }
+    }
+
+    return imageData;
+}
+
+// ========================================================================================
 // ROMPECABEZAS
 // ========================================================================================
 
@@ -1243,22 +1317,58 @@ function startPuzzle(numPieces) {
         sourceY = (currentChampionImage.naturalHeight - sourceHeight) / 2;
     }
 
-    // Crear piezas cuadradas
+    // Crear piezas cuadradas y pre-renderizar con filtros aplicados
     puzzlePieces = [];
+    const filters = ['gray', 'brightness', 'negative'];
+
     for (let row = 0; row < rows; row++) {
         for (let col = 0; col < cols; col++) {
+            let pieceFilter;
+            if (numPieces === 4 || numPieces === 6) {
+                // Para 4 y 6 piezas, solo usar filtro gray
+                pieceFilter = 'gray';
+            } else if (numPieces === 8) {
+                // Para 8 piezas, asignar un filtro aleatorio a cada pieza
+                pieceFilter = filters[Math.floor(Math.random() * filters.length)];
+            }
+
+            // Pre-renderizar la pieza con el filtro aplicado en un canvas temporal
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = pieceSize;
+            tempCanvas.height = pieceSize;
+            const tempCtx = tempCanvas.getContext('2d');
+
+            // Dibujar la pieza en el canvas temporal
+            tempCtx.drawImage(
+                currentChampionImage,
+                sourceX + (col * sourceWidth / cols),
+                sourceY + (row * sourceHeight / rows),
+                sourceWidth / cols,
+                sourceHeight / rows,
+                0,
+                0,
+                pieceSize,
+                pieceSize
+            );
+
+            // Aplicar filtro solo si es necesario
+            if (pieceFilter && pieceFilter !== 'none') {
+                const imageData = tempCtx.getImageData(0, 0, pieceSize, pieceSize);
+                const filteredData = applyFilter(imageData, pieceFilter);
+                tempCtx.putImageData(filteredData, 0, 0);
+            }
+
+            // Guardar la pieza con la imagen pre-renderizada
             puzzlePieces.push({
                 x: puzzleStartX + (col * pieceSize),
                 y: puzzleStartY + (row * pieceSize),
                 width: pieceSize,
                 height: pieceSize,
-                sourceX: sourceX + (col * sourceWidth / cols),
-                sourceY: sourceY + (row * sourceHeight / rows),
-                sourceWidth: sourceWidth / cols,
-                sourceHeight: sourceHeight / rows,
                 rotation: Math.floor(Math.random() * 4) * 90, // 0, 90, 180, 270
                 correctRotation: 0,
-                isFixed: false // Indica si la pieza está fija (ayuda usada)
+                isFixed: false, // Indica si la pieza está fija (ayuda usada)
+                filter: pieceFilter, // Filtro aplicado a la pieza (solo para referencia)
+                preRenderedImage: tempCanvas // Imagen pre-renderizada con filtro aplicado
             });
         }
     }
@@ -1306,25 +1416,15 @@ function drawPuzzle() {
         ctx.rect(piece.x, piece.y, piece.width, piece.height);
         ctx.clip();
 
-        // Aplicar filtro de grises si la pieza NO está correctamente rotada
-        const isCorrect = piece.rotation === piece.correctRotation;
-        if (!isCorrect) {
-            ctx.filter = 'grayscale(100%)';
-        }
-
         // Trasladar al centro de la pieza
         ctx.translate(piece.x + piece.width / 2, piece.y + piece.height / 2);
 
         // Rotar
         ctx.rotate((piece.rotation * Math.PI) / 180);
 
-        // Dibujar la pieza desde el centro usando las dimensiones correctas de la fuente
+        // Dibujar la imagen pre-renderizada (que ya tiene el filtro aplicado)
         ctx.drawImage(
-            currentChampionImage,
-            piece.sourceX,
-            piece.sourceY,
-            piece.sourceWidth,
-            piece.sourceHeight,
+            piece.preRenderedImage,
             -piece.width / 2,
             -piece.height / 2,
             piece.width,
@@ -1333,19 +1433,22 @@ function drawPuzzle() {
 
         ctx.restore();
 
-        // Borde de la pieza (verde si correcta o fija, morado si incorrecta, dorado si es ayuda)
+        // Borde de la pieza (dorado si es ayuda, morado si incorrecta, sin borde si correcta)
+        const isCorrect = piece.rotation === piece.correctRotation;
         if (piece.isFixed) {
             ctx.strokeStyle = '#f7b731'; // Dorado para piezas fijas (ayuda)
             ctx.lineWidth = 5;
             ctx.shadowColor = '#f7b731';
             ctx.shadowBlur = 10;
-        } else {
-            ctx.strokeStyle = isCorrect ? '#03ad56' : '#5603ad';
+            ctx.strokeRect(piece.x, piece.y, piece.width, piece.height);
+            ctx.shadowBlur = 0; // Resetear sombra
+        } else if (!isCorrect) {
+            ctx.strokeStyle = '#5603ad'; // Morado para piezas incorrectas
             ctx.lineWidth = 3;
             ctx.shadowBlur = 0;
+            ctx.strokeRect(piece.x, piece.y, piece.width, piece.height);
         }
-        ctx.strokeRect(piece.x, piece.y, piece.width, piece.height);
-        ctx.shadowBlur = 0; // Resetear sombra
+        // Si la pieza está correcta y no es fija, no se dibuja borde
     });
 }
 
