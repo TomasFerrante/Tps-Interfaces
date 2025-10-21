@@ -870,7 +870,7 @@ function drawSlotMachineScreen() {
     // Efecto de brillo en el título
     ctx.shadowColor = 'rgba(3, 173, 86, 0.6)';
     ctx.shadowBlur = winGlowActive ? 30 : 10;
-    ctx.fillText('★ SLOT MACHINE ★', CANVAS_WIDTH / 2, 60);
+    ctx.fillText('★ Slot Champion ★', CANVAS_WIDTH / 2, 60);
     ctx.shadowBlur = 0;
 
     // Flash overlay
