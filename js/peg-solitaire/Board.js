@@ -48,6 +48,7 @@ class Board {
 
     loadBackgroundImage(callback) {
         const img = new Image();
+        // Ruta relativa que funciona desde html/running-game.html
         img.src = '../assets/images/grietadelinvocador.webp';
 
         img.onload = () => {
@@ -56,10 +57,19 @@ class Board {
         };
 
         img.onerror = () => {
-            console.error('Error cargando imagen del tablero');
-            // Usar color por defecto si la imagen no carga
-            this.pattern = '#C0C0C0';
-            if (callback) callback();
+            console.error('Error cargando imagen del tablero desde:', img.src);
+            // Intentar con ruta alternativa para GitHub Pages
+            img.src = './assets/images/grietadelinvocador.webp';
+            img.onload = () => {
+                this.pattern = this.ctx.createPattern(img, 'repeat');
+                if (callback) callback();
+            };
+            img.onerror = () => {
+                console.error('Error cargando imagen con ruta alternativa');
+                // Usar color por defecto si ninguna ruta funciona
+                this.pattern = '#C0C0C0';
+                if (callback) callback();
+            };
         };
     }
 
