@@ -2562,6 +2562,17 @@ figure img {
   cursor: default;
 }
 
+/* Canvas Peg Solitaire */
+#canvas-game-peg {
+  display: block;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+#canvas-game-peg:active {
+  transform: scale(0.99);
+}
+
 .manual-game-container ol li {
   margin-left: 20px;
 }
