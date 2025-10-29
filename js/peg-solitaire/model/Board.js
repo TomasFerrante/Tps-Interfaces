@@ -3,16 +3,14 @@
 // ========================================================================================
 
 class Board {
-    constructor(x, y, width, height, ctx) {
-        //this.x = x; Es Columna
-        //this.y = y; Es Fila
+    constructor(fila, columna, width, height) {
+        this.fila = fila;
+        this.columna = columna;
         this.width = width;
         this.height = height;
-        //this.ctx = ctx;
         this.cells = [];
         this.cellSize = 40;
         this.pattern = null;
-        //this.canvas = ctx.canvas; No se si va acá
     }
 
     initialize() {
@@ -46,12 +44,20 @@ class Board {
         }
     }
     
-    isMoveValid() {
-
+    isMoveValid(filaDes, columnaDes) {
+        return this.cells[filaDes][columnaDes] === 0;
     }
 
-    moveChip() {
-        
+    moveChip(chip, filaDes, columnaDes) {
+        this.cells[filaDes][columnaDes] = chip;
+    }
+
+    hasChip(fila, col) {
+        return this.cells[fila][col] === 1;
+    }
+
+    isValidCell(fila, col) {
+        return this.cells[fila]?.[col] !== -1;
     }
 
     /*
