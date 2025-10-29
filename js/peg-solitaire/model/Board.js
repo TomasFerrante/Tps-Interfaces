@@ -4,15 +4,15 @@
 
 class Board {
     constructor(x, y, width, height, ctx) {
-        this.x = x;
-        this.y = y;
+        //this.x = x; Es Columna
+        //this.y = y; Es Fila
         this.width = width;
         this.height = height;
-        this.ctx = ctx;
+        //this.ctx = ctx;
         this.cells = [];
         this.cellSize = 40;
         this.pattern = null;
-        this.canvas = ctx.canvas;
+        //this.canvas = ctx.canvas; No se si va acá
     }
 
     initialize() {
@@ -45,7 +45,16 @@ class Board {
             }
         }
     }
+    
+    isMoveValid() {
 
+    }
+
+    moveChip() {
+        
+    }
+
+    /*
     loadBackgroundImage(callback) {
         // Crear patrón generado dinámicamente en lugar de cargar imagen
         this.pattern = this.createBackgroundPattern();
@@ -275,6 +284,8 @@ class Board {
         this.ctx.stroke();
         this.ctx.restore();
     }
+    
+    */
 
     setColor(color) {
         this.pattern = color;

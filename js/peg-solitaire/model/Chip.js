@@ -4,16 +4,21 @@
 
 class Chip {
     constructor(x, y, size, ctx, radius, chipImage = null) {
-        this.x = x;
-        this.y = y;
+        //this.x = x; Reemplazar por Columna
+        //this.y = y; Reemplazar por Fila
         this.size = size;
         this.selected = false;
-        this.ctx = ctx;
+        //this.ctx = ctx; Corresponde al view
         this.radius = radius || size / 3;
         this.fichas = [];
         this.chipImage = chipImage;
     }
 
+    moveTo() {
+
+    }
+
+    /*
     draw() {
         const centerX = this.x + this.size / 2;
         const centerY = this.y + this.size / 2;
@@ -114,7 +119,9 @@ class Chip {
 
         this.ctx.restore();
     }
+    */
 
+    /*
     drawChipDecoration(centerX, centerY, radius) {
         // Estrella pequeña en el centro de la ficha seleccionada
         this.ctx.save();
@@ -142,7 +149,9 @@ class Chip {
 
         this.ctx.restore();
     }
+    */
 
+    /*
     drawCustomChip(centerX, centerY, radius) {
         // Sombra de la ficha
         this.ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
@@ -192,6 +201,7 @@ class Chip {
             this.ctx.stroke();
         }
     }
+    */
 
     isClicked(mouseX, mouseY) {
         const centerX = this.x + this.size / 2;
@@ -202,6 +212,7 @@ class Chip {
         return distance <= this.size / 3;
     }
 
+    /*
     setUpEventListeners() {
         const canvas = this.ctx.canvas;
         const self = this;
@@ -226,6 +237,8 @@ class Chip {
         });
     }
 
+    */
+    
     findClickedFicha(x, y) {
         for (let i = 0; i < this.fichas.length; i++) {
             const ficha = this.fichas[i];

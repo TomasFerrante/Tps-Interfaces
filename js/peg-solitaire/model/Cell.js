@@ -2,6 +2,9 @@
 // CLASE CELL - Celda del tablero
 // ========================================================================================
 
+
+// Puede que no exista esta clase!!
+
 class Cell {
     constructor(value, x, y, size, ctx, chipImage = null) {
         this.value = value;
@@ -20,6 +23,7 @@ class Cell {
         }
     }
 
+    /*
     draw(pattern) {
         if (this.value !== -1) {
             // Dibujar fondo de la celda con patrón o color
@@ -38,6 +42,7 @@ class Cell {
             }
         }
     }
+    
 
     drawCellBevel() {
         // Sombra interna superior izquierda (oscura)
@@ -129,4 +134,5 @@ class Cell {
         this.ctx.stroke();
         this.ctx.restore();
     }
+    */
 }
