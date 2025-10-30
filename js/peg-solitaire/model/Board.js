@@ -44,7 +44,7 @@ class Board {
         }
     }
     
-    isMoveValid(filaDes, columnaDes) {
+    isValidMove(filaDes, columnaDes) {
         return this.cells[filaDes][columnaDes] === 0;
     }
 
@@ -62,6 +62,30 @@ class Board {
 
     setColor(color) {
         this.pattern = color;
+    }
+
+    getCellAt(row, col) {
+        return this.cells[row]?.[col];
+    }
+
+    hasValidMoves() {
+        for (let row = 0; row < this.cells.length; row++) {
+            for (let col = 0; col < this.cells[row].length; col++) {
+                const cell = this.cells[row][col];
+                if (cell && cell.hasChip()) {
+                    const directions = [
+                        [2, 0], [-2, 0], [0, 2], [0, -2]
+                    ];
+                    
+                    for (const [dRow, dCol] of directions) {
+                        if (this.isValidMove(row, col, row + dRow, col + dCol)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     setChipImage(chipImage) {

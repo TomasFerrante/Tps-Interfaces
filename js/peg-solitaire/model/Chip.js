@@ -3,12 +3,11 @@
 // ========================================================================================
 
 class Chip {
-    constructor(x, y, size, ctx, radius, chipImage = null) {
+    constructor(x, y, size, radius, chipImage = null) {
         //this.x = x; Reemplazar por Columna
         //this.y = y; Reemplazar por Fila
         this.size = size;
         this.selected = false;
-        //this.ctx = ctx; Corresponde al view
         this.radius = radius || size / 3;
         this.fichas = [];
         this.chipImage = chipImage;
@@ -43,7 +42,7 @@ class Chip {
         return Math.sqrt(_x * _x + _y * _y) <= this.radius;
     }
 
-    addFicha(ficha) {
+    addChip(ficha) {
         this.fichas.push(ficha);
     }
 }
