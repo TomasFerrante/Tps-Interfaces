@@ -40,7 +40,7 @@ class PegController {
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
 
-    // 1. Convertir coordenadas visualas a logicas
+    // 1. Convertir coordenadas visuales a logicas
     const logicalPos = this.boardView.screenToLogical(mouseX, mouseY);
 
     if (!logicalPos) {
