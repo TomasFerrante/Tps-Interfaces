@@ -8,6 +8,7 @@ class Chip {
         //this.y = y; Reemplazar por Fila
         this.size = size;
         this.selected = false;
+        this.dragged = false;
         this.radius = radius || size / 3;
         this.fichas = [];
         this.chipImage = chipImage;
