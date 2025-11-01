@@ -1,497 +1,443 @@
+// ========================================================================================
+// VISTA - BoardView.js
+// SOLO renderizado (sin lógica del juego)
+// ========================================================================================
+
 class BoardView {
-  constructor(ctx, x, y, cellSize) {
+  constructor(ctx, offsetX, offsetY, cellSize) {
     this.ctx = ctx;
-    this.x = x;
-    this.y = y;
+    this.offsetX = offsetX;
+    this.offsetY = offsetY;
     this.cellSize = cellSize;
-    this.pattern = null;
-    this.loadBackgroundImage();
   }
 
-  loadBackgroundImage(callback) {
-    // Crear patrón generado dinámicamente en lugar de cargar imagen
-    this.pattern = this.createBackgroundPattern();
-    if (callback) callback();
+  // ========================================================================================
+  // DIBUJAR TODO (llama a los métodos específicos)
+  // ========================================================================================
+
+  draw(boardState, timerData, remainingChips, validMoves) {
+    this.drawBoardBackground();
+    this.drawBoard(boardState, validMoves);
+    this.drawPegs(boardState);
+    this.drawHUD(timerData, remainingChips);
   }
 
-  createBackgroundPattern() {
-    // Crear un canvas temporal para el patrón
-    const patternCanvas = document.createElement("canvas");
-    const patternSize = 80;
-    patternCanvas.width = patternSize;
-    patternCanvas.height = patternSize;
-    const pCtx = patternCanvas.getContext("2d");
+  // ========================================================================================
+  // DIBUJAR FONDO DEL TABLERO
+  // ========================================================================================
 
-    // Fondo base con gradiente azul oscuro/gris carbón
-    const baseGradient = pCtx.createLinearGradient(
-      0,
-      0,
-      patternSize,
-      patternSize
-    );
-    baseGradient.addColorStop(0, "#1a1f2e");
-    baseGradient.addColorStop(0.5, "#2a2f3f");
-    baseGradient.addColorStop(1, "#1a1f2e");
-    pCtx.fillStyle = baseGradient;
-    pCtx.fillRect(0, 0, patternSize, patternSize);
+  drawBoardBackground() {
+    const ctx = this.ctx;
+    const boardSize = 7 * this.cellSize;
+    const padding = 20;
+    const x = this.offsetX - padding;
+    const y = this.offsetY - padding;
+    const width = boardSize + padding * 2;
+    const height = boardSize + padding * 2;
 
-    // Patrón de hexágonos sutiles
-    this.drawHexagonPattern(pCtx, patternSize);
+    ctx.save();
 
-    // Agregar detalles brillantes
-    this.addPatternDetails(pCtx, patternSize);
+    // Sombra del contenedor
+    ctx.shadowColor = "rgba(0, 0, 0, 0.8)";
+    ctx.shadowBlur = 40;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 10;
 
-    // Crear el patrón repetible
-    return this.ctx.createPattern(patternCanvas, "repeat");
+    // Fondo oscuro del tablero
+    const bgGradient = ctx.createLinearGradient(x, y, x, y + height);
+    bgGradient.addColorStop(0, "#1a0033");
+    bgGradient.addColorStop(0.5, "#0d001a");
+    bgGradient.addColorStop(1, "#1a0033");
+
+    ctx.fillStyle = bgGradient;
+    ctx.beginPath();
+    ctx.roundRect(x, y, width, height, 15);
+    ctx.fill();
+
+    // Borde brillante morado
+    ctx.shadowBlur = 20;
+    ctx.shadowColor = "#5603ad";
+    ctx.strokeStyle = "#5603ad";
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    // Borde interior más sutil
+    ctx.shadowBlur = 0;
+    ctx.strokeStyle = "#3a0477";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.roundRect(x + 2, y + 2, width - 4, height - 4, 13);
+    ctx.stroke();
+
+    ctx.restore();
   }
 
-  drawHexagonPattern(pCtx, size) {
-    pCtx.save();
-    // Hexágonos en cian/azul muy sutil
-    pCtx.strokeStyle = "rgba(100, 180, 200, 0.12)";
-    pCtx.lineWidth = 1.5;
+  // ========================================================================================
+  // DIBUJAR TABLERO
+  // ========================================================================================
 
-    const hexSize = size / 3;
-    const centerX = size / 2;
-    const centerY = size / 2;
+  drawBoard(boardState, validMoves = []) {
+    const ctx = this.ctx;
+    const size = this.cellSize;
 
-    // Dibujar hexágono central
-    this.drawHexagon(pCtx, centerX, centerY, hexSize);
+    for (let row = 0; row < boardState.cells.length; row++) {
+      for (let col = 0; col < boardState.cells[row].length; col++) {
+        const cell = boardState.cells[row][col];
 
-    // Dibujar hexágonos en las esquinas (patrón repetible)
-    this.drawHexagon(pCtx, 0, 0, hexSize);
-    this.drawHexagon(pCtx, size, 0, hexSize);
-    this.drawHexagon(pCtx, 0, size, hexSize);
-    this.drawHexagon(pCtx, size, size, hexSize);
+        if (cell.value === -1) continue; // Espacios inválidos
 
-    pCtx.restore();
-  }
+        const x = this.offsetX + col * size;
+        const y = this.offsetY + row * size;
 
-  drawHexagon(pCtx, x, y, radius) {
-    pCtx.beginPath();
-    for (let i = 0; i < 6; i++) {
-      const angle = (Math.PI / 3) * i;
-      const hx = x + radius * Math.cos(angle);
-      const hy = y + radius * Math.sin(angle);
-      if (i === 0) {
-        pCtx.moveTo(hx, hy);
-      } else {
-        pCtx.lineTo(hx, hy);
+        ctx.save();
+
+        // Sombra del círculo
+        ctx.shadowColor = "rgba(0, 0, 0, 0.4)";
+        ctx.shadowBlur = 8;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 4;
+
+        // Círculo base (hueco)
+        const baseGradient = ctx.createRadialGradient(
+          x + size / 2,
+          y + size / 2,
+          size * 0.1,
+          x + size / 2,
+          y + size / 2,
+          size * 0.4
+        );
+        baseGradient.addColorStop(0, "#2d0052");
+        baseGradient.addColorStop(0.6, "#1a0033");
+        baseGradient.addColorStop(1, "#0d001a");
+
+        ctx.fillStyle = baseGradient;
+        ctx.beginPath();
+        ctx.arc(x + size / 2, y + size / 2, size * 0.4, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Borde interior más oscuro (profundidad)
+        ctx.shadowBlur = 0;
+        ctx.strokeStyle = "#0a0015";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Borde exterior brillante
+        ctx.strokeStyle = "#5603ad";
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc(x + size / 2, y + size / 2, size * 0.42, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.restore();
+
+        // Resaltar celdas de movimientos válidos
+        if (validMoves.some((move) => move.row === row && move.col === col)) {
+          ctx.save();
+
+          // Glow verde para movimientos válidos
+          ctx.shadowColor = "#03ad56";
+          ctx.shadowBlur = 15;
+
+          ctx.strokeStyle = "#03ad56";
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.arc(x + size / 2, y + size / 2, size * 0.42, 0, Math.PI * 2);
+          ctx.stroke();
+
+          // Relleno semi-transparente
+          ctx.shadowBlur = 0;
+          ctx.fillStyle = "rgba(3, 173, 86, 0.2)";
+          ctx.beginPath();
+          ctx.arc(x + size / 2, y + size / 2, size * 0.4, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.restore();
+        }
       }
     }
-    pCtx.closePath();
-    pCtx.stroke();
   }
 
-  addPatternDetails(pCtx, size) {
-    pCtx.save();
+  // ========================================================================================
+  // DIBUJAR FICHAS
+  // ========================================================================================
 
-    // Agregar pequeños destellos en tonos dorados y cianes
-    const sparkles = [
-      { x: size * 0.2, y: size * 0.3, size: 1.5, color: "gold" },
-      { x: size * 0.7, y: size * 0.2, size: 1, color: "cyan" },
-      { x: size * 0.4, y: size * 0.6, size: 1.2, color: "gold" },
-      { x: size * 0.8, y: size * 0.7, size: 1, color: "cyan" },
-      { x: size * 0.15, y: size * 0.85, size: 1.3, color: "gold" },
-    ];
+  drawPegs(boardState) {
+    const ctx = this.ctx;
 
-    sparkles.forEach((sparkle) => {
-      const isGold = sparkle.color === "gold";
-      const mainColor = isGold
-        ? "rgba(247, 183, 49, 0.3)"
-        : "rgba(100, 200, 255, 0.25)";
-      const glowColor = isGold
-        ? "rgba(247, 183, 49, 0.15)"
-        : "rgba(100, 200, 255, 0.12)";
+    for (let row = 0; row < boardState.cells.length; row++) {
+      for (let col = 0; col < boardState.cells[row].length; col++) {
+        const cell = boardState.cells[row][col];
 
-      // Punto central brillante
-      pCtx.fillStyle = mainColor;
-      pCtx.beginPath();
-      pCtx.arc(sparkle.x, sparkle.y, sparkle.size, 0, Math.PI * 2);
-      pCtx.fill();
+        if (!cell.hasChip) continue;
 
-      // Brillo alrededor
-      pCtx.fillStyle = glowColor;
-      pCtx.beginPath();
-      pCtx.arc(sparkle.x, sparkle.y, sparkle.size * 1.5, 0, Math.PI * 2);
-      pCtx.fill();
-    });
+        const x = this.offsetX + col * this.cellSize;
+        const y = this.offsetY + row * this.cellSize;
+        const pegSize = this.cellSize * 0.7;
 
-    // Líneas diagonales muy sutiles en gris azulado
-    pCtx.strokeStyle = "rgba(100, 150, 180, 0.08)";
-    pCtx.lineWidth = 0.5;
-    pCtx.beginPath();
-    pCtx.moveTo(0, 0);
-    pCtx.lineTo(size, size);
-    pCtx.stroke();
+        ctx.save();
 
-    pCtx.beginPath();
-    pCtx.moveTo(size, 0);
-    pCtx.lineTo(0, size);
-    pCtx.stroke();
+        // Sombra de la ficha
+        ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
+        ctx.shadowBlur = 15;
+        ctx.shadowOffsetY = 5;
 
-    // Agregar algunos puntos pequeños de textura
-    const dots = [
-      { x: size * 0.5, y: size * 0.15 },
-      { x: size * 0.3, y: size * 0.75 },
-      { x: size * 0.9, y: size * 0.4 },
-    ];
+        // Dibujar imagen de ficha si está disponible
+        if (cell.chipImage) {
+          // Usar la imagen directamente del estado (ya es un Image object)
+          ctx.drawImage(
+            cell.chipImage,
+            x + (this.cellSize - pegSize) / 2,
+            y + (this.cellSize - pegSize) / 2,
+            pegSize,
+            pegSize
+          );
+        } else {
+          // Fallback: círculo dorado
+          const gradient = ctx.createRadialGradient(
+            x + this.cellSize / 2,
+            y + this.cellSize / 2,
+            0,
+            x + this.cellSize / 2,
+            y + this.cellSize / 2,
+            pegSize / 2
+          );
+          gradient.addColorStop(0, "#ffd32a");
+          gradient.addColorStop(1, "#f7b731");
 
-    pCtx.fillStyle = "rgba(138, 56, 245, 0.08)";
-    dots.forEach((dot) => {
-      pCtx.beginPath();
-      pCtx.arc(dot.x, dot.y, 0.8, 0, Math.PI * 2);
-      pCtx.fill();
-    });
+          ctx.fillStyle = gradient;
+          ctx.beginPath();
+          ctx.arc(
+            x + this.cellSize / 2,
+            y + this.cellSize / 2,
+            pegSize / 2,
+            0,
+            Math.PI * 2
+          );
+          ctx.fill();
 
-    pCtx.restore();
-  }
+          ctx.strokeStyle = "#e08e00";
+          ctx.lineWidth = 3;
+          ctx.stroke();
+        }
 
-  draw(boardState, dragInfo = null) {
-    this.drawBoardFrame();
+        // Resaltar ficha seleccionada
+        if (cell.chipSelected) {
+          ctx.strokeStyle = "#00ff88";
+          ctx.lineWidth = 4;
+          ctx.shadowColor = "#00ff88";
+          ctx.shadowBlur = 20;
+          ctx.beginPath();
+          ctx.arc(
+            x + this.cellSize / 2,
+            y + this.cellSize / 2,
+            pegSize / 2 + 3,
+            0,
+            Math.PI * 2
+          );
+          ctx.stroke();
+        }
 
-    // Dibujar celdas usando los datos recibidos
-    boardState.cells.forEach((row, rowIndex) => {
-      row.forEach((cellData, colIndex) => {
-        const { x, y } = this.logicalToScreen(rowIndex, colIndex);
-
-        const isDraggedCell =
-          dragInfo &&
-          dragInfo.fromRow === rowIndex &&
-          dragInfo.fromCol === colIndex;
-
-        this.drawCell(cellData, x, y, isDraggedCell);
-      });
-    });
-
-    this.drawBoardGlow();
-
-    if (dragInfo) {
-      this.drawDraggedChip(dragInfo);
+        ctx.restore();
+      }
     }
   }
 
-  drawCell(cellData, x, y, skipChip = false) {
-    if (cellData.value === -1) return;
+  // ========================================================================================
+  // DIBUJAR HUD (Timer, fichas, botón reiniciar)
+  // ========================================================================================
 
-    // Dibujar fondo
-    this.ctx.fillStyle = this.pattern || "#2a1a4a";
-    this.ctx.fillRect(x, y, this.cellSize, this.cellSize);
+  drawHUD(timerData, remainingChips) {
+    const ctx = this.ctx;
 
-    this.drawCellBevel(x, y, this.cellSize);
-    this.drawChipSocket(x, y, this.cellSize);
+    // Timer en la esquina superior izquierda
+    ctx.save();
+    ctx.font = 'bold 28px "Titillium Web", sans-serif';
+    ctx.textAlign = "left";
+    ctx.fillStyle = timerData.color;
 
-    // Dibujar ficha si existe
-    if (cellData.hasChip && !skipChip) {
-      this.drawChip(cellData, x, y, this.cellSize);
-    }
-  }
-
-  drawBoardFrame() {
-    const boardSize = this.cellSize * 7;
-    const padding = 15;
-
-    // Sombra exterior del tablero
-    this.ctx.save();
-    this.ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
-    this.ctx.shadowBlur = 30;
-    this.ctx.shadowOffsetX = 0;
-    this.ctx.shadowOffsetY = 10;
-
-    // Marco exterior con gradiente morado
-    const outerGradient = this.ctx.createLinearGradient(
-      this.x - padding,
-      this.y - padding,
-      this.x - padding,
-      this.y + boardSize + padding
-    );
-    outerGradient.addColorStop(0, "#5603ad");
-    outerGradient.addColorStop(0.5, "#8a38f5");
-    outerGradient.addColorStop(1, "#5603ad");
-
-    this.ctx.fillStyle = outerGradient;
-    this.ctx.beginPath();
-    this.ctx.roundRect(
-      this.x - padding,
-      this.y - padding,
-      boardSize + padding * 2,
-      boardSize + padding * 2,
-      20
-    );
-    this.ctx.fill();
-    this.ctx.restore();
-
-    // Marco interior con gradiente dorado
-    const innerPadding = 8;
-    const innerGradient = this.ctx.createLinearGradient(
-      this.x - innerPadding,
-      this.y - innerPadding,
-      this.x - innerPadding,
-      this.y + boardSize + innerPadding
-    );
-    innerGradient.addColorStop(0, "#f7b731");
-    innerGradient.addColorStop(0.5, "#ffd32a");
-    innerGradient.addColorStop(1, "#f7b731");
-
-    this.ctx.strokeStyle = innerGradient;
-    this.ctx.lineWidth = 4;
-    this.ctx.beginPath();
-    this.ctx.roundRect(
-      this.x - innerPadding,
-      this.y - innerPadding,
-      boardSize + innerPadding * 2,
-      boardSize + innerPadding * 2,
-      15
-    );
-    this.ctx.stroke();
-  }
-
-  drawBoardGlow() {
-    const boardSize = this.cellSize * 7;
-    const padding = 8;
-
-    // Brillo sutil alrededor del tablero
-    this.ctx.save();
-    this.ctx.strokeStyle = "rgba(138, 56, 245, 0.3)";
-    this.ctx.lineWidth = 2;
-    this.ctx.shadowColor = "#8a38f5";
-    this.ctx.shadowBlur = 15;
-    this.ctx.beginPath();
-    this.ctx.roundRect(
-      this.x - padding,
-      this.y - padding,
-      boardSize + padding * 2,
-      boardSize + padding * 2,
-      15
-    );
-    this.ctx.stroke();
-    this.ctx.restore();
-  }
-
-  screenToLogical(screenX, screenY) {
-    if (screenX < this.x || screenY < this.y) return null;
-
-    const relX = screenX - this.x;
-    const relY = screenY - this.y;
-
-    const col = Math.floor(relX / this.cellSize);
-    const row = Math.floor(relY / this.cellSize);
-
-    if (row < 0 || row >= 7 || col < 0 || col >= 7) {
-      return null;
+    // Sombra dinámica según el tiempo
+    if (timerData.color === "#f25022") {
+      ctx.shadowColor = "rgba(242, 80, 34, 0.8)";
+      ctx.shadowBlur = 15;
+    } else if (timerData.color === "#f7b731") {
+      ctx.shadowColor = "rgba(247, 183, 49, 0.6)";
+      ctx.shadowBlur = 12;
+    } else {
+      ctx.shadowColor = "rgba(3, 173, 86, 0.5)";
+      ctx.shadowBlur = 10;
     }
 
-    return { row, col };
+    ctx.fillText(`⏱ ${timerData.formattedTime}`, 30, 40);
+    ctx.restore();
+
+    // Contador de fichas restantes
+    ctx.save();
+    ctx.font = 'bold 20px "Titillium Web", sans-serif';
+    ctx.fillStyle = "#74e0a9";
+    ctx.shadowColor = "rgba(116, 224, 169, 0.3)";
+    ctx.shadowBlur = 8;
+    ctx.fillText(`🎯 Fichas: ${remainingChips}`, 30, 75);
+    ctx.restore();
+
+    // Botón de reiniciar
+    this.drawRestartButton();
+    // Botón de volver al menu principal
+    this.drawBackButton();
   }
 
-  logicalToScreen(row, col) {
-    return {
-      x: this.x + col * this.cellSize,
-      y: this.y + row * this.cellSize,
+  drawRestartButton() {
+    const ctx = this.ctx;
+    const btnX = 1340 - 210; // Ajustado para mejor posición
+    const btnY = 20;
+    const btnWidth = 180;
+    const btnHeight = 60;
+    const borderRadius = 30; // Muy redondeado
+
+    ctx.save();
+
+    // Sombra del botón
+    ctx.shadowColor = "rgba(242, 80, 34, 0.6)";
+    ctx.shadowBlur = 25;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 8;
+
+    // Fondo naranja brillante del botón
+    const gradient = ctx.createLinearGradient(
+      btnX,
+      btnY,
+      btnX,
+      btnY + btnHeight
+    );
+    gradient.addColorStop(0, "#ff7851");
+    gradient.addColorStop(1, "#f25022");
+
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.roundRect(btnX, btnY, btnWidth, btnHeight, borderRadius);
+    ctx.fill();
+
+    // Highlight sutil en la parte superior
+    ctx.shadowBlur = 0;
+    const highlightGradient = ctx.createLinearGradient(
+      btnX,
+      btnY,
+      btnX,
+      btnY + btnHeight * 0.5
+    );
+    highlightGradient.addColorStop(0, "rgba(255, 255, 255, 0.2)");
+    highlightGradient.addColorStop(1, "transparent");
+
+    ctx.fillStyle = highlightGradient;
+    ctx.beginPath();
+    ctx.roundRect(btnX, btnY, btnWidth, btnHeight * 0.5, [
+      borderRadius,
+      borderRadius,
+      0,
+      0,
+    ]);
+    ctx.fill();
+
+    // Texto del botón
+    ctx.fillStyle = "#ffffff";
+    ctx.font = 'bold 24px "Titillium Web", sans-serif';
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.shadowColor = "rgba(0, 0, 0, 0.3)";
+    ctx.shadowBlur = 3;
+    ctx.shadowOffsetY = 2;
+    ctx.fillText("Reiniciar", btnX + btnWidth / 2, btnY + btnHeight / 2);
+
+    ctx.restore();
+
+    // Guardar bounds para el controlador
+    this.restartButtonBounds = {
+      x: btnX,
+      y: btnY,
+      width: btnWidth,
+      height: btnHeight,
     };
   }
-  
-  drawCellBevel(x, y, size) {
-    const darkGradient = this.ctx.createLinearGradient(x, y, x + size / 4, y + size / 4);
-    darkGradient.addColorStop(0, "rgba(0, 0, 0, 0.3)");
-    darkGradient.addColorStop(1, "transparent");
-    this.ctx.fillStyle = darkGradient;
-    this.ctx.fillRect(x, y, size / 4, size / 4);
 
-    const lightGradient = this.ctx.createLinearGradient(
-      x + size,
-      y + size,
-      x + (size * 3) / 4,
-      y + (size * 3) / 4
+  drawBackButton() {
+    const ctx = this.ctx;
+    const btnX = CANVAS_WIDTH_PEG - 210; // Ajustado para mejor posición
+    const btnY = 430;
+    const btnWidth = 180;
+    const btnHeight = 60;
+    const borderRadius = 30;
+
+    ctx.save();
+
+    // Gradiente naranja del botón
+    const gradient = ctx.createLinearGradient(
+      btnX,
+      btnY,
+      btnX,
+      btnY + btnHeight
     );
-    lightGradient.addColorStop(0, "rgba(255, 255, 255, 0.2)");
-    lightGradient.addColorStop(1, "transparent");
-    this.ctx.fillStyle = lightGradient;
-    this.ctx.fillRect(x + (size * 3) / 4, y + (size * 3) / 4, size / 4, size / 4);
+    gradient.addColorStop(1, "#5603ad");
 
-    const borderGradient = this.ctx.createLinearGradient(x, y, x, y + size);
-    borderGradient.addColorStop(0, "rgba(138, 56, 245, 0.3)");
-    borderGradient.addColorStop(0.5, "rgba(138, 56, 245, 0.1)");
-    borderGradient.addColorStop(1, "rgba(138, 56, 245, 0.3)");
-    this.ctx.strokeStyle = borderGradient;
-    this.ctx.lineWidth = 1;
-    this.ctx.strokeRect(x, y, size, size);
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.roundRect(btnX, btnY, btnWidth, btnHeight, borderRadius);
+    ctx.fill();
+
+    // Sin borde visible
+    ctx.shadowBlur = 0;
+
+    // Texto del botón
+    ctx.fillStyle = "#ffffff";
+    ctx.font = 'bold 20px "Titillium Web", sans-serif';
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("Menú Principal", btnX + btnWidth / 2, btnY + btnHeight / 2);
+
+    ctx.restore();
+
+    // Guardar bounds para el controlador
+    this.backButtonBounds = {
+      x: btnX,
+      y: btnY,
+      width: btnWidth,
+      height: btnHeight,
+    };
   }
 
-  drawChipSocket(x, y, size, hasChip = false) {
-    const centerX = x + size / 2;
-    const centerY = y + size / 2;
-    const radius = size / 3;
+  // ========================================================================================
+  // UTILIDADES DE CONVERSIÓN (para el controlador)
+  // ========================================================================================
 
-    this.ctx.save();
-    this.ctx.beginPath();
-    this.ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-    this.ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
-    this.ctx.fill();
+  canvasToCell(x, y) {
+    const col = Math.floor((x - this.offsetX) / this.cellSize);
+    const row = Math.floor((y - this.offsetY) / this.cellSize);
 
-    const socketGradient = this.ctx.createRadialGradient(
-      centerX - radius / 3,
-      centerY - radius / 3,
-      0,
-      centerX,
-      centerY,
-      radius
-    );
-
-    if (hasChip) {
-      socketGradient.addColorStop(0, "rgba(138, 56, 245, 0.2)");
-      socketGradient.addColorStop(0.7, "rgba(86, 3, 173, 0.3)");
-      socketGradient.addColorStop(1, "rgba(16, 5, 39, 0.5)");
-    } else {
-      socketGradient.addColorStop(0, "rgba(16, 5, 39, 0.8)");
-      socketGradient.addColorStop(0.7, "rgba(0, 0, 0, 0.6)");
-      socketGradient.addColorStop(1, "rgba(0, 0, 0, 0.9)");
+    if (row >= 0 && row < 7 && col >= 0 && col < 7) {
+      return { row, col };
     }
-
-    this.ctx.fillStyle = socketGradient;
-    this.ctx.fill();
-
-    this.ctx.strokeStyle = hasChip
-      ? "rgba(247, 183, 49, 0.3)"
-      : "rgba(138, 56, 245, 0.2)";
-    this.ctx.lineWidth = 2;
-    this.ctx.stroke();
-    this.ctx.restore();
+    return null;
   }
 
-  drawChip(cellData, x, y, size) {
-    const centerX = x + size / 2;
-    const centerY = y + size / 2;
-    const radius = size / 3;
+  isRestartButtonClicked(x, y) {
+    if (!this.restartButtonBounds) return false;
 
-    this.ctx.save();
-
-    if (cellData.chipImage) {
-      this.drawCustomChip(cellData, centerX, centerY, radius);
-    } else {
-      this.drawDefaultChip(cellData.chipSelected, centerX, centerY, radius);
-    }
-
-    this.ctx.restore();
+    const bounds = this.restartButtonBounds;
+    return (
+      x >= bounds.x &&
+      x <= bounds.x + bounds.width &&
+      y >= bounds.y &&
+      y <= bounds.y + bounds.height
+    );
   }
 
-  drawCustomChip(cellData, centerX, centerY, radius) {
-    this.ctx.shadowColor = "rgba(0, 0, 0, 0.6)";
-    this.ctx.shadowBlur = 8;
-    this.ctx.shadowOffsetX = 0;
-    this.ctx.shadowOffsetY = 4;
+  isBackButtonClicked(x, y) {
+    if (!this.backButtonBounds) return false;
 
-    if (cellData.chipSelected) {
-      const bgGradient = this.ctx.createRadialGradient(
-        centerX - radius / 3,
-        centerY - radius / 3,
-        0,
-        centerX,
-        centerY,
-        radius * 1.2
-      );
-      bgGradient.addColorStop(0, "#ffd32a");
-      bgGradient.addColorStop(0.5, "#f7b731");
-      bgGradient.addColorStop(1, "#e08e00");
-
-      this.ctx.beginPath();
-      this.ctx.arc(centerX, centerY, radius * 1.15, 0, Math.PI * 2);
-      this.ctx.fillStyle = bgGradient;
-      this.ctx.fill();
-    }
-
-    this.ctx.shadowColor = "transparent";
-    const imgSize = radius * 2;
-    this.ctx.drawImage(
-      cellData.chipImage,
-      centerX - imgSize / 2,
-      centerY - imgSize / 2,
-      imgSize,
-      imgSize
+    const bounds = this.backButtonBounds;
+    return (
+      x >= bounds.x &&
+      x <= bounds.x + bounds.width &&
+      y >= bounds.y &&
+      y <= bounds.y + bounds.height
     );
-
-    if (cellData.chipSelected) {
-      this.ctx.strokeStyle = "#fff4d6";
-      this.ctx.lineWidth = 3;
-      this.ctx.shadowColor = "#ffd32a";
-      this.ctx.shadowBlur = 10;
-      this.ctx.beginPath();
-      this.ctx.arc(centerX, centerY, radius * 1.05, 0, Math.PI * 2);
-      this.ctx.stroke();
-    }
-  }
-
-  drawDefaultChip(isSelected, centerX, centerY, radius) {
-    this.ctx.shadowColor = "rgba(0, 0, 0, 0.6)";
-    this.ctx.shadowBlur = 8;
-    this.ctx.shadowOffsetX = 0;
-    this.ctx.shadowOffsetY = 4;
-
-    const chipGradient = this.ctx.createRadialGradient(
-      centerX - radius / 3,
-      centerY - radius / 3,
-      0,
-      centerX,
-      centerY,
-      radius
-    );
-
-    if (isSelected) {
-      chipGradient.addColorStop(0, "#ffd32a");
-      chipGradient.addColorStop(0.3, "#f7b731");
-      chipGradient.addColorStop(0.7, "#e08e00");
-      chipGradient.addColorStop(1, "#b87100");
-    } else {
-      chipGradient.addColorStop(0, "#e8e8e8");
-      chipGradient.addColorStop(0.3, "#c5c5c5");
-      chipGradient.addColorStop(0.7, "#8a8a8a");
-      chipGradient.addColorStop(1, "#5a5a5a");
-    }
-
-    this.ctx.beginPath();
-    this.ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-    this.ctx.fillStyle = chipGradient;
-    this.ctx.fill();
-
-    const borderGradient = this.ctx.createLinearGradient(
-      centerX,
-      centerY - radius,
-      centerX,
-      centerY + radius
-    );
-
-    if (isSelected) {
-      borderGradient.addColorStop(0, "#fff4d6");
-      borderGradient.addColorStop(0.5, "#f7b731");
-      borderGradient.addColorStop(1, "#8a6000");
-    } else {
-      borderGradient.addColorStop(0, "#ffffff");
-      borderGradient.addColorStop(0.5, "#a0a0a0");
-      borderGradient.addColorStop(1, "#404040");
-    }
-
-    this.ctx.strokeStyle = borderGradient;
-    this.ctx.lineWidth = 2;
-    this.ctx.stroke();
-  }
-
-  drawDraggedChip(dragInfo) {
-    const { chipData, currentX, currentY } = dragInfo;
-
-    this.ctx.save();
-
-    this.ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
-    this.ctx.shadowBlur = 20;
-    this.ctx.shadowOffsetX = 0;
-    this.ctx.shadowOffsetY = 10;
-
-    this.drawChip(
-      chipData,
-      currentX - this.cellSize / 2,
-      currentY - this.cellSize / 2,
-      this.cellSize
-    );
-
-    this.ctx.restore();
   }
 }

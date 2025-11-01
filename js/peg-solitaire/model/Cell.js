@@ -2,27 +2,33 @@
 // CLASE CELL - Celda del tablero
 // ========================================================================================
 
-
-// Puede que no exista esta clase!!
-
 class Cell {
-    constructor(value, x, y, size, chipImage = null) {
-        this.value = value;
-        this.x = x;
-        this.y = y;
-        this.size = size;
-        this.chipImage = chipImage;
-        this.ficha = value === 1 ? new Chip(x, y, size, this.ctx, size / 3, this.chipImage) : null;
-    }
+  constructor(value, row, col, chipImage) {
+    this.value = value;
+    this.row = row;
+    this.col = col;
+    this.chipImage = chipImage;
+    this.chip =
+      value === 1 ? { selected: false, imageSource: chipImage } : null;
+  }
 
-    hasChip() {
-        return this.value !== null;
-    }
+  hasChip() {
+    return this.value === 1;
+  }
 
-    setChipImage(chipImage) {
-        this.chipImage = chipImage;
-        if (this.ficha) {
-            this.ficha.chipImage = chipImage;
-        }
+  addChip(chipImage) {
+    this.value = 1;
+    this.chip = { selected: false, imageSource: chipImage };
+  }
+
+  removeChip() {
+    this.value = 0;
+    this.chip = null;
+  }
+
+  setChipImage(chipImage) {
+    if (this.chip) {
+      this.chip.imageSource = chipImage;
     }
+  }
 }

@@ -1,13 +1,25 @@
 // ========================================================================================
-// CLASE BOARD - Tablero de Peg Solitaire
+// MODELO - Board.js
+// SOLO lógica del juego (sin visuales ni conocimiento de la vista)
 // ========================================================================================
 
 class Board {
   constructor() {
+    // Estructura del tablero (7x7)
     this.cells = [];
     this.rows = 7;
     this.cols = 7;
     this.chipImage = null;
+
+    // Estado del juego
+    this.selectedCell = null;
+
+    // Timer
+    this.startTime = null;
+    this.elapsedTime = 0;
+    this.maxTime = 10 * 60 * 1000; // 10 minutos
+    this.timerInterval = null;
+
     this.initialize();
   }
 
@@ -46,8 +58,39 @@ class Board {
     return this.cells[row]?.[col];
   }
 
+  // ========================================================================================
+  // LÓGICA DE SELECCIÓN Y MOVIMIENTO
+  // ========================================================================================
+
+  selectCell(row, col) {
+    const cell = this.getCellAt(row, col);
+    if (!cell || !cell.hasChip()) return false;
+
+    // Deseleccionar todas las fichas
+    this.deselectAllChips();
+
+    // Seleccionar la nueva ficha
+    if (cell.chip) {
+      cell.chip.selected = true;
+      this.selectedCell = { row, col };
+    }
+
+    return true;
+  }
+
+  deselectAllChips() {
+    for (let row = 0; row < this.rows; row++) {
+      for (let col = 0; col < this.cols; col++) {
+        const cell = this.getCellAt(row, col);
+        if (cell && cell.chip) {
+          cell.chip.selected = false;
+        }
+      }
+    }
+    this.selectedCell = null;
+  }
+
   isValidMove(fromRow, fromCol, toRow, toCol) {
-    // Verificar que las posiciones sean válidas
     const fromCell = this.getCellAt(fromRow, fromCol);
     const toCell = this.getCellAt(toRow, toCol);
 
@@ -55,18 +98,15 @@ class Board {
     if (!fromCell.hasChip()) return false;
     if (toCell.hasChip() || toCell.value === -1) return false;
 
-    // Calcular la diferencia
     const rowDiff = toRow - fromRow;
     const colDiff = toCol - fromCol;
 
     // Solo movimientos horizontales o verticales de 2 espacios
     if (Math.abs(rowDiff) === 2 && colDiff === 0) {
-      // Movimiento vertical
       const middleRow = fromRow + rowDiff / 2;
       const middleCell = this.getCellAt(middleRow, fromCol);
       return middleCell && middleCell.hasChip();
     } else if (Math.abs(colDiff) === 2 && rowDiff === 0) {
-      // Movimiento horizontal
       const middleCol = fromCol + colDiff / 2;
       const middleCell = this.getCellAt(fromRow, middleCol);
       return middleCell && middleCell.hasChip();
@@ -93,22 +133,47 @@ class Board {
     fromCell.removeChip();
     middleCell.removeChip();
 
+    // Deseleccionar
+    this.deselectAllChips();
+
     return true;
   }
+
+  getValidMovesFrom(row, col) {
+    const validMoves = [];
+    const directions = [
+      [2, 0],
+      [-2, 0],
+      [0, 2],
+      [0, -2],
+    ];
+
+    for (const [dRow, dCol] of directions) {
+      const newRow = row + dRow;
+      const newCol = col + dCol;
+      if (this.isValidMove(row, col, newRow, newCol)) {
+        validMoves.push({ row: newRow, col: newCol });
+      }
+    }
+
+    return validMoves;
+  }
+
+  // ========================================================================================
+  // LÓGICA DE ESTADO DEL JUEGO
+  // ========================================================================================
 
   hasValidMoves() {
     for (let row = 0; row < this.rows; row++) {
       for (let col = 0; col < this.cols; col++) {
         const cell = this.getCellAt(row, col);
         if (cell && cell.hasChip()) {
-          // Verificar las 4 direcciones posibles
           const directions = [
             [2, 0],
             [-2, 0],
             [0, 2],
             [0, -2],
           ];
-
           for (const [dRow, dCol] of directions) {
             if (this.isValidMove(row, col, row + dRow, col + dCol)) {
               return true;
@@ -120,14 +185,104 @@ class Board {
     return false;
   }
 
+  getRemainingChips() {
+    let count = 0;
+    for (let row = 0; row < this.rows; row++) {
+      for (let col = 0; col < this.cols; col++) {
+        const cell = this.getCellAt(row, col);
+        if (cell && cell.hasChip()) {
+          count++;
+        }
+      }
+    }
+    return count;
+  }
+
+  checkWin() {
+    const remaining = this.getRemainingChips();
+    const centerCell = this.getCellAt(3, 3);
+    return remaining === 1 && centerCell && centerCell.hasChip();
+  }
+
   setChipImage(chipImage) {
     this.chipImage = chipImage;
-    // Actualizar todas las celdas con la nueva imagen de ficha
     for (let row = 0; row < this.rows; row++) {
       for (let col = 0; col < this.cols; col++) {
         this.cells[row][col].setChipImage(chipImage);
       }
     }
+  }
+
+  // ========================================================================================
+  // LÓGICA DEL TIMER (sin renderizado)
+  // ========================================================================================
+
+  startTimer() {
+    this.startTime = Date.now();
+    this.elapsedTime = 0;
+
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+    }
+
+    this.timerInterval = setInterval(() => {
+      this.elapsedTime = Date.now() - this.startTime;
+    }, 100);
+  }
+
+  stopTimer() {
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+      this.timerInterval = null;
+    }
+  }
+
+  getRemainingTime() {
+    return Math.max(0, this.maxTime - this.elapsedTime);
+  }
+
+  isTimeUp() {
+    return this.getRemainingTime() <= 0;
+  }
+
+  getFormattedTime() {
+    const remainingTime = this.getRemainingTime();
+    const seconds = Math.floor(remainingTime / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${String(minutes).padStart(2, "0")}:${String(
+      remainingSeconds
+    ).padStart(2, "0")}`;
+  }
+
+  // Método para obtener información del timer para la vista
+  getTimerData() {
+    const remainingTime = this.getRemainingTime();
+    let color = "#03ad56"; // Verde por defecto
+
+    if (remainingTime <= 30000 && remainingTime > 10000) {
+      color = "#f7b731"; // Amarillo
+    } else if (remainingTime <= 10000) {
+      color = "#f25022"; // Rojo
+    }
+
+    return {
+      formattedTime: this.getFormattedTime(),
+      color: color,
+      isLow: remainingTime <= 30000,
+    };
+  }
+
+  // ========================================================================================
+  // REINICIAR JUEGO
+  // ========================================================================================
+
+  reset() {
+    this.cells = [];
+    this.selectedCell = null;
+    this.initialize();
+    this.stopTimer();
+    this.startTimer();
   }
 
   getBoardState() {
@@ -152,60 +307,5 @@ class Board {
     }
 
     return result;
-  }
-
-  getRemainingChips() {
-    let count = 0;
-    for (let row = 0; row < this.rows; row++) {
-      for (let col = 0; col < this.cols; col++) {
-        const cell = this.getCellAt(row, col);
-        if (cell && cell.hasChip()) {
-          count++;
-        }
-      }
-    }
-    return count;
-  }
-
-  deselectAllChips() {
-    for (let row = 0; row < this.rows; row++) {
-      for (let col = 0; col < this.cols; col++) {
-        const cell = this.getCellAt(row, col);
-        if (cell && cell.chip) {
-          cell.chip.selected = false;
-        }
-      }
-    }
-  }
-}
-
-class Cell {
-  constructor(value, row, col, chipImage) {
-    this.value = value;
-    this.row = row;
-    this.col = col;
-    this.chipImage = chipImage;
-    this.chip =
-      value === 1 ? { selected: false, imageSource: chipImage } : null;
-  }
-
-  hasChip() {
-    return this.value === 1;
-  }
-
-  addChip(chipImage) {
-    this.value = 1;
-    this.chip = { selected: false, imageSource: chipImage };
-  }
-
-  removeChip() {
-    this.value = 0;
-    this.chip = null;
-  }
-
-  setChipImage(chipImage) {
-    if (this.chip) {
-      this.chip.imageSource = chipImage;
-    }
   }
 }

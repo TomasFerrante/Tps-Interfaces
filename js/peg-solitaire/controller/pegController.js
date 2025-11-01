@@ -1,272 +1,156 @@
+// ========================================================================================
+// CONTROLADOR - PegController.js
+// Mediador entre Model y View (ellos NO se conocen entre sí)
+// ========================================================================================
+
 class PegController {
-  constructor(boardModel, boardView, canvas) {
-    this.boardModel = boardModel;
-    this.boardView = boardView;
+  constructor(model, view, canvas) {
+    this.model = model;
+    this.view = view;
     this.canvas = canvas;
-    this.selectedChip = null;
-    this.draggedChip = null;
-    this.dragStartPos = null;
-    this.isDragging = false;
-    this.gameActive = true;
+
+    // Bind de los event handlers
+    this.handleClick = this.handleClick.bind(this);
+    this.updateTimer = this.updateTimer.bind(this);
   }
+
+  // ========================================================================================
+  // INICIALIZACIÓN
+  // ========================================================================================
 
   init() {
-    this.setUpEventListeners();
-    this.redraw();
-  }
-
-  // Maneja eventos mouse
-  setUpEventListeners() {
-    this.handleClick = (e) => this.clickHandler(e);
-    this.handleMouseMove = (e) => this.mouseMoveHandler(e);
-    this.handleMouseUp = (e) => this.mouseUpHandler(e);
-    this.handleMouseDown = (e) => this.mouseDownHandler(e);
-
-    // Selected
     this.canvas.addEventListener("click", this.handleClick);
-    // Dragged
-    this.canvas.addEventListener("mousedown", this.handleMouseDown);
-    this.canvas.addEventListener("mousemove", this.handleMouseMove);
-    this.canvas.addEventListener("mouseup", this.handleMouseUp);
-  }
 
-  mouseDownHandler(e) {
-    e.preventDefault();
+    // Iniciar el timer
+    this.model.startTimer();
 
-    if (!this.isDragging || !this.gameActive) return;
+    // Loop de actualización del timer
+    this.startUpdateLoop();
 
-    const rect = this.canvas.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-
-    const logicalPos = this.boardView.screenToLogical(mouseX, mouseY);
-    if (!logicalPos) return;
-
-    const { row, col } = logicalPos;
-    const cell = this.boardModel.getCellAt(row, col);
-
-    if (!cell || cell.value === -1 || !cell.hasChip()) return;
-
-    this.draggedChip = {
-      chipData: {
-        hasChip: true,
-        chipSelected: true,
-        chipImage: cell.chip.imageSource,
-      },
-      fromRow: row,
-      fromCol: col,
-      currentX: mouseX,
-      currentY: mouseY,
-    };
-
-    this.dragStartPos = { row, col };
-    this.isDragging = true;
-
-    // Marcar visualmente que está siendo arrastrada
-    cell.chip.selected = true;
-
+    // Primer dibujado
     this.redraw();
   }
 
-  mouseMoveHandler(e) {
-    e.preventDefault();
-    if (!this.isDragging || !this.draggedChip) return;
+  startUpdateLoop() {
+    this.updateInterval = setInterval(this.updateTimer, 100);
+  }
 
-    const rect = this.canvas.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-
-    // Actualizar posición del drag
-    this.draggedChip.currentX = mouseX;
-    this.draggedChip.currentY = mouseY;
-
-    // Cambiar cursor según dónde esté el mouse
-    const logicalPos = this.boardView.screenToLogical(mouseX, mouseY);
-
-    if (logicalPos && this.dragStartPos) {
-      const isValidTarget = this.boardModel.isValidMove(
-        this.dragStartPos.row,
-        this.dragStartPos.col,
-        logicalPos.row,
-        logicalPos.col
-      );
-
-      this.canvas.style.cursor = isValidTarget ? "grabbing" : "not-allowed";
-    } else {
-      this.canvas.style.cursor = "grabbing";
+  updateTimer() {
+    // Verificar si se acabó el tiempo
+    if (this.model.isTimeUp()) {
+      this.handleTimeUp();
+      return;
     }
 
+    // Redibujar solo el HUD (optimización)
     this.redraw();
   }
 
-  mouseUpHandler(e) {
-    e.preventDefault();
+  // ========================================================================================
+  // MANEJO DE EVENTOS
+  // ========================================================================================
 
-    if (!this.isDragging || !this.draggedChip) return;
-
+  handleClick(event) {
     const rect = this.canvas.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
 
-    const logicalPos = this.boardView.screenToLogical(mouseX, mouseY);
+    // Verificar si se hizo clic en el botón de reiniciar
+    if (this.view.isRestartButtonClicked(x, y)) {
+      this.restart();
+      return;
+    }
 
-    if (logicalPos) {
-      const { row, col } = logicalPos;
+    // Verificar si se hizo clic en el botón de volver
+    if (this.view.isBackButtonClicked(x, y)) {
+      this.backToRoulette();
+      return;
+    }
 
-      // Intentar hacer el movimiento
-      if (
-        this.boardModel.isValidMove(
-          this.dragStartPos.row,
-          this.dragStartPos.col,
-          row,
-          col
-        )
-      ) {
-        this.boardModel.moveChip(
-          this.dragStartPos.row,
-          this.dragStartPos.col,
-          row,
-          col
-        );
+    // Convertir coordenadas a celda del tablero
+    const cell = this.view.canvasToCell(x, y);
+    if (!cell) return;
 
-        this.checkGameOver();
-      } else {
-        // Deseleccionar si el movimiento fue inválido
-        const startCell = this.boardModel.getCellAt(
-          this.dragStartPos.row,
-          this.dragStartPos.col
-        );
-        if (startCell && startCell.chip) {
-          startCell.chip.selected = false;
+    const { row, col } = cell;
+    const cellData = this.model.getCellAt(row, col);
+    if (!cellData) return;
+
+    // Lógica de selección y movimiento
+    this.handleCellClick(row, col, cellData);
+  }
+
+  handleCellClick(row, col, cellData) {
+    // Si no hay ficha seleccionada
+    if (!this.model.selectedCell) {
+      // Intentar seleccionar una ficha
+      if (cellData.hasChip()) {
+        this.model.selectCell(row, col);
+        this.redraw();
+      }
+    } else {
+      // Ya hay una ficha seleccionada
+      const selectedRow = this.model.selectedCell.row;
+      const selectedCol = this.model.selectedCell.col;
+
+      if (cellData.hasChip()) {
+        // Seleccionar otra ficha
+        this.model.selectCell(row, col);
+        this.redraw();
+      } else if (cellData.value === 0) {
+        // Intentar mover a un espacio vacío
+        const moved = this.model.moveChip(selectedRow, selectedCol, row, col);
+
+        if (moved) {
+          this.redraw();
+
+          // Verificar victoria
+          if (this.model.checkWin()) {
+            this.handleWin();
+          }
+          // Verificar derrota (no hay más movimientos)
+          else if (!this.model.hasValidMoves()) {
+            this.handleLoss();
+          }
+        } else {
+          // Click inválido, deseleccionar
+          this.model.deselectAllChips();
+          this.redraw();
         }
       }
-    } else {
-      // Deseleccionar si se soltó fuera
-      const startCell = this.boardModel.getCellAt(
-        this.dragStartPos.row,
-        this.dragStartPos.col
-      );
-      if (startCell && startCell.chip) {
-        startCell.chip.selected = false;
-      }
-    }
-
-    // Limpiar estado del drag
-    this.draggedChip = null;
-    this.dragStartPos = null;
-    this.isDragging = false;
-    this.canvas.style.cursor = "default";
-
-    this.redraw();
-  }
-
-  clickHandler(e) {
-    e.preventDefault()
-
-    if (!this.gameActive) return;
-
-    const rect = this.canvas.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-
-    // 1. Convertir coordenadas visuales a logicas
-    const logicalPos = this.boardView.screenToLogical(mouseX, mouseY);
-
-    if (!logicalPos) return;
-
-    const { row, col } = logicalPos;
-
-    // 2. Obtener celda del modelo
-    const cell = this.boardModel.getCellAt(row, col);
-    if (!cell || cell.value === -1) return;
-
-    // 3. Logica de seleccion/movimiento
-    if (cell.hasChip()) {
-      this.selectChip(cell);
-    } else if (this.selectedChip) {
-      this.moveChip(this.selectedChip, cell.row, cell.col);
-    }
-
-    this.redraw();
-  }
-
-  selectChip(row, col) {
-    // Deseleccionar todas
-    this.boardModel.deselectAllChips();
-    // Seleccionar la nueva
-    const cell = this.boardModel.getCellAt(row, col);
-    if (cell && cell.chip) {
-      cell.chip.selected = true;
-      this.selectedChip = { row, col };
     }
   }
 
-  attemptMove(targetRow, targetCol) {
-    if (!this.selectedChip) return;
-
-    const { row: fromRow, col: fromCol } = this.selectedChip;
-
-    if (this.boardModel.isValidMove(fromRow, fromCol, targetRow, targetCol)) {
-      this.boardModel.moveChip(fromRow, fromCol, targetRow, targetCol);
-      this.selectedChip = null;
-      this.checkGameOver();
-    } else {
-      console.log("❌ Movimiento inválido");
-    }
-  }
-
-  checkGameOver() {
-    const remainingChips = this.boardModel.getRemainingChips();
-    const hasValidMoves = this.boardModel.hasValidMoves();
-
-    if (!hasValidMoves) {
-      this.gameActive = false;
-
-      if (remainingChips === 1) {
-        setTimeout(() => {
-          alert("¡FELICITACIONES! ¡Ganaste con solo 1 ficha!");
-        }, 500);
-      } else {
-        setTimeout(() => {
-          alert(`Juego terminado. Quedaron ${remainingChips} fichas.`);
-        }, 500);
-      }
-    }
-  }
+  // ========================================================================================
+  // RENDERIZADO (Mediador: obtiene datos del modelo y los pasa a la vista)
+  // ========================================================================================
 
   redraw() {
+    // Limpiar el canvas primero
     this.clearCanvas();
 
-    // 1. Obtener estado del MODELO
-    const boardState = this.boardModel.getBoardState();
+    // Obtener datos del MODELO
+    const boardState = this.model.getBoardState();
+    const timerData = this.model.getTimerData();
+    const remainingChips = this.model.getRemainingChips();
 
-    // 2. Preparar info del drag (si existe)
-    const dragInfo = this.draggedChip
-      ? {
-          chipData: this.draggedChip.chipData,
-          fromRow: this.draggedChip.fromRow,
-          fromCol: this.draggedChip.fromCol,
-          currentX: this.draggedChip.currentX,
-          currentY: this.draggedChip.currentY,
-        }
-      : null;
+    // Obtener movimientos válidos si hay ficha seleccionada
+    let validMoves = [];
+    if (this.model.selectedCell) {
+      validMoves = this.model.getValidMovesFrom(
+        this.model.selectedCell.row,
+        this.model.selectedCell.col
+      );
+    }
 
-    // 3. Pasar datos a la VISTA
-    this.boardView.draw(boardState, dragInfo);
-  }
-
-  destroy() {
-    this.canvas.removeEventListener("mousedown", this.handleMouseDown);
-    this.canvas.removeEventListener("mousemove", this.handleMouseMove);
-    this.canvas.removeEventListener("mouseup", this.handleMouseUp);
+    // Pasar los datos a la VISTA para renderizar
+    this.view.draw(boardState, timerData, remainingChips, validMoves);
   }
 
   clearCanvas() {
-    const ctx = this.boardView.ctx;
+    const ctx = this.view.ctx;
     const width = this.canvas.width;
     const height = this.canvas.height;
 
-    // Limpiar completamente
     ctx.clearRect(0, 0, width, height);
 
     // Fondo con gradiente morado
@@ -276,5 +160,137 @@ class PegController {
     gradient.addColorStop(1, "#100527");
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, width, height);
+
+    // Estrellas de fondo
+    this.drawBackgroundStars(ctx, width, height);
+
+    // Viñeta
+    this.drawVignette(ctx, width, height);
+  }
+
+  drawBackgroundStars(ctx, width, height) {
+    ctx.save();
+
+    const seed = 12345;
+    const random = (function (s) {
+      return function () {
+        s = Math.sin(s) * 10000;
+        return s - Math.floor(s);
+      };
+    })(seed);
+
+    for (let i = 0; i < 50; i++) {
+      const x = random() * width;
+      const y = random() * height;
+      const size = random() * 2 + 0.5;
+      const opacity = random() * 0.5 + 0.2;
+
+      ctx.fillStyle = `rgba(138, 56, 245, ${opacity})`;
+      ctx.beginPath();
+      ctx.arc(x, y, size, 0, Math.PI * 2);
+      ctx.fill();
+
+      if (i % 5 === 0) {
+        ctx.shadowColor = "#8a38f5";
+        ctx.shadowBlur = 5;
+        ctx.fillStyle = `rgba(247, 183, 49, ${opacity * 0.8})`;
+        ctx.beginPath();
+        ctx.arc(x, y, size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+    }
+
+    ctx.restore();
+  }
+
+  drawVignette(ctx, width, height) {
+    const vignetteGradient = ctx.createRadialGradient(
+      width / 2,
+      height / 2,
+      Math.min(width, height) / 3,
+      width / 2,
+      height / 2,
+      Math.max(width, height) / 1.2
+    );
+
+    vignetteGradient.addColorStop(0, "transparent");
+    vignetteGradient.addColorStop(0.7, "rgba(16, 5, 39, 0.3)");
+    vignetteGradient.addColorStop(1, "rgba(16, 5, 39, 0.7)");
+
+    ctx.fillStyle = vignetteGradient;
+    ctx.fillRect(0, 0, width, height);
+  }
+
+  // ========================================================================================
+  // EVENTOS DE JUEGO
+  // ========================================================================================
+
+  restart() {
+    this.model.reset();
+    this.redraw();
+  }
+
+  backToRoulette() {
+    // Detener el juego
+    this.destroy();
+
+    // Llamar a la función global para volver a la ruleta
+    backToRouletteScreen();
+  }
+
+  handleTimeUp() {
+    this.model.stopTimer();
+    if (this.updateInterval) {
+      clearInterval(this.updateInterval);
+    }
+
+    setTimeout(() => {
+      const remaining = this.model.getRemainingChips();
+      alert(
+        `⏰ ¡SE ACABÓ EL TIEMPO!\n\nFichas restantes: ${remaining}\n\n¡Inténtalo de nuevo!`
+      );
+    }, 100);
+  }
+
+  handleWin() {
+    this.model.stopTimer();
+    if (this.updateInterval) {
+      clearInterval(this.updateInterval);
+    }
+
+    setTimeout(() => {
+      const timerData = this.model.getTimerData();
+      alert(
+        `¡GANASTE! 🎉\n\nTiempo: ${timerData.formattedTime}\n\n¡Solo queda 1 ficha en el centro!`
+      );
+    }, 100);
+  }
+
+  handleLoss() {
+    this.model.stopTimer();
+    if (this.updateInterval) {
+      clearInterval(this.updateInterval);
+    }
+
+    setTimeout(() => {
+      const remaining = this.model.getRemainingChips();
+      const timerData = this.model.getTimerData();
+      alert(
+        `Juego terminado ⏹️\n\nTiempo: ${timerData.formattedTime}\nFichas restantes: ${remaining}\n\nNo hay más movimientos disponibles.`
+      );
+    }, 100);
+  }
+
+  // ========================================================================================
+  // DESTRUCCIÓN
+  // ========================================================================================
+
+  destroy() {
+    this.canvas.removeEventListener("click", this.handleClick);
+    this.model.stopTimer();
+    if (this.updateInterval) {
+      clearInterval(this.updateInterval);
+    }
   }
 }

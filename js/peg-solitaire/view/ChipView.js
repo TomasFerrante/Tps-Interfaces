@@ -1,5 +1,7 @@
 class ChipView {
-  constructor() {}
+  constructor(ctx) {
+    this.ctx = ctx;
+  }
 
   draw() {
     const centerX = this.x + this.size / 2;
