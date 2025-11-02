@@ -110,7 +110,6 @@ function startGame() {
 // ========================================================================================
 // VOLVER A LA RULETA
 // ========================================================================================
-
 function backToRouletteScreen() {
   // Cambiar estado del juego
   gameState = "roulette";
@@ -124,21 +123,47 @@ function backToRouletteScreen() {
   // Reiniciar el modelo
   boardModel = new Board();
 
+  // IMPORTANTE: Resetear completamente la ruleta anterior
+  if (roulette) {
+    roulette.reset();
+  }
+
   // Resetear variables de la ruleta
   selectedChipImage = null;
   showSpinButton = true;
 
-  // Reiniciar la ruleta
-  roulette.currentAngle = 0;
-  roulette.spinning = false;
-  roulette.spinSpeed = 0;
+  // Reiniciar la ruleta COMPLETAMENTE
+  const rouletteX = CANVAS_WIDTH_PEG / 2;
+  const rouletteY = CANVAS_HEIGHT_PEG / 2 + 30;
+  const rouletteRadius = 130;
+  
+  // Crear una nueva instancia de la ruleta
+  roulette = new Roulette(rouletteX, rouletteY, rouletteRadius, ctxPeg);
+  
+  // Configurar el callback nuevamente
+  roulette.onSpinComplete = (chipPath) => {
+    selectedChipImage = roulette.getSelectedChipImage();
+    if (selectedChipImage) {
+      boardModel.setChipImage(selectedChipImage);
+    }
+    drawAll();
+    setTimeout(() => {
+      startGame();
+    }, 3000);
+  };
 
   // Mostrar la ruleta
   roulette.show();
 
   // Reactivar el event listener de la ruleta
-  canvasPeg.addEventListener("click", handleRouletteClick);
+  // (no lo vuelvas a agregar si ya existe)
 
+  // LIMPIEZA TOTAL del canvas
+  ctxPeg.save();
+  ctxPeg.setTransform(1, 0, 0, 1, 0, 0); // Reset transformaciones
+  ctxPeg.clearRect(0, 0, CANVAS_WIDTH_PEG, CANVAS_HEIGHT_PEG);
+  ctxPeg.restore();
+  
   // Dibujar la pantalla de la ruleta
   drawAll();
 }
@@ -194,7 +219,11 @@ function drawRouletteScreen() {
 }
 
 function clearCanvasPeg() {
+  // Limpieza completa del canvas
+  ctxPeg.save();
+  ctxPeg.setTransform(1, 0, 0, 1, 0, 0); // Reset de transformaciones
   ctxPeg.clearRect(0, 0, CANVAS_WIDTH_PEG, CANVAS_HEIGHT_PEG);
+  ctxPeg.restore();
 
   // Fondo con gradiente morado
   const gradient = ctxPeg.createLinearGradient(0, 0, 0, CANVAS_HEIGHT_PEG);

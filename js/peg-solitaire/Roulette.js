@@ -49,6 +49,9 @@ class Roulette {
     loadChipImages() {
         this.chips.forEach((chipPath, index) => {
             const img = new Image();
+            
+            img.style.imageRendering = 'high-quality';
+            
             img.src = chipPath;
             img.onload = () => {
                 this.chipsLoaded[index] = img;
@@ -166,48 +169,51 @@ class Roulette {
         }
     }
 
-    draw() {
-        if (!this.visible) return;
+   draw() {
+    if (!this.visible) return;
 
-        this.ctx.save();
+    this.ctx.save();
+    
+    // RESETEAR cualquier transformación previa
+    this.ctx.setTransform(1, 0, 0, 1, 0, 0);
 
-        // Dibujar sombra de la ruleta
-        this.ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
-        this.ctx.shadowBlur = 30;
-        this.ctx.shadowOffsetX = 0;
-        this.ctx.shadowOffsetY = 10;
+    // Dibujar sombra de la ruleta
+    this.ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+    this.ctx.shadowBlur = 30;
+    this.ctx.shadowOffsetX = 0;
+    this.ctx.shadowOffsetY = 10;
 
-        // Dibujar marco exterior decorativo
-        this.drawOuterFrame();
+    // Dibujar marco exterior decorativo
+    this.drawOuterFrame();
 
-        // Dibujar ruleta
-        this.ctx.translate(this.x, this.y);
-        this.ctx.rotate(this.currentAngle);
+    // Dibujar ruleta
+    this.ctx.translate(this.x, this.y);
+    this.ctx.rotate(this.currentAngle);
 
-        // Dibujar segmentos
-        for (let i = 0; i < this.chips.length; i++) {
-            this.drawSegment(i);
-        }
-
-        // Dibujar fichas en los segmentos
-        for (let i = 0; i < this.chips.length; i++) {
-            this.drawChipInSegment(i);
-        }
-
-        this.ctx.rotate(-this.currentAngle);
-        this.ctx.translate(-this.x, -this.y);
-
-        // Dibujar centro decorativo
-        this.drawCenter();
-
-        // Dibujar indicador (flecha)
-        this.drawIndicator();
-
-        // Dibujar partículas
-        this.drawParticles();
-
-        this.ctx.restore();
+    // Dibujar segmentos
+    for (let i = 0; i < this.chips.length; i++) {
+        this.drawSegment(i);
     }
+
+    // Dibujar fichas en los segmentos
+    for (let i = 0; i < this.chips.length; i++) {
+        this.drawChipInSegment(i);
+    }
+
+    this.ctx.rotate(-this.currentAngle);
+    this.ctx.translate(-this.x, -this.y);
+
+    // Dibujar centro decorativo
+    this.drawCenter();
+
+    // Dibujar indicador (flecha)
+    this.drawIndicator();
+
+    // Dibujar partículas
+    this.drawParticles();
+
+    this.ctx.restore();
+}
 
     drawOuterFrame() {
         // Sombra externa muy pronunciada
@@ -359,6 +365,12 @@ class Roulette {
     }
 
     drawCenter() {
+        // Resetear sombras antes de empezar
+        this.ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+        this.ctx.shadowBlur = 20;
+        this.ctx.shadowOffsetX = 0;
+        this.ctx.shadowOffsetY = 0;
+
         // Sombra del centro
         this.ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
         this.ctx.shadowBlur = 20;
@@ -515,5 +527,15 @@ class Roulette {
 
     getSelectedChipImage() {
         return this.chipsLoaded[this.selectedChipIndex];
+    }
+
+    reset() {
+        this.spinning = false;
+        this.currentAngle = 0;
+        this.spinSpeed = 0;
+        this.targetAngle = 0;
+        this.selectedChipIndex = 0;
+        this.particles = []; // Limpiar partículas
+        this.visible = false;
     }
 }

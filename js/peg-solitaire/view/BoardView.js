@@ -170,70 +170,80 @@ class BoardView {
 
         if (!cell.hasChip) continue;
 
-        const x = this.offsetX + col * this.cellSize;
-        const y = this.offsetY + row * this.cellSize;
-        const pegSize = this.cellSize * 0.7;
+        // Coordenadas de la celda
+        const cellX = this.offsetX + col * this.cellSize;
+        const cellY = this.offsetY + row * this.cellSize;
+
+        // Centro de la celda
+        const centerX = cellX + this.cellSize / 2;
+        const centerY = cellY + this.cellSize / 2;
+
+        const imgSize = this.cellSize * 0.98;
+        const imgRadius = imgSize / 2;
 
         ctx.save();
 
-        // Sombra de la ficha
-        ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
-        ctx.shadowBlur = 15;
-        ctx.shadowOffsetY = 5;
+        // MEJORA DE CALIDAD
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = "high";
 
         // Dibujar imagen de ficha si está disponible
         if (cell.chipImage) {
-          // Usar la imagen directamente del estado (ya es un Image object)
+          // Sombra de la ficha
+          ctx.shadowColor = "rgba(0, 0, 0, 0.6)";
+          ctx.shadowBlur = 10;
+          ctx.shadowOffsetX = 0;
+          ctx.shadowOffsetY = 5;
+
+          // Dibujar la imagen de la ficha
+          ctx.shadowColor = "transparent";
           ctx.drawImage(
             cell.chipImage,
-            x + (this.cellSize - pegSize) / 2,
-            y + (this.cellSize - pegSize) / 2,
-            pegSize,
-            pegSize
+            centerX - imgRadius,
+            centerY - imgRadius,
+            imgSize,
+            imgSize
           );
+
+          // Borde brillante si está seleccionada
+          if (cell.chipSelected) {
+            ctx.strokeStyle = "#00ff88";
+            ctx.lineWidth = 3;
+            ctx.shadowColor = "#00ff88";
+            ctx.shadowBlur = 20;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, imgRadius, 0, Math.PI * 2);
+            ctx.stroke();
+          }
         } else {
-          // Fallback: círculo dorado
+          // Fallback: círculo dorado GRANDE
+          ctx.shadowColor = "rgba(0, 0, 0, 0.6)";
+          ctx.shadowBlur = 10;
+          ctx.shadowOffsetX = 0;
+          ctx.shadowOffsetY = 5;
+
           const gradient = ctx.createRadialGradient(
-            x + this.cellSize / 2,
-            y + this.cellSize / 2,
+            centerX - imgRadius / 3,
+            centerY - imgRadius / 3,
             0,
-            x + this.cellSize / 2,
-            y + this.cellSize / 2,
-            pegSize / 2
+            centerX,
+            centerY,
+            imgRadius
           );
           gradient.addColorStop(0, "#ffd32a");
-          gradient.addColorStop(1, "#f7b731");
+          gradient.addColorStop(0.3, "#f7b731");
+          gradient.addColorStop(0.7, "#e08e00");
+          gradient.addColorStop(1, "#b87100");
 
           ctx.fillStyle = gradient;
           ctx.beginPath();
-          ctx.arc(
-            x + this.cellSize / 2,
-            y + this.cellSize / 2,
-            pegSize / 2,
-            0,
-            Math.PI * 2
-          );
+          ctx.arc(centerX, centerY, imgRadius, 0, Math.PI * 2);
           ctx.fill();
 
           ctx.strokeStyle = "#e08e00";
           ctx.lineWidth = 3;
-          ctx.stroke();
-        }
-
-        // Resaltar ficha seleccionada
-        if (cell.chipSelected) {
-          ctx.strokeStyle = "#00ff88";
-          ctx.lineWidth = 4;
-          ctx.shadowColor = "#00ff88";
-          ctx.shadowBlur = 20;
-          ctx.beginPath();
-          ctx.arc(
-            x + this.cellSize / 2,
-            y + this.cellSize / 2,
-            pegSize / 2 + 3,
-            0,
-            Math.PI * 2
-          );
           ctx.stroke();
         }
 
