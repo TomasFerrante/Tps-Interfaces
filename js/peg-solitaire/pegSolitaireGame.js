@@ -27,6 +27,10 @@ let selectedChipImage = null;
 let gameState = "roulette"; // 'roulette' o 'playing'
 let showSpinButton = true;
 
+// Contador de inicio
+let countdownSeconds = 3;
+let countdownInterval = null;
+
 // ========================================================================================
 // INICIALIZACIÓN
 // ========================================================================================
@@ -73,12 +77,8 @@ function initPegSolitaire() {
       boardModel.setChipImage(selectedChipImage);
     }
 
-    drawAll();
-
-    // Iniciar el juego después de 3 segundos
-    setTimeout(() => {
-      startGame();
-    }, 3000);
+    // Iniciar contador regresivo
+    startCountdown();
   };
 
   // Event listener SOLO para la ruleta
@@ -92,6 +92,23 @@ function initPegSolitaire() {
 // ========================================================================================
 // INICIAR JUEGO (después de la ruleta)
 // ========================================================================================
+
+function startCountdown() {
+  countdownSeconds = 3;
+  drawAll();
+
+  countdownInterval = setInterval(() => {
+    countdownSeconds--;
+
+    if (countdownSeconds <= 0) {
+      clearInterval(countdownInterval);
+      countdownInterval = null;
+      startGame();
+    } else {
+      drawAll();
+    }
+  }, 1000);
+}
 
 function startGame() {
   gameState = "playing";
@@ -114,6 +131,12 @@ function backToRouletteScreen() {
   // Cambiar estado del juego
   gameState = "roulette";
 
+  // Limpiar el intervalo del contador si existe
+  if (countdownInterval) {
+    clearInterval(countdownInterval);
+    countdownInterval = null;
+  }
+
   // Destruir el controlador actual si existe
   if (pegController) {
     pegController.destroy();
@@ -131,6 +154,7 @@ function backToRouletteScreen() {
   // Resetear variables de la ruleta
   selectedChipImage = null;
   showSpinButton = true;
+  countdownSeconds = 3;
 
   // Reiniciar la ruleta COMPLETAMENTE
   const rouletteX = CANVAS_WIDTH_PEG / 2;
@@ -146,10 +170,9 @@ function backToRouletteScreen() {
     if (selectedChipImage) {
       boardModel.setChipImage(selectedChipImage);
     }
-    drawAll();
-    setTimeout(() => {
-      startGame();
-    }, 3000);
+
+    // Iniciar contador regresivo
+    startCountdown();
   };
 
   // Mostrar la ruleta
@@ -538,7 +561,7 @@ function drawResultMessage() {
   ctxPeg.fillStyle = "#74e0a9";
   ctxPeg.font = 'bold 28px "Titillium Web"';
   ctxPeg.fillText(
-    "Iniciando juego en 3 segundos...",
+    `Iniciando juego en ${countdownSeconds} segundo${countdownSeconds !== 1 ? 's' : ''}...`,
     messageX,
     CANVAS_HEIGHT_PEG - 60
   );

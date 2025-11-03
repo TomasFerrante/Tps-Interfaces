@@ -9,9 +9,20 @@ class PegController {
     this.view = view;
     this.canvas = canvas;
 
+    // Estado del drag and drop
+    this.isDragging = false;
+    this.draggedChip = null; // {row, col}
+    this.dragPosition = null; // {x, y} posición del mouse
+
+    // Estado del juego
+    this.gameState = 'playing'; // 'playing', 'victory', 'defeat', 'timeup'
+
     // Bind de los event handlers
-    this.handleClick = this.handleClick.bind(this);
+    this.handleMouseDown = this.handleMouseDown.bind(this);
+    this.handleMouseMove = this.handleMouseMove.bind(this);
+    this.handleMouseUp = this.handleMouseUp.bind(this);
     this.updateTimer = this.updateTimer.bind(this);
+    this.handleButtonInteraction = this.handleButtonInteraction.bind(this);
   }
 
   // ========================================================================================
@@ -19,7 +30,10 @@ class PegController {
   // ========================================================================================
 
   init() {
-    this.canvas.addEventListener("click", this.handleClick);
+    // Eventos de drag and drop
+    this.canvas.addEventListener("mousedown", this.handleMouseDown);
+    this.canvas.addEventListener("mousemove", this.handleMouseMove);
+    this.canvas.addEventListener("mouseup", this.handleMouseUp);
 
     // Iniciar el timer
     this.model.startTimer();
@@ -47,13 +61,19 @@ class PegController {
   }
 
   // ========================================================================================
-  // MANEJO DE EVENTOS
+  // MANEJO DE EVENTOS - DRAG AND DROP
   // ========================================================================================
 
-  handleClick(event) {
+  handleMouseDown(event) {
     const rect = this.canvas.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
+
+    // Si estamos en pantalla de fin de juego, solo manejar botones
+    if (this.gameState !== 'playing') {
+      this.handleButtonInteraction(x, y, 'click');
+      return;
+    }
 
     // Verificar si se hizo clic en el botón de reiniciar
     if (this.view.isRestartButtonClicked(x, y)) {
@@ -73,34 +93,61 @@ class PegController {
 
     const { row, col } = cell;
     const cellData = this.model.getCellAt(row, col);
-    if (!cellData) return;
+    if (!cellData || !cellData.hasChip()) return;
 
-    // Lógica de selección y movimiento
-    this.handleCellClick(row, col, cellData);
+    // Iniciar drag and drop
+    this.isDragging = true;
+    this.draggedChip = { row, col };
+    this.dragPosition = { x, y };
+
+    // Seleccionar la ficha en el modelo
+    this.model.selectCell(row, col);
+    this.redraw();
   }
 
-  handleCellClick(row, col, cellData) {
-    // Si no hay ficha seleccionada
-    if (!this.model.selectedCell) {
-      // Intentar seleccionar una ficha
-      if (cellData.hasChip()) {
-        this.model.selectCell(row, col);
-        this.redraw();
-      }
-    } else {
-      // Ya hay una ficha seleccionada
-      const selectedRow = this.model.selectedCell.row;
-      const selectedCol = this.model.selectedCell.col;
+  handleMouseMove(event) {
+    if (!this.isDragging || !this.draggedChip) return;
 
-      if (cellData.hasChip()) {
-        // Seleccionar otra ficha
-        this.model.selectCell(row, col);
-        this.redraw();
-      } else if (cellData.value === 0) {
-        // Intentar mover a un espacio vacío
-        const moved = this.model.moveChip(selectedRow, selectedCol, row, col);
+    const rect = this.canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    // Actualizar la posición del drag
+    this.dragPosition = { x, y };
+
+    // Redibujar para mostrar la ficha moviéndose
+    this.redraw();
+  }
+
+  handleMouseUp(event) {
+    if (!this.isDragging || !this.draggedChip) return;
+
+    const rect = this.canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    // Convertir coordenadas a celda del tablero
+    const cell = this.view.canvasToCell(x, y);
+
+    if (cell) {
+      const { row, col } = cell;
+      const cellData = this.model.getCellAt(row, col);
+
+      // Intentar mover la ficha
+      if (cellData && cellData.value === 0) {
+        const moved = this.model.moveChip(
+          this.draggedChip.row,
+          this.draggedChip.col,
+          row,
+          col
+        );
 
         if (moved) {
+          // Resetear estado de drag
+          this.isDragging = false;
+          this.draggedChip = null;
+          this.dragPosition = null;
+
           this.redraw();
 
           // Verificar victoria
@@ -111,13 +158,17 @@ class PegController {
           else if (!this.model.hasValidMoves()) {
             this.handleLoss();
           }
-        } else {
-          // Click inválido, deseleccionar
-          this.model.deselectAllChips();
-          this.redraw();
+          return;
         }
       }
     }
+
+    // Si no se pudo mover o no hay celda válida, cancelar el drag
+    this.model.deselectAllChips();
+    this.isDragging = false;
+    this.draggedChip = null;
+    this.dragPosition = null;
+    this.redraw();
   }
 
   // ========================================================================================
@@ -142,8 +193,15 @@ class PegController {
       );
     }
 
+    // Datos del drag and drop
+    const dragData = {
+      isDragging: this.isDragging,
+      draggedChip: this.draggedChip,
+      dragPosition: this.dragPosition,
+    };
+
     // Pasar los datos a la VISTA para renderizar
-    this.view.draw(boardState, timerData, remainingChips, validMoves);
+    this.view.draw(boardState, timerData, remainingChips, validMoves, dragData);
   }
 
   clearCanvas() {
@@ -227,6 +285,7 @@ class PegController {
   // ========================================================================================
 
   restart() {
+    this.gameState = 'playing';
     this.model.reset();
     this.redraw();
   }
@@ -245,12 +304,8 @@ class PegController {
       clearInterval(this.updateInterval);
     }
 
-    setTimeout(() => {
-      const remaining = this.model.getRemainingChips();
-      alert(
-        `⏰ ¡SE ACABÓ EL TIEMPO!\n\nFichas restantes: ${remaining}\n\n¡Inténtalo de nuevo!`
-      );
-    }, 100);
+    this.gameState = 'timeup';
+    this.drawTimeUpScreen();
   }
 
   handleWin() {
@@ -259,12 +314,8 @@ class PegController {
       clearInterval(this.updateInterval);
     }
 
-    setTimeout(() => {
-      const timerData = this.model.getTimerData();
-      alert(
-        `¡GANASTE! 🎉\n\nTiempo: ${timerData.formattedTime}\n\n¡Solo queda 1 ficha en el centro!`
-      );
-    }, 100);
+    this.gameState = 'victory';
+    this.drawVictoryScreen();
   }
 
   handleLoss() {
@@ -273,13 +324,54 @@ class PegController {
       clearInterval(this.updateInterval);
     }
 
-    setTimeout(() => {
-      const remaining = this.model.getRemainingChips();
-      const timerData = this.model.getTimerData();
-      alert(
-        `Juego terminado ⏹️\n\nTiempo: ${timerData.formattedTime}\nFichas restantes: ${remaining}\n\nNo hay más movimientos disponibles.`
-      );
-    }, 100);
+    this.gameState = 'defeat';
+    this.drawDefeatScreen();
+  }
+
+  // ========================================================================================
+  // PANTALLAS DE FIN DE JUEGO (solo llaman a la vista)
+  // ========================================================================================
+
+  drawVictoryScreen() {
+    const timerData = this.model.getTimerData();
+    this.view.drawVictoryScreen(
+      timerData,
+      () => this.restart(),
+      () => this.backToRoulette()
+    );
+  }
+
+  drawDefeatScreen() {
+    const remaining = this.model.getRemainingChips();
+    const timerData = this.model.getTimerData();
+    this.view.drawDefeatScreen(
+      remaining,
+      timerData,
+      () => this.restart(),
+      () => this.backToRoulette()
+    );
+  }
+
+  drawTimeUpScreen() {
+    const remaining = this.model.getRemainingChips();
+    this.view.drawTimeUpScreen(
+      remaining,
+      () => this.restart(),
+      () => this.backToRoulette()
+    );
+  }
+
+  handleButtonInteraction(x, y, type) {
+    if (type === 'click') {
+      // Obtener botones de la vista
+      const buttons = this.view.getEndGameButtons();
+      for (const btn of buttons) {
+        if (btn.isPointInside(x, y)) {
+          btn.handleClick();
+          return;
+        }
+      }
+    }
   }
 
   // ========================================================================================
@@ -287,7 +379,9 @@ class PegController {
   // ========================================================================================
 
   destroy() {
-    this.canvas.removeEventListener("click", this.handleClick);
+    this.canvas.removeEventListener("mousedown", this.handleMouseDown);
+    this.canvas.removeEventListener("mousemove", this.handleMouseMove);
+    this.canvas.removeEventListener("mouseup", this.handleMouseUp);
     this.model.stopTimer();
     if (this.updateInterval) {
       clearInterval(this.updateInterval);
