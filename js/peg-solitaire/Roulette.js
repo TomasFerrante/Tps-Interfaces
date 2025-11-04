@@ -1,20 +1,30 @@
 // ========================================================================================
 // CLASE ROULETTE - Ruleta de Casino para Peg Solitaire
+// Implementa una ruleta de casino interactiva para seleccionar campeones de LoL
+// La ruleta gira y selecciona aleatoriamente una imagen de campeón
 // ========================================================================================
 
 class Roulette {
+    /**
+     * Constructor de la ruleta
+     * @param {number} x - Posición X del centro de la ruleta
+     * @param {number} y - Posición Y del centro de la ruleta
+     * @param {number} radius - Radio de la ruleta
+     * @param {CanvasRenderingContext2D} ctx - Contexto del canvas
+     */
     constructor(x, y, radius, ctx) {
-        this.x = x;
-        this.y = y;
-        this.radius = radius;
-        this.ctx = ctx;
-        this.spinning = false;
-        this.currentAngle = 0;
-        this.spinSpeed = 0;
-        this.targetAngle = 0;
-        this.selectedChipIndex = 0;
+        this.x = x; // Posición X
+        this.y = y; // Posición Y
+        this.radius = radius; // Radio de la ruleta
+        this.ctx = ctx; // Contexto de renderizado
+        this.spinning = false; // Estado de giro
+        this.currentAngle = 0; // Ángulo actual de rotación
+        this.spinSpeed = 0; // Velocidad de giro actual
+        this.targetAngle = 0; // Ángulo objetivo al que debe llegar
+        this.selectedChipIndex = 0; // Índice del campeón seleccionado
 
-        // Cargar las fichas disponibles (rutas relativas desde html/running-game.html)
+        // Array de rutas de imágenes de campeones (9 campeones disponibles)
+        // Rutas relativas desde html/running-game.html
         this.chips = [
             '../assets/images/fichas_peg/Generated_Image_October_22__2025_-_3_36PM-removebg-preview.png',
             '../assets/images/fichas_peg/Generated_Image_October_22__2025_-_3_37PM-removebg-preview.png',
@@ -27,66 +37,80 @@ class Roulette {
             '../assets/images/fichas_peg/Generated_Image_October_22__2025_-_3_45PM-removebg-preview.png'
         ];
 
-        this.chipsLoaded = [];
-        this.loadChipImages();
+        this.chipsLoaded = []; // Array de imágenes cargadas
+        this.loadChipImages(); // Cargar todas las imágenes
 
-        // Colores para cada segmento (alternando para visibilidad)
+        // Colores para cada segmento (alternando para mejor visibilidad)
+        // Combinación de morados, verdes, amarillos
         this.segmentColors = [
             '#5603ad', '#03ad56', '#8a38f5', '#74e0a9',
             '#7d13eb', '#f7b731', '#a34cff', '#03ad56',
             '#5603ad'
         ];
 
-        this.anglePerSegment = (Math.PI * 2) / this.chips.length;
+        this.anglePerSegment = (Math.PI * 2) / this.chips.length; // Ángulo de cada segmento
 
-        // Animación de partículas
-        this.particles = [];
+        this.particles = []; // Array de partículas para efectos visuales
 
-        // Estado de visibilidad
-        this.visible = false;
+        this.visible = false; // Estado de visibilidad de la ruleta
     }
 
+    /**
+     * Carga las imágenes de los campeones de forma asíncrona
+     * Muestra mensajes de éxito/error en la consola
+     */
     loadChipImages() {
         this.chips.forEach((chipPath, index) => {
             const img = new Image();
-            
-            img.style.imageRendering = 'high-quality';
-            
+
+            img.style.imageRendering = 'high-quality'; // Configurar renderizado de alta calidad
+
             img.src = chipPath;
             img.onload = () => {
-                this.chipsLoaded[index] = img;
+                this.chipsLoaded[index] = img; // Guardar imagen cargada
                 console.log(`Ficha ${index + 1} cargada correctamente: ${chipPath}`);
             };
             img.onerror = () => {
                 console.error(`Error cargando ficha ${index + 1}: ${chipPath}`);
-                this.chipsLoaded[index] = null;
+                this.chipsLoaded[index] = null; // Marcar como error
             };
         });
     }
 
+    /**
+     * Muestra la ruleta en el canvas
+     */
     show() {
         this.visible = true;
     }
 
+    /**
+     * Oculta la ruleta del canvas
+     */
     hide() {
         this.visible = false;
     }
 
+    /**
+     * Inicia el giro de la ruleta
+     * Selecciona aleatoriamente un campeón y calcula el ángulo objetivo
+     */
     spin() {
-        if (this.spinning) return;
+        if (this.spinning) return; // No permitir múltiples giros simultáneos
 
         this.spinning = true;
-        // Velocidad inicial muy alta
-        this.spinSpeed = 1.2;
+        this.spinSpeed = 1.2; // Velocidad inicial alta
 
-        // Seleccionar ficha aleatoria
+        // Seleccionar campeón aleatorio
         this.selectedChipIndex = Math.floor(Math.random() * this.chips.length);
 
-        // Calcular ángulo objetivo (1.5-2 vueltas para ser muy rápido)
+        // Calcular ángulo objetivo (1.5-2 vueltas completas + posición del campeón)
         const extraSpins = 1.5 + Math.random() * 0.5; // 1.5-2 vueltas
-        this.targetAngle = (Math.PI * 2 * extraSpins) + (this.selectedChipIndex * this.anglePerSegment) + (this.anglePerSegment / 2);
+        this.targetAngle = (Math.PI * 2 * extraSpins) +
+                          (this.selectedChipIndex * this.anglePerSegment) +
+                          (this.anglePerSegment / 2);
 
-        // Crear partículas
+        // Crear partículas de efecto visual
         this.createParticles();
     }
 
