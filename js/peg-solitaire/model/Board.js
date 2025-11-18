@@ -197,7 +197,7 @@ class Board {
    */
   getValidMovesFrom(row, col) {
     const validMoves = [];
-    // Direcciones posibles: arriba, abajo, izquierda, derecha (2 espacios cada una)
+    
     const directions = [
       [2, 0],   // Abajo
       [-2, 0],  // Arriba
