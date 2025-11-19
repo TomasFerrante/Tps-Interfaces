@@ -2736,3 +2736,24 @@ figure img {
 .pipe-image-flipped {
   transform: scaleY(-1);
 }
+
+.container-bonus {
+  position: absolute;
+  left: 200px;
+  top: 50px;
+  width: 48px;
+  height: 57px;
+  z-index: 12;
+  background-size: 288px 57px;
+  background-repeat: no-repeat;
+  animation: Spin 0.8s steps(6) infinite;
+}
+
+@keyframes Spin {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -288px 0;
+  }
+}
