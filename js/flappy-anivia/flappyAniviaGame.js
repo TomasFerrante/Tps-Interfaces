@@ -5,7 +5,7 @@ let pipeView = null;
 let coinView = null;
 let heartView = null;
 
-let image = "../assets/images/flappy/objects/columna.png";
+let image = "../assets/images/flappy/objects/roca3.png";
 let coin = "../assets/images/flappy/spritesheets/coins.png";
 let heart = "../assets/images/flappy/spritesheets/hearts.png";
 
