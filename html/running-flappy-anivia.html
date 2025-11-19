@@ -152,15 +152,13 @@
         </div>
         <section>
           <div class="container-game">
-            <div class="container-objects">
-              <div class="parallax">
-                <div class="spriteSheet"></div>
-                <div class="layer layer-1"></div>
-                <div class="layer layer-2"></div>
-                <div class="layer layer-3"></div>
-                <div class="layer layer-4"></div>
-                <div class="layer layer-5"></div>
-              </div>
+            <div class="parallax">
+              <div class="layer layer-1"></div>
+              <div class="layer layer-2"></div>
+              <div class="layer layer-3"></div>
+              <div class="layer layer-4"></div>
+              <div class="layer layer-5"></div>
+              <div class="container-objects"></div>
             </div>
             <div class="menu-game">
               <div class="menu-game-container">
@@ -221,7 +219,7 @@
             </ul>
             <img
               class="media-game-info"
-              src="../assets/images/FlappyAnivia.png"
+              src="../assets/images/flappy/FlappyAnivia.jpg"
               alt="Flappy Anivia - screenshot"
             />
             <iframe
@@ -485,11 +483,17 @@
     <script src="../js/gameInteractions.js" defer></script>
     <script src="../js/main.js" defer></script>
     <!-- Flappy Anivia Game Script -->
-    <script src="../js/flappy-anivia/model/Anivia.js"></script>
-    <script src="../js/flappy-anivia/model/Pipe.js"></script>
-    <script src="../js/flappy-anivia/view/PipeView.js"></script>
-    <script src="../js/flappy-anivia/view/BonusView.js"></script>
-    <script src="../js/flappy-anivia/controller/flappyController.js"></script>
-    <script src="../js/flappy-anivia/flappyAniviaGame.js"></script>
+    <script src="../js/flappy-anivia/model/Pipe.js" defer></script>
+    <script src="../js/flappy-anivia/model/Anivia.js" defer></script>
+    <script src="../js/flappy-anivia/model/Bonus.js" defer></script>
+
+
+    <script src="../js/flappy-anivia/view/AniviaView.js" defer></script>
+    <script src="../js/flappy-anivia/view/PipeView.js" defer></script>
+    <script src="../js/flappy-anivia/view/BonusView.js" defer></script>
+
+    <script src="../js/flappy-anivia/controller/flappyController.js" defer></script>
+    
+    <script src="../js/flappy-anivia/flappyAniviaGame.js" defer></script>
   </body>
 </html>

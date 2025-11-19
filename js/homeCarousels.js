@@ -45,6 +45,16 @@ const carousel3D = {
                 };
             }
 
+            // Reemplaza el juego en la posición 2 con el Flappy Anivia (juego personalizado)
+            if (selectedGames.length > 2) {
+                selectedGames[2] = {
+                    name: 'Flappy Anivia',
+                    background_image: '../assets/images/flappy/FlappyAnivia.jpg',
+                    background_image_low_res: '../assets/images/flappy/FlappyAnivia.jpg',
+                    isFlappy: true
+                };
+            }
+
             // Calcula ángulo automáticamente basado en cantidad de juegos
             this.anglePerItem = 360 / selectedGames.length;
 
@@ -82,6 +92,18 @@ const carousel3D = {
             btnPlay.addEventListener('click', (e) => {
                 e.stopPropagation();
                 window.location.href = './running-blocka.html';
+            });
+        } else {
+            btnPlay.addEventListener('click', (e) => {
+                e.stopPropagation();
+                console.log(`Jugar: ${game.name}`);
+            });
+        }
+
+        if (game.isFlappy) {
+            btnPlay.addEventListener('click', (e) => {
+                e.stopPropagation();
+                window.location.href = './running-flappy-anivia.html';
             });
         } else {
             btnPlay.addEventListener('click', (e) => {
