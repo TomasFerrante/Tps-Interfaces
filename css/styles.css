@@ -2170,7 +2170,7 @@ figure img {
   color: var(--Black);
 }
 
-/* Bonus sprites - CORREGIDO */
+/* Bonus sprites */
 .bonus-sprite {
   position: absolute;
   width: 48px;
@@ -2798,11 +2798,6 @@ figure img {
 }
 
 
-
-
-
-
-
 @keyframes Spin {
   from {
     background-position: 0 0;
@@ -3317,4 +3312,26 @@ figure img {
 
 #victory-screen .play-button:active {
   transform: translateY(-3px) scale(1.03);
+}
+
+.gallito-sprite {
+  position: absolute;
+  width: 298.66px;
+  height: 350px;
+  z-index: 12;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-size: 298.66px 350px;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  display: block;
+}
+
+@keyframes gallito {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -298.66px 0;
+  }
 }

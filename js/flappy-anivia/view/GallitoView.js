@@ -1,0 +1,5 @@
+class GallitoView {
+  constructor() {
+    
+  }
+}
