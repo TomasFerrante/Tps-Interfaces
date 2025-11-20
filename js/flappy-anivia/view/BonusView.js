@@ -5,7 +5,9 @@ class BonusView {
   }
 
   draw(bonuses) {
-    if (!this.container) return;
+    if (!this.container) {
+      return;
+    }
 
     bonuses.forEach(bonus => {
       if (!this.bonusElements.has(bonus.id)) {
@@ -16,7 +18,6 @@ class BonusView {
       if (element) {
         element.style.left = bonus.x + 'px';
         element.style.top = bonus.y + 'px';
-        // Rotación en el eje Y (como dando vuelta horizontal)
         element.style.transform = `rotateY(${bonus.rotation}deg)`;
       }
     });
@@ -37,16 +38,23 @@ class BonusView {
     bonusElement.style.top = bonus.y + 'px';
     bonusElement.style.width = bonus.width + 'px';
     bonusElement.style.height = bonus.height + 'px';
+    bonusElement.style.position = 'absolute';
+    bonusElement.style.zIndex = '12';
+    bonusElement.style.perspective = '1000px';
 
     if (bonus.type === Bonus.TYPES.COIN) {
       bonusElement.classList.add('bonus-coin');
       bonusElement.style.backgroundImage = `url('../assets/images/flappy/spritesheets/coins.png')`;
       bonusElement.style.backgroundSize = '288px 57px';
+      bonusElement.style.backgroundRepeat = 'no-repeat';
+      bonusElement.style.backgroundPosition = '0 0';
       bonusElement.style.animation = 'Spin 1.5s steps(6) infinite';
     } else if (bonus.type === Bonus.TYPES.LIFE) {
       bonusElement.classList.add('bonus-life');
       bonusElement.style.backgroundImage = `url('../assets/images/flappy/spritesheets/hearts.png')`;
       bonusElement.style.backgroundSize = '288px 57px';
+      bonusElement.style.backgroundRepeat = 'no-repeat';
+      bonusElement.style.backgroundPosition = '0 0';
       bonusElement.style.animation = 'Spin 1.5s steps(6) infinite';
     }
 

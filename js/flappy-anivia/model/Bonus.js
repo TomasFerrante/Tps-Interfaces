@@ -25,7 +25,7 @@ class Bonus {
     }
   }
 
-  isOffScreen(canvasWidth) {
+  isOffScreen() {
     return this.x + this.width < 0;
   }
 

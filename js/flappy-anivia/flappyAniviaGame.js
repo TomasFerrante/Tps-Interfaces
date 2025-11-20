@@ -6,6 +6,8 @@ let gameRunning = false;
 let gameStarted = false;
 let gameOver = false;
 let gameStartTime = 0;
+let victoryScreenTime = 0;
+let canRestartGame = false;
 
 let image = "../assets/images/flappy/objects/roca3.png";
 let coin = "../assets/images/flappy/spritesheets/coins.png";
@@ -62,8 +64,10 @@ function handleKeyDown(event) {
     flappyController.jump();
   }
   
-  if (gameOver) {
-    return;
+  // Victoria: Solo permitir reiniciar después de 2 segundos
+  if (gameOver && canRestartGame && (event.code === 'Space' || event.code === 'Enter')) {
+    event.preventDefault();
+    location.reload();
   }
 }
 
@@ -77,6 +81,7 @@ function startGame() {
   gameStarted = true;
   gameRunning = true;
   gameOver = false;
+  canRestartGame = false;
   
   flappyController.generatePipes();
   showHUD();
@@ -193,22 +198,46 @@ function showVictoryScreen() {
   
   victoryScreen.innerHTML = `
     <div class="start-screen-content victory-content">
-      <h1>¡VICTORIA!</h1>
-      
-      <div class="victory-stars">${stars}</div>
-      
-      <p class="victory-message">
-        ¡Completaste todos los obstáculos!
-      </p>
-      
-      <div class="victory-stat">
-        <div class="victory-stat-label">Puntuación Final</div>
-        <div class="victory-stat-value">${totalScore}<span style="font-size: 28px; color: var(--Green);">/15</span></div>
+      <div class="victory-header">
+        <div class="victory-champion-container">
+          <img class="victory-champion-image" src="../assets/images/flappy/objects/gallito-campeon.png" alt="¡Gallito Campeón!" />
+        </div>
+        
+        <div class="victory-info">
+          <h1>¡VICTORIA!</h1>
+          <div class="victory-stars">${stars}</div>
+          <p class="victory-message">¡Lo lograste!</p>
+        </div>
       </div>
 
-      <div class="victory-stat">
-        <div class="victory-stat-label">Monedas Recolectadas</div>
-        <div class="victory-stat-value" style="color: var(--Orange);">💰 ${totalCoins}</div>
+      <div class="victory-stats-container">
+        <div class="victory-stat-card">
+          <div class="stat-icon">🎯</div>
+          <div class="stat-content">
+            <div class="stat-label">PUNTUACIÓN</div>
+            <div class="stat-value">${totalScore}<span class="stat-max">/15</span></div>
+          </div>
+        </div>
+
+        <div class="victory-stat-card">
+          <div class="stat-icon">💰</div>
+          <div class="stat-content">
+            <div class="stat-label">MONEDAS</div>
+            <div class="stat-value">${totalCoins}</div>
+          </div>
+        </div>
+
+        <div class="victory-stat-card">
+          <div class="stat-icon">⭐</div>
+          <div class="stat-content">
+            <div class="stat-label">NIVEL</div>
+            <div class="stat-value">${totalScore === 15 ? 'ÉPICO' : totalScore >= 12 ? 'AVANZADO' : 'NOVATO'}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="victory-restart-hint" id="restart-hint" style="display: none;">
+        <p>Presiona <span class="key">ESPACIO</span> para jugar de nuevo</p>
       </div>
       
       <button class="play-button" onclick="location.reload()">↻ JUGAR DE NUEVO</button>
@@ -216,12 +245,26 @@ function showVictoryScreen() {
   `;
   
   containerObjects.appendChild(victoryScreen);
+  
+  // Esperar 2 segundos antes de permitir reiniciar
+  victoryScreenTime = Date.now();
+  canRestartGame = false;
+  
+  setTimeout(() => {
+    canRestartGame = true;
+    const restartHint = document.getElementById('restart-hint');
+    if (restartHint) {
+      restartHint.style.display = 'block';
+      restartHint.style.animation = 'fadeInUp 0.5s ease-out';
+    }
+  }, 2000);
 }
 
 function resetGame() {
   gameStarted = false;
   gameRunning = false;
   gameOver = false;
+  canRestartGame = false;
   
   const containerObjects = document.querySelector('.container-objects');
   containerObjects.innerHTML = '';
