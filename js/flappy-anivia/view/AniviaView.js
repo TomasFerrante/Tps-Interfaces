@@ -13,6 +13,13 @@ class AniviaView {
 
     this.aniviaElement.style.top = anivia.y + 'px';
     this.aniviaElement.style.left = anivia.x + 'px';
+    
+    // Efecto de parpadeo cuando está invulnerable
+    if (anivia.shouldBlink()) {
+      this.aniviaElement.style.opacity = '0.3';
+    } else {
+      this.aniviaElement.style.opacity = '1';
+    }
   }
 
   reset() {

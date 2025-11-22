@@ -20,6 +20,12 @@ class Anivia {
     this.gravity = 0.6;
     this.jumpForce = -8;
     this.maxVelocity = 15;
+    
+    // Sistema de invulnerabilidad
+    this.isInvulnerable = false;
+    this.invulnerabilityTime = 2000; // 2 segundos de invulnerabilidad
+    this.invulnerabilityStart = 0;
+    this.blinkInterval = 100; // Parpadeo cada 100ms
   }
 
   update() {
@@ -50,10 +56,32 @@ class Anivia {
     this.velocity = this.jumpForce;
   }
 
+  activateInvulnerability() {
+    this.isInvulnerable = true;
+    this.invulnerabilityStart = Date.now();
+  }
+
+  updateInvulnerability() {
+    if (this.isInvulnerable) {
+      const elapsed = Date.now() - this.invulnerabilityStart;
+      if (elapsed >= this.invulnerabilityTime) {
+        this.isInvulnerable = false;
+      }
+    }
+  }
+
+  shouldBlink() {
+    if (!this.isInvulnerable) return false;
+    const elapsed = Date.now() - this.invulnerabilityStart;
+    return Math.floor(elapsed / this.blinkInterval) % 2 === 0;
+  }
+
   reset(x, y) {
     this.x = x;
     this.y = y;
     this.velocity = 0;
+    this.isInvulnerable = false;
+    this.invulnerabilityStart = 0;
   }
 
   // Método para obtener las coordenadas reales del hitbox

@@ -8,9 +8,12 @@ class FlappyController {
     this.nextPipeX = this.canvasWidth;
     this.score = 0;
     this.maxScore = 15;
+    this.gallitoScore = 13; // El gallito aparece cuando llegas a 13 puntos
     this.coins = 0;
     this.lives = 1;
     this.anivia = new Anivia(100, canvasHeight / 2, canvasHeight);
+    this.gallito = null;
+    this.gallitoSpawned = false;
   }
 
   generatePipes() {
@@ -89,9 +92,39 @@ class FlappyController {
     return this.anivia.update();
   }
 
+  updateGallito() {
+    if (this.gallito) {
+      this.gallito.update();
+    }
+  }
+
+  spawnGallito() {
+    if (!this.gallitoSpawned && this.score >= this.gallitoScore) {
+      // Aparece en el lado derecho de la pantalla cuando llegas a 13 puntos
+      const gallitoX = this.canvasWidth + 200;
+      const gallitoY = this.canvasHeight / 2 - 75; // Centrado verticalmente
+      
+      this.gallito = new Gallito(gallitoX, gallitoY);
+      this.gallitoSpawned = true;
+      console.log('Gallito spawned at:', gallitoX, gallitoY);
+    }
+  }
+
   checkCollisions() {
+    // Si está invulnerable, no puede recibir daño
+    if (this.anivia.isInvulnerable) {
+      return true;
+    }
+
     for (let pipe of this.pipes) {
       if (pipe.collidesWith(this.anivia)) {
+        // Si tiene vidas extra, consume una vida
+        if (this.lives > 1) {
+          this.lives--;
+          this.anivia.activateInvulnerability();
+          return true; // Continúa el juego
+        }
+        // Si no tiene vidas extra, game over
         return false;
       }
     }
@@ -103,6 +136,10 @@ class FlappyController {
       if (bonus.collidesWith(this.anivia.x, this.anivia.y, this.anivia.width, this.anivia.height)) {
         if (bonus.type === Bonus.TYPES.COIN) {
           this.coins++;
+          // Reproducir sonido de moneda
+          if (typeof playCoinSound === 'function') {
+            playCoinSound();
+          }
         } else if (bonus.type === Bonus.TYPES.LIFE) {
           this.lives++;
         }
@@ -137,5 +174,7 @@ class FlappyController {
     this.coins = 0;
     this.lives = 1;
     this.anivia.reset(100, this.canvasHeight / 2);
+    this.gallito = null;
+    this.gallitoSpawned = false;
   }
 }

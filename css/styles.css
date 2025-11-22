@@ -2908,6 +2908,44 @@ figure img {
   border: 2px solid rgba(255, 255, 255, 0.4);
 }
 
+/* Botón de música en pantalla de inicio */
+.music-toggle {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: white;
+  backdrop-filter: blur(10px);
+}
+
+.music-toggle:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: var(--Green);
+  transform: scale(1.1);
+}
+
+.music-toggle.muted {
+  background: rgba(255, 0, 0, 0.2);
+  border-color: rgba(255, 0, 0, 0.5);
+}
+
+.music-toggle.muted:hover {
+  background: rgba(255, 0, 0, 0.3);
+}
+
+.music-toggle .material-symbols-outlined {
+  font-size: 28px;
+}
+
 .anivia-sprite {
   position: absolute;
   width: 75px;
@@ -3196,9 +3234,11 @@ figure img {
 /* Victory Stats Container */
 .victory-stats-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
   padding: 20px 0;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .victory-stat-card {

@@ -2,12 +2,18 @@ let flappyController = null;
 let pipeView = null;
 let aniviaView = null;
 let bonusView = null;
+let gallitoView = null;
 let gameRunning = false;
 let gameStarted = false;
 let gameOver = false;
 let gameStartTime = 0;
 let victoryScreenTime = 0;
 let canRestartGame = false;
+
+// Audio
+let backgroundMusic = null;
+let coinSound = null;
+let isMusicMuted = false;
 
 let image = "../assets/images/flappy/objects/roca3.png";
 let coin = "../assets/images/flappy/spritesheets/coins.png";
@@ -19,8 +25,12 @@ function init() {
   pipeView = new PipeView(image);
   aniviaView = new AniviaView();
   bonusView = new BonusView();
+  gallitoView = new GallitoView();
 
   flappyController = new FlappyController(800, 550);
+  
+  // Inicializar audio
+  initAudio();
   
   showStartScreen();
   
@@ -46,11 +56,16 @@ function showStartScreen() {
         <p>Presiona <span class="key">ESPACIO</span> para volar</p>
         <p>O haz clic en el botón para comenzar</p>
       </div>
+      
+      <button class="music-toggle" id="music-toggle" title="Activar/Desactivar música">
+        <span class="material-symbols-outlined">volume_up</span>
+      </button>
     </div>
   `;
   
   containerObjects.appendChild(startScreen);
   document.querySelector('.play-button').addEventListener('click', startGame);
+  document.getElementById('music-toggle').addEventListener('click', toggleMusic);
 }
 
 function handleKeyDown(event) {
@@ -85,6 +100,10 @@ function startGame() {
   
   flappyController.generatePipes();
   showHUD();
+  
+  // Iniciar música de fondo
+  playBackgroundMusic();
+  
   gameLoop();
 }
 
@@ -137,11 +156,21 @@ function gameLoop() {
   flappyController.updatePipes();
   flappyController.updateBonuses();
   const isAlive = flappyController.updateAnivia();
+  flappyController.anivia.updateInvulnerability();
   aniviaView.draw(flappyController.anivia);
   
   flappyController.checkScoring();
   flappyController.checkBonusCollision();
   updateHUD();
+  
+  // Spawn gallito cuando se alcance la puntuación máxima
+  flappyController.spawnGallito();
+  flappyController.updateGallito();
+  
+  // Dibujar gallito si existe
+  if (flappyController.gallito) {
+    gallitoView.draw(flappyController.gallito);
+  }
   
   const noCollision = flappyController.checkCollisions();
   
@@ -168,6 +197,8 @@ function gameLoop() {
 function showGameOverScreen() {
   const containerObjects = document.querySelector('.container-objects');
   
+  stopBackgroundMusic();
+  
   const gameOverScreen = document.createElement('div');
   gameOverScreen.id = 'game-over-screen';
   gameOverScreen.classList.add('start-screen');
@@ -188,9 +219,10 @@ function showGameOverScreen() {
 function showVictoryScreen() {
   const containerObjects = document.querySelector('.container-objects');
   
+  stopBackgroundMusic();
+  
   const totalScore = flappyController.score;
   const totalCoins = flappyController.coins;
-  const stars = totalScore === 15 ? '⭐⭐⭐' : totalScore >= 12 ? '⭐⭐' : '⭐';
   
   const victoryScreen = document.createElement('div');
   victoryScreen.id = 'victory-screen';
@@ -205,7 +237,6 @@ function showVictoryScreen() {
         
         <div class="victory-info">
           <h1>¡VICTORIA!</h1>
-          <div class="victory-stars">${stars}</div>
           <p class="victory-message">¡Lo lograste!</p>
         </div>
       </div>
@@ -224,14 +255,6 @@ function showVictoryScreen() {
           <div class="stat-content">
             <div class="stat-label">MONEDAS</div>
             <div class="stat-value">${totalCoins}</div>
-          </div>
-        </div>
-
-        <div class="victory-stat-card">
-          <div class="stat-icon">⭐</div>
-          <div class="stat-content">
-            <div class="stat-label">NIVEL</div>
-            <div class="stat-value">${totalScore === 15 ? 'ÉPICO' : totalScore >= 12 ? 'AVANZADO' : 'NOVATO'}</div>
           </div>
         </div>
       </div>
@@ -271,9 +294,88 @@ function resetGame() {
   
   aniviaView.reset();
   bonusView.reset();
+  gallitoView.reset();
   
   flappyController.reset();
   showStartScreen();
+  
+  // Restaurar el estado del botón de música
+  setTimeout(() => {
+    const musicButton = document.getElementById('music-toggle');
+    if (musicButton && isMusicMuted) {
+      musicButton.innerHTML = '<span class="material-symbols-outlined">volume_off</span>';
+      musicButton.classList.add('muted');
+    }
+  }, 0);
+}
+
+// Funciones de audio
+function initAudio() {
+  // Música de fondo - W&W OIIA OIIA (0:28 a 0:46)
+  backgroundMusic = new Audio('../assets/W&W - OIIA OIIA (Spinning Cat) - W&W.mp3');
+  backgroundMusic.loop = true;
+  backgroundMusic.volume = 0.3;
+  
+  // Efecto de moneda (0:00 a 0:02)
+  coinSound = new Audio('../assets/Super Mario Bros. - Coin Sound Effect - IltubodiFlegias.mp3');
+  coinSound.volume = 0.5;
+}
+
+function playBackgroundMusic() {
+  if (!isMusicMuted && backgroundMusic) {
+    backgroundMusic.currentTime = 28; // Empezar en 0:28
+    backgroundMusic.play().catch(err => console.log('Error playing music:', err));
+    
+    // Detener en 0:48 (después de 20 segundos) y reiniciar
+    setTimeout(() => {
+      if (gameRunning && backgroundMusic) {
+        backgroundMusic.currentTime = 28;
+      }
+    }, 20000);
+  }
+}
+
+function stopBackgroundMusic() {
+  if (backgroundMusic) {
+    backgroundMusic.pause();
+    backgroundMusic.currentTime = 28;
+  }
+}
+
+function playCoinSound() {
+  if (coinSound) {
+    coinSound.currentTime = 0;
+    coinSound.play().catch(err => console.log('Error playing coin sound:', err));
+    
+    // Detener en 0:02
+    setTimeout(() => {
+      if (coinSound) {
+        coinSound.pause();
+        coinSound.currentTime = 0;
+      }
+    }, 2000);
+  }
+}
+
+function toggleMusic() {
+  isMusicMuted = !isMusicMuted;
+  const musicButton = document.getElementById('music-toggle');
+  
+  if (isMusicMuted) {
+    stopBackgroundMusic();
+    if (musicButton) {
+      musicButton.innerHTML = '<span class="material-symbols-outlined">volume_off</span>';
+      musicButton.classList.add('muted');
+    }
+  } else {
+    if (gameStarted && gameRunning) {
+      playBackgroundMusic();
+    }
+    if (musicButton) {
+      musicButton.innerHTML = '<span class="material-symbols-outlined">volume_up</span>';
+      musicButton.classList.remove('muted');
+    }
+  }
 }
 
 document.addEventListener('DOMContentLoaded', init);
