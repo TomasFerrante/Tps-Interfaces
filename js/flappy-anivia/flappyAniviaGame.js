@@ -3,12 +3,13 @@ let pipeView = null;
 let aniviaView = null;
 let bonusView = null;
 let gallitoView = null;
-let gameRunning = false;
-let gameStarted = false;
-let gameOver = false;
+
+let gameRunning = false;    // ¿El loop está corriendo?
+let gameStarted = false;    // ¿Se inició el juego?
+let gameOver = false;       // ¿Terminó?
+let canRestartGame = false; // ¿Puede reiniciar?
 let gameStartTime = 0;
 let victoryScreenTime = 0;
-let canRestartGame = false;
 
 // Audio
 let backgroundMusic = null;
@@ -316,6 +317,8 @@ function initAudio() {
   backgroundMusic.loop = true;
   backgroundMusic.volume = 0.3;
   
+  Gallito.preloadSpriteSheet();
+
   // Efecto de moneda (0:00 a 0:02)
   coinSound = new Audio('../assets/Super Mario Bros. - Coin Sound Effect - IltubodiFlegias.mp3');
   coinSound.volume = 0.5;

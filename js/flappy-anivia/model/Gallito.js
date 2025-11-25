@@ -1,4 +1,24 @@
 class Gallito {
+  static spriteSheetImage = null;
+  static isImageLoaded = false;
+
+  static preloadSpriteSheet() {
+    if (Gallito.spriteSheetImage) return; // Ya está cargada
+    
+    Gallito.spriteSheetImage = new Image();
+    Gallito.spriteSheetImage.src = '../assets/images/flappy/spritesheets/gallito-sprite.png';
+    
+    Gallito.spriteSheetImage.onload = () => {
+      Gallito.isImageLoaded = true;
+      console.log('Gallito sprite pre-cargado correctamente');
+    };
+    
+    Gallito.spriteSheetImage.onerror = () => {
+      console.error('Error al pre-cargar el sprite del gallito');
+      Gallito.isImageLoaded = false;
+    };
+  }
+  
   constructor(x, y) {
     this.x = x;
     this.y = y;
@@ -11,6 +31,9 @@ class Gallito {
     this.spriteSheet.src = '../assets/images/flappy/spritesheets/gallito-sprite.png';
     this.spriteLoaded = false;
     
+    this.spriteSheet = Gallito.spriteSheetImage;
+    this.spriteLoaded = Gallito.isImageLoaded;
+
     this.spriteSheet.onload = () => {
       this.spriteLoaded = true;
       console.log('Gallito sprite loaded successfully!');

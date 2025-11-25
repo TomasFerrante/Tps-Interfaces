@@ -30,10 +30,10 @@ class GallitoView {
     const ctx = gallitoElement.getContext('2d');
     ctx.clearRect(0, 0, gallito.width, gallito.height);
     
-    if (gallito.spriteLoaded) {
+    if (gallito.spriteLoaded && gallito.spriteSheet && gallito.spriteSheet.complete) {
       // Calcular la posición del frame en el sprite sheet
       const frameX = gallito.currentFrame * gallito.frameWidth;
-      const frameY = 0; // Asumiendo una sola fila de frames
+      const frameY = 0;
       
       // Dibujar el frame escalado al tamaño del gallito
       ctx.drawImage(
@@ -44,12 +44,7 @@ class GallitoView {
         gallito.width, gallito.height
       );
     } else {
-      // Fallback: dibujar un rectángulo mientras carga el sprite
-      ctx.fillStyle = 'yellow';
-      ctx.fillRect(0, 0, gallito.width, gallito.height);
-      ctx.fillStyle = 'black';
-      ctx.font = '20px Arial';
-      ctx.fillText('GALLITO', 50, 100);
+      // No dibujar nada (invisible)
     }
   }
 
