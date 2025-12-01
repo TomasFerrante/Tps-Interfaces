@@ -7,7 +7,7 @@ class Pipe {
     this.width = 60;
     this.gapSize = gapSize;
     this.gapY = this.randomizeGapPosition(minGapPosition, maxGapPosition);
-    this.speed = 5;
+    this.speed = 3;
     this.scored = false;
   }
 

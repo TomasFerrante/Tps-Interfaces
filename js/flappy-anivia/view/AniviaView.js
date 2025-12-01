@@ -14,9 +14,25 @@ class AniviaView {
     this.aniviaElement.style.top = anivia.y + 'px';
     this.aniviaElement.style.left = anivia.x + 'px';
     
-    // Efecto de parpadeo cuando está invulnerable
-    if (anivia.shouldBlink()) {
-      this.aniviaElement.style.opacity = '0.3';
+    // Manejar estados de colisión y muerte
+    if (anivia.isColliding) {
+      this.aniviaElement.classList.add('collision');
+      
+      // Si ya pasó el tiempo de espera y está cayendo, fijar en el 5to frame
+      if (anivia.isDead) {
+        this.aniviaElement.classList.add('dead');
+      }
+    } else {
+      this.aniviaElement.classList.remove('collision', 'dead');
+    }
+    
+    // Efecto de parpadeo cuando está invulnerable (solo si no está en colisión)
+    if (!anivia.isColliding) {
+      if (anivia.shouldBlink()) {
+        this.aniviaElement.style.opacity = '0.3';
+      } else {
+        this.aniviaElement.style.opacity = '1';
+      }
     } else {
       this.aniviaElement.style.opacity = '1';
     }

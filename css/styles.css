@@ -2958,6 +2958,27 @@ figure img {
   animation: Fly 0.8s steps(8) infinite;
 }
 
+.anivia-sprite.collision {
+  background-image: url("../assets/images/flappy/spritesheets/SpritesheetColision.png");
+  background-size: 500px 80px;
+  width: 100px;
+  animation: CollisionAnimation 5s steps(5) forwards;
+}
+
+.anivia-sprite.collision.dead {
+  animation: none;
+  background-position: -400px 0; /* 5to frame: 100px * 4 = 400px */
+}
+
+@keyframes CollisionAnimation {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -400px 0;
+  }
+}
+
 /* ========================================================================================
   GAME HUD - PUNTUACIÓN PIXEL ART
 ======================================================================================== */

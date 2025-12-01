@@ -175,7 +175,19 @@ function gameLoop() {
   
   const noCollision = flappyController.checkCollisions();
   
-  if (!isAlive || !noCollision) {
+  // Verificar si el pájaro murió y llegó al suelo
+  if (flappyController.anivia.isDead && 
+      flappyController.anivia.y + flappyController.anivia.hitboxOffsetY + flappyController.anivia.height >= flappyController.anivia.canvasHeight) {
+    // Esperar un poco más antes de mostrar el game over
+    setTimeout(() => {
+      gameOver = true;
+      gameRunning = false;
+      showGameOverScreen();
+    }, 500);
+    return;
+  }
+  
+  if (!isAlive) {
     gameOver = true;
     gameRunning = false;
     showGameOverScreen();

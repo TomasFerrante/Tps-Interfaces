@@ -12,7 +12,7 @@ class Bonus {
     this.width = 48;
     this.height = 57;
     this.type = type;
-    this.speed = 5;
+    this.speed = 3;
     this.scored = false;
     this.rotation = 0;
   }

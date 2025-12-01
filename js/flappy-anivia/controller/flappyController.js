@@ -115,6 +115,11 @@ class FlappyController {
     if (this.anivia.isInvulnerable) {
       return true;
     }
+    
+    // Si ya está en proceso de colisión, mantener el estado
+    if (this.anivia.isColliding) {
+      return true;
+    }
 
     for (let pipe of this.pipes) {
       if (pipe.collidesWith(this.anivia)) {
@@ -124,8 +129,9 @@ class FlappyController {
           this.anivia.activateInvulnerability();
           return true; // Continúa el juego
         }
-        // Si no tiene vidas extra, game over
-        return false;
+        // Si no tiene vidas extra, activar animación de colisión
+        this.anivia.triggerCollision();
+        return true; // Mantener true para que continue el loop y se vea la animación
       }
     }
     return true;
